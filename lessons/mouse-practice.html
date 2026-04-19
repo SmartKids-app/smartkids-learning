@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mouse Practice Hub | SmartKids Learning</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1364156929469545" crossorigin="anonymous"></script>
+  <style>
+    .accordion-body { max-height: 0; overflow: hidden; transition: all 0.5s cubic-bezier(0, 1, 0, 1); }
+    .accordion-body.open { max-height: 1000px; transition: all 0.5s cubic-bezier(1, 0, 1, 0); }
+    .rotate-icon { transition: transform 0.3s ease; }
+    .lesson-btn:hover { transform: translateX(8px); }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans">
+
+  <nav class="bg-white border-b py-4 px-6 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-5xl mx-auto flex justify-between items-center">
+      <a href="../index.html" class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold">SK</div>
+        <span class="font-bold text-xl tracking-tight text-slate-800">SmartKids</span>
+      </a>
+      <div class="flex items-center gap-4">
+        <a href="../lessons.html" class="text-sm font-semibold text-blue-600">← All Lessons</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="bg-gradient-to-b from-blue-600 to-indigo-700 text-white py-16 px-6 text-center">
+    <div class="max-w-3xl mx-auto">
+      <div class="inline-block bg-blue-400/30 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4">Practical Skills</div>
+      <h1 class="text-4xl md:text-5xl font-extrabold mb-4">Master Your Mouse</h1>
+      <p class="text-blue-100 text-lg">Choose your level below and start practicing your precision, speed, and control.</p>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto py-12 px-6 min-h-screen">
+    
+    <div class="grid gap-6 mb-12">
+        <div class="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-2xl">
+            <h3 class="font-bold text-blue-800 mb-1">Why Practice?</h3>
+            <p class="text-sm text-slate-600 leading-relaxed">Using a mouse is like using a pencil. At first, it feels strange, but with practice, it becomes natural. High-level tech jobs like Graphic Design and Engineering require expert mouse control!</p>
+        </div>
+    </div>
+
+    <div id="accordion" class="space-y-4">
+        </div>
+  </main>
+
+  <footer class="bg-slate-900 text-slate-400 py-12 px-4 mt-20">
+    <div class="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 border-b border-slate-800 pb-8">
+      <div class="text-center md:text-left">
+        <div class="flex items-center justify-center md:justify-start gap-2 text-white mb-2">
+          <div class="w-6 h-6 bg-blue-600 rounded flex items-center justify-center font-bold text-xs">SK</div>
+          <span class="font-bold tracking-tight text-lg text-white">SmartKids Learning</span>
+        </div>
+        <p class="text-[10px] uppercase tracking-[0.2em] text-slate-500 font-bold mb-3 italic">Empowering Nigeria's Future Tech Giants</p>
+        <div class="h-5">
+          <p id="footer-typing" class="text-sm font-mono text-blue-400"></p>
+        </div>
+      </div>
+      <nav class="flex gap-8 text-sm font-medium">
+        <a href="../about.html" class="hover:text-white transition-colors">About</a>
+        <a href="../privacy.html" class="hover:text-white transition-colors">Privacy</a>
+      </nav>
+    </div>
+    <p class="text-center mt-8 text-[10px] uppercase tracking-widest text-slate-600">© 2026 SmartKids Tech Skills • Nigeria</p>
+  </footer>
+
+  <script>
+    // Logic for Accordion and Footer
+    document.addEventListener("DOMContentLoaded", () => {
+      const container = document.getElementById("accordion");
+      const years = [
+        {id:"year1", name:"Year 1", topics:["Clicking Basics","Double-Clicking","Mouse Movement"]},
+        {id:"year2", name:"Year 2", topics:["Drag and Drop","Right-Click Basics","Click and Hold"]},
+        {id:"year3", name:"Year 3", topics:["Text Selection","Scrolling","Simple Shapes Drawing"]},
+        {id:"year4", name:"Year 4", topics:["File Selection","Resizing Windows","Gaming Controls"]},
+        {id:"year5", name:"Year 5", topics:["Using Toolbars","Right-Click Advanced","Shape Manipulation"]},
+        {id:"year6", name:"Year 6", topics:["Copy, Cut, Paste","Advanced Drag-and-Drop","Multi-Window Nav"]},
+        {id:"year7", name:"Year 7", topics:["Drawing Tools","Precision Clicking","Scroll and Zoom"]},
+        {id:"year8", name:"Year 8", topics:["Spreadsheet Nav","Advanced Gaming","Image Editing"]},
+        {id:"year9", name:"Year 9", topics:["Graphic Design Tools","Multi-Select","Timeline Nav"]},
+        {id:"year10", name:"Year 10", topics:["3D Object Control","Layer Controls","Precision Selection"]},
+        {id:"year11", name:"Year 11", topics:["Professional Design","Complex Spreadsheets","CAD Skills"]},
+        {id:"year12", name:"Year 12", topics:["Multimedia Editing","UI/UX Prototyping","High-Speed Tasks"]}
+      ];
+
+      years.forEach(year => {
+        const card = document.createElement("div");
+        card.className = "bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden";
+
+        const header = document.createElement("button");
+        header.className = "w-full flex justify-between items-center px-6 py-5 text-lg font-bold text-slate-700 hover:bg-slate-50 transition-colors";
+        header.innerHTML = `
+          <span class="flex items-center gap-3">
+            <span class="w-8 h-8 bg-blue-100 text-blue-600 rounded-full text-xs flex items-center justify-center">${year.id.replace('year','')}</span>
+            ${year.name}
+          </span>
+          <span class="rotate-icon text-slate-400 font-light text-2xl">+</span>
+        `;
+
+        const body = document.createElement("div");
+        body.className = "accordion-body bg-slate-50 px-6";
+
+        body.innerHTML = `
+          <div class="py-4 grid gap-3">
+            ${year.topics.map(topic => `
+              <a href="mouse/${year.id}.html" class="lesson-btn flex items-center gap-3 p-4 bg-white rounded-xl border border-slate-100 shadow-sm hover:border-blue-300 transition-all group">
+                <span class="text-xl">🖱️</span>
+                <span class="text-sm font-semibold text-slate-700 group-hover:text-blue-600">${topic}</span>
+              </a>
+            `).join("")}
+          </div>
+        `;
+
+        header.addEventListener("click", () => {
+          const isOpen = body.classList.contains('open');
+          // Close others
+          document.querySelectorAll('.accordion-body').forEach(b => b.classList.remove('open'));
+          document.querySelectorAll('.rotate-icon').forEach(i => i.style.transform = 'rotate(0deg)');
+          
+          if (!isOpen) {
+            body.classList.add('open');
+            header.querySelector('.rotate-icon').style.transform = 'rotate(45deg)';
+          }
+        });
+
+        card.appendChild(header);
+        card.appendChild(body);
+        container.appendChild(card);
+      });
+
+      // Footer Typing Script
+      const footerMsg = "Empowering the next generation of African tech leaders.";
+      let charIdx = 0;
+      const type = () => {
+        const el = document.getElementById("footer-typing");
+        if (charIdx < footerMsg.length) {
+          el.innerHTML += footerMsg.charAt(charIdx);
+          charIdx++;
+          setTimeout(type, 70);
+        } else {
+          setTimeout(() => { el.innerHTML = ""; charIdx = 0; type(); }, 5000);
+        }
+      };
+      type();
+    });
+  </script>
+</body>
+</html>
