@@ -63,33 +63,81 @@
         </div>
     </div>
   </div>
+ <script>
+    // List of important files to rescue
+    const rescueList = [
+        { name: "School_Project.doc", icon: "📄" },
+        { name: "Family_Photo.jpg", icon: "🖼️" },
+        { name: "Drum_Beat.mp3", icon: "🎵" },
+        { name: "Math_Homework.pdf", icon: "📝" },
+        { name: "Drawing_of_Dad.png", icon: "🎨" }
+    ];
 
-  <script>
-    function restoreFile() {
-        const item = document.getElementById('rescue-item');
+    let rescuedCount = 0;
+    const totalToRescue = rescueList.length;
+
+    function initRescue() {
+        const bin = document.getElementById('bin-files');
+        bin.innerHTML = ''; // Clear existing
+
+        rescueList.forEach((file, index) => {
+            const div = document.createElement('div');
+            div.id = `item-${index}`;
+            div.onclick = () => restoreFile(index, file.name, file.icon);
+            div.className = "file-card bg-white p-4 rounded-2xl shadow-md flex items-center gap-4 border-2 border-transparent hover:border-blue-500 transition-all cursor-pointer";
+            div.innerHTML = `
+                <span class="text-3xl">${file.icon}</span>
+                <div>
+                    <p class="font-bold text-slate-700">${file.name}</p>
+                    <p class="text-[10px] text-blue-500 font-bold uppercase">Click to Restore</p>
+                </div>
+            `;
+            bin.appendChild(div);
+        });
+    }
+
+    function restoreFile(id, name, icon) {
+        const item = document.getElementById(`item-${id}`);
         const desktop = document.getElementById('desktop-files');
         const emptyMsg = document.getElementById('empty-msg');
         
-        // 1. Remove from Bin
-        item.remove();
+        // 1. Visual feedback: Slide out and remove from Bin
+        item.style.transform = "translateX(-100px)";
+        item.style.opacity = "0";
         
-        // 2. Hide "Empty" message
-        emptyMsg.classList.add('hidden');
-        
-        // 3. Add to Desktop with "Fixed" styling
-        const restored = document.createElement('div');
-        restored.className = "bg-blue-50 p-4 rounded-2xl border-2 border-blue-200 flex items-center gap-4 animate-bounce";
-        restored.innerHTML = `
-            <span class="text-3xl">📄</span>
-            <p class="font-bold text-blue-800">School_Project.doc (RESTORED)</p>
-        `;
-        desktop.appendChild(restored);
-
-        // 4. Show Win Modal after a short delay
         setTimeout(() => {
-            document.getElementById('success-modal').classList.remove('hidden');
-        }, 1500);
+            item.remove();
+            
+            // 2. Hide "Empty" message
+            if (emptyMsg) emptyMsg.classList.add('hidden');
+            
+            // 3. Add to Desktop with fresh styling
+            const restored = document.createElement('div');
+            restored.className = "bg-green-50 p-3 rounded-xl border border-green-200 flex items-center gap-3 mb-3 animate-bounce shadow-sm";
+            restored.innerHTML = `
+                <span class="text-2xl">${icon}</span>
+                <p class="text-sm font-bold text-green-800">${name}</p>
+            `;
+            desktop.prepend(restored);
+
+            rescuedCount++;
+            checkWin();
+        }, 300);
     }
-  </script>
+
+    function checkWin() {
+        if (rescuedCount === totalToRescue) {
+            // Shake the bin one last time for fun
+            document.getElementById('recycle-bin').classList.add('animate-ping');
+            
+            setTimeout(() => {
+                document.getElementById('success-modal').classList.remove('hidden');
+            }, 1000);
+        }
+    }
+
+    // Initialize the game when the page loads
+    window.onload = initRescue;
+</script>
 </body>
 </html>
