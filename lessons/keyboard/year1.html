@@ -11,9 +11,23 @@
     .key-success { background: #22c55e !important; color: white !important; border-color: #16a34a !important; }
     .mission-tab { border-bottom: 4px solid transparent; transition: all 0.3s; opacity: 0.4; }
     .mission-tab.active { border-color: #f97316; opacity: 1; color: #f97316; }
+    .overlay-animate { animation: fadeIn 0.4s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-900 font-sans min-h-screen">
+
+  <div id="mission-overlay" class="fixed inset-0 z-[100] bg-slate-900/90 flex items-center justify-center p-6">
+    <div class="bg-white max-w-lg w-full rounded-[2.5rem] p-8 shadow-2xl overlay-animate">
+      <div id="overlay-icon" class="text-5xl mb-4 text-center">🗺️</div>
+      <h2 id="overlay-title" class="text-2xl font-black text-center text-slate-800 mb-4">Mission Briefing</h2>
+      <div id="overlay-content" class="text-slate-600 leading-relaxed mb-8 space-y-4 text-center">
+        </div>
+      <button onclick="startMission()" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-4 rounded-2xl transition-all shadow-lg shadow-orange-200">
+        I'm Ready! Let's Go 🚀
+      </button>
+    </div>
+  </div>
 
   <nav class="bg-white border-b py-4 px-6 flex justify-between items-center sticky top-0 z-50">
     <a href="../keyboard.html" class="text-orange-600 font-bold flex items-center gap-2"><span>←</span> Hub</a>
@@ -26,16 +40,12 @@
 
   <main class="max-w-4xl mx-auto py-10 px-6">
     <div class="bg-white p-8 rounded-[2rem] shadow-xl text-center border-b-8 border-slate-200 mb-8">
-        <h2 id="mission-title" class="text-orange-500 font-black uppercase text-sm mb-2 tracking-tighter">Mission: Keyboard Geography</h2>
-        <p id="mission-desc" class="text-slate-500 text-sm mb-6">Explore the rows! Press any key in the highlighted row.</p>
-        <div id="target-box" class="text-7xl font-black text-slate-800 h-24 flex items-center justify-center italic">
-            READY?
-        </div>
+        <h2 id="mission-title" class="text-orange-500 font-black uppercase text-sm mb-2 tracking-tighter">Mission Title</h2>
+        <div id="target-box" class="text-7xl font-black text-slate-800 h-24 flex items-center justify-center italic">...</div>
     </div>
 
     <div class="bg-slate-900 p-6 rounded-[2rem] shadow-2xl overflow-x-auto">
-        <div class="flex flex-col gap-2 min-w-[600px] items-center" id="kb-container">
-            </div>
+        <div class="flex flex-col gap-2 min-w-[600px] items-center" id="kb-container"></div>
     </div>
   </main>
 
@@ -48,13 +58,43 @@
 
     let currentMission = 0;
     let step = 0;
+    let missionActive = false;
 
-    // Mission Data
     const missions = [
-        { title: "Keyboard Geography", desc: "Explore the Rows! Press the highlighted keys.", targets: ["TOP ROW", "MIDDLE ROW", "BOTTOM ROW"] },
-        { title: "Finding Letters", desc: "Can you find these specific letters?", targets: ["S", "K", "I", "L", "Z"] },
-        { title: "Alphabet Map", desc: "Type the alphabet in order (A-Z).", targets: "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("") }
+        { 
+            title: "Keyboard Geography", 
+            icon: "🗺️",
+            details: "<strong>Definition:</strong> Geography is the study of where things are. On a keyboard, keys are organized into 3 main rows. Today, you will learn the Top, Middle, and Bottom rows!", 
+            targets: ["TOP ROW", "MIDDLE ROW", "BOTTOM ROW"] 
+        },
+        { 
+            title: "Finding Letters", 
+            icon: "🔍",
+            details: "<strong>Goal:</strong> Now that you know the rows, let's hunt for specific letters. Look at the screen, find the letter on your physical keyboard, and press it as fast as you can!", 
+            targets: ["S", "K", "I", "L", "Z"] 
+        },
+        { 
+            title: "Alphabet Map", 
+            icon: "🔤",
+            details: "<strong>The Challenge:</strong> Can you type the whole alphabet? We will go from A to Z. This helps your brain remember exactly where every letter lives on the map.", 
+            targets: "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("") 
+        }
     ];
+
+    function showOverlay() {
+        missionActive = false;
+        const m = missions[currentMission];
+        document.getElementById('overlay-icon').innerText = m.icon;
+        document.getElementById('overlay-title').innerText = m.title;
+        document.getElementById('overlay-content').innerHTML = m.details;
+        document.getElementById('mission-overlay').classList.remove('hidden');
+    }
+
+    function startMission() {
+        document.getElementById('mission-overlay').classList.add('hidden');
+        missionActive = true;
+        runMission();
+    }
 
     function buildKeyboard() {
         const container = document.getElementById('kb-container');
@@ -76,39 +116,35 @@
 
     function runMission() {
         const m = missions[currentMission];
-        document.getElementById('mission-title').innerText = `Mission: ${m.title}`;
-        document.getElementById('mission-desc').innerText = m.desc;
-        
+        document.getElementById('mission-title').innerText = `Current Mission: ${m.title}`;
         const target = m.targets[step];
         document.getElementById('target-box').innerText = target;
 
-        // Visual Highlighting Logic
         document.querySelectorAll('.key-cap').forEach(k => k.classList.remove('key-active'));
-        
-        if (currentMission === 0) { // Geography logic: highlight whole rows
+        if (currentMission === 0) {
             document.querySelectorAll(`#row-${step} .key-cap`).forEach(k => k.classList.add('key-active'));
-        } else { // Letter finding logic
+        } else {
             const keyEl = document.getElementById(`K-${target}`);
             if(keyEl) keyEl.classList.add('key-active');
         }
     }
 
     window.addEventListener('keydown', (e) => {
+        if(!missionActive) return;
         const pressed = e.key.toUpperCase();
         const m = missions[currentMission];
         const target = m.targets[step];
         let correct = false;
 
-        if (currentMission === 0) { // Geography check: is key in the active row?
+        if (currentMission === 0) {
             correct = kbLayout[step].includes(pressed);
-        } else { // Direct key check
+        } else {
             correct = (pressed === target);
         }
 
         if (correct) {
             const el = document.getElementById(`K-${pressed}`);
             if(el) el.classList.add('key-success');
-            
             setTimeout(() => {
                 if(el) el.classList.remove('key-success');
                 step++;
@@ -127,389 +163,15 @@
         step = 0;
         if (currentMission < missions.length) {
             document.getElementById(`tab-${currentMission}`).classList.add('active');
-            runMission();
+            showOverlay(); // Show overlay for NEXT mission
         } else {
             document.getElementById('target-box').innerText = "🏆 COMPLETE";
-            document.getElementById('mission-desc').innerText = "You have mastered Year 1!";
+            document.getElementById('mission-title').innerText = "Year 1 Mastery Attained!";
         }
     }
 
     buildKeyboard();
-    runMission();
-  </script>
-</body>
-</html>
-
-
-
-<!--<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Year 1: Keyboard Geography | SmartKids Learning</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    .key-cap { 
-        width: 55px; height: 55px; 
-        display: flex; align-items: center; justify-content: center; 
-        border-radius: 12px; font-weight: 800; font-family: monospace; 
-        transition: all 0.2s; border-bottom: 4px solid #cbd5e1; 
-        background: white; color: #1e293b;
-    }
-    .key-highlight { 
-        background: #f97316 !important; 
-        color: white !important; 
-        border-color: #ea580c !important; 
-        transform: translateY(2px); 
-        border-bottom-width: 2px;
-        box-shadow: 0 0 20px rgba(249, 115, 22, 0.4);
-    }
-    .key-success { 
-        background: #22c55e !important; 
-        color: white !important; 
-        border-color: #16a34a !important; 
-    }
-    @keyframes bounce-slow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-    .animate-target { animation: bounce-slow 2s infinite; }
-  </style>
-</head>
-<body class="bg-slate-100 text-slate-900 font-sans min-h-screen">
-
-  <nav class="bg-white border-b py-4 px-6 flex justify-between items-center shadow-sm">
-    <a href="keyboard-practice.html" class="text-orange-600 font-bold flex items-center gap-2">
-      <span>←</span> Back to Hub
-    </a>
-    <div class="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-xs font-black uppercase tracking-tighter">Level 1: Geography</div>
-  </nav>
-
-  <main class="max-w-4xl mx-auto py-12 px-6">
-    <header class="text-center mb-12">
-        <h1 class="text-4xl font-black text-slate-800">Alphabet Hunt 🔍</h1>
-        <p class="text-slate-500 mt-2">Find the <span class="text-orange-600 font-bold italic">Orange Key</span> on your physical keyboard!</p>
-    </header>
-
-    <div class="flex justify-center mb-12">
-        <div class="bg-white p-10 rounded-[3rem] shadow-2xl text-center border-b-8 border-orange-200 animate-target">
-            <span class="text-[8rem] leading-none font-black text-slate-800 uppercase" id="target-char">A</span>
-        </div>
-    </div>
-
-    <div class="bg-slate-900 p-8 rounded-[2.5rem] shadow-2xl overflow-x-auto no-scrollbar">
-        <div class="flex flex-col gap-3 min-w-[650px] items-center">
-            
-            <div class="flex gap-2">
-                <div id="K-Q" class="key-cap">Q</div><div id="K-W" class="key-cap">W</div><div id="K-E" class="key-cap">E</div>
-                <div id="K-R" class="key-cap">R</div><div id="K-T" class="key-cap">T</div><div id="K-Y" class="key-cap">Y</div>
-                <div id="K-U" class="key-cap">U</div><div id="K-I" class="key-cap">I</div><div id="K-O" class="key-cap">O</div>
-                <div id="K-P" class="key-cap">P</div>
-            </div>
-
-            <div class="flex gap-2 ml-6">
-                <div id="K-A" class="key-cap">A</div><div id="K-S" class="key-cap">S</div><div id="K-D" class="key-cap">D</div>
-                <div id="K-F" class="key-cap">F</div><div id="K-G" class="key-cap">G</div><div id="K-H" class="key-cap">H</div>
-                <div id="K-J" class="key-cap">J</div><div id="K-K" class="key-cap">K</div><div id="K-L" class="key-cap">L</div>
-            </div>
-
-            <div class="flex gap-2 ml-12">
-                <div id="K-Z" class="key-cap">Z</div><div id="K-X" class="key-cap">X</div><div id="K-C" class="key-cap">C</div>
-                <div id="K-V" class="key-cap">V</div><div id="K-B" class="key-cap">B</div><div id="K-N" class="key-cap">N</div>
-                <div id="K-M" class="key-cap">M</div>
-            </div>
-
-        </div>
-    </div>
-
-    <div id="feedback-msg" class="mt-10 text-center font-black text-2xl h-10 text-orange-500">READY? GO!</div>
-  </main>
-
-  <script>
-    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-    let currentIdx = 0;
-
-    function nextLetter() {
-        if(currentIdx >= alphabet.length) {
-            document.getElementById('feedback-msg').innerText = "🏆 GEOGRAPHY MASTERED!";
-            document.getElementById('target-char').innerText = "⭐";
-            return;
-        }
-
-        const char = alphabet[currentIdx];
-        document.getElementById('target-char').innerText = char;
-        
-        // Remove old highlights
-        document.querySelectorAll('.key-cap').forEach(k => k.classList.remove('key-highlight'));
-        
-        // Highlight the one to find
-        const targetKey = document.getElementById('K-' + char);
-        if(targetKey) targetKey.classList.add('key-highlight');
-    }
-
-    window.addEventListener('keydown', (e) => {
-        const pressed = e.key.toUpperCase();
-        const target = alphabet[currentIdx];
-
-        if(pressed === target) {
-            const el = document.getElementById('K-' + pressed);
-            el.classList.replace('key-highlight', 'key-success');
-            
-            document.getElementById('feedback-msg').innerText = "EXCELLENT! 🎉";
-            document.getElementById('feedback-msg').classList.replace('text-orange-500', 'text-green-500');
-
-            setTimeout(() => {
-                el.classList.remove('key-success');
-                document.getElementById('feedback-msg').innerText = "";
-                document.getElementById('feedback-msg').classList.replace('text-green-500', 'text-orange-500');
-                currentIdx++;
-                nextLetter();
-            }, 600);
-        } else {
-            // Shake effect or fail sound logic could go here
-            document.getElementById('feedback-msg').innerText = "LOOK FOR THE ORANGE KEY! 🔍";
-        }
-    });
-
-    // Start
-    nextLetter();
-  </script>
-</body>
-</html>
-
-
-
-
-
-<!--<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Year 1: Keyboard Geography | SmartKids Learning</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    .key { width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-weight: bold; font-family: monospace; transition: all 0.2s; border-bottom: 4px solid #cbd5e1; }
-    .key-active { background: #f97316; color: white; border-color: #ea580c; transform: translateY(2px); border-bottom-width: 2px; }
-    .key-correct { background: #22c55e; color: white; border-color: #16a34a; }
-  </style>
-</head>
-<body class="bg-slate-100 text-slate-900 font-sans min-h-screen">
-
-  <nav class="bg-white border-b py-4 px-6 flex justify-between items-center shadow-sm">
-    <a href="../keyboard.html" class="text-orange-600 font-bold flex items-center gap-2">
-      <span>←</span> Hub
-    </a>
-    <div class="text-slate-400 font-medium text-sm">Year 1: Finding Letters</div>
-  </nav>
-
-  <main class="max-w-4xl mx-auto py-12 px-6">
-    <header class="text-center mb-10">
-        <h1 class="text-3xl font-black text-slate-800">Alphabet Treasure Hunt 🗺️</h1>
-        <p class="text-slate-600 mt-2">Find the orange key on your keyboard and press it!</p>
-    </header>
-
-    <div class="flex justify-center mb-10">
-        <div class="bg-white p-8 rounded-3xl shadow-xl text-center border-4 border-orange-200">
-            <span class="text-xs uppercase tracking-widest text-slate-400 block mb-2">Press this letter:</span>
-            <span id="target-letter" class="text-7xl font-black text-orange-600">A</span>
-        </div>
-    </div>
-
-    <div class="bg-slate-800 p-6 rounded-3xl shadow-2xl overflow-x-auto">
-        <div class="flex flex-col gap-2 min-w-[600px]">
-            <div class="flex justify-center gap-2">
-                <div id="key-Q" class="key bg-white">Q</div><div id="key-W" class="key bg-white">W</div>
-                <div id="key-E" class="key bg-white">E</div><div id="key-R" class="key bg-white">R</div>
-                <div id="key-T" class="key bg-white">T</div><div id="key-Y" class="key bg-white">Y</div>
-                <div id="key-U" class="key bg-white">U</div><div id="key-I" class="key bg-white">I</div>
-                <div id="key-O" class="key bg-white">O</div><div id="key-P" class="key bg-white">P</div>
-            </div>
-            <div class="flex justify-center gap-2 ml-4">
-                <div id="key-A" class="key bg-white">A</div><div id="key-S" class="key bg-white">S</div>
-                <div id="key-D" class="key bg-white">D</div><div id="key-F" class="key bg-white">F</div>
-                <div id="key-G" class="key bg-white">G</div><div id="key-H" class="key bg-white">H</div>
-                <div id="key-J" class="key bg-white">J</div><div id="key-K" class="key bg-white">K</div>
-                <div id="key-L" class="key bg-white">L</div>
-            </div>
-            <div class="flex justify-center gap-2 ml-8">
-                <div id="key-Z" class="key bg-white">Z</div><div id="key-X" class="key bg-white">X</div>
-                <div id="key-C" class="key bg-white">C</div><div id="key-V" class="key bg-white">V</div>
-                <div id="key-B" class="key bg-white">B</div><div id="key-N" class="key bg-white">N</div>
-                <div id="key-M" class="key bg-white">M</div>
-            </div>
-        </div>
-    </div>
-
-    <div id="msg" class="mt-8 text-center font-bold text-xl h-8"></div>
-  </main>
-
-  <script>
-    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-    let currentIndex = 0;
-
-    function updateTarget() {
-        const letter = alphabet[currentIndex];
-        document.getElementById('target-letter').innerText = letter;
-        
-        // Remove active class from all
-        document.querySelectorAll('.key').forEach(k => k.classList.remove('key-active'));
-        
-        // Add to new target
-        const activeKey = document.getElementById('key-' + letter);
-        if(activeKey) activeKey.classList.add('key-active');
-    }
-
-    window.addEventListener('keydown', (e) => {
-        const pressed = e.key.toUpperCase();
-        const target = alphabet[currentIndex];
-
-        if(pressed === target) {
-            const keyEl = document.getElementById('key-' + pressed);
-            keyEl.classList.replace('key-active', 'key-correct');
-            
-            document.getElementById('msg').innerText = "Nice! 🌟";
-            document.getElementById('msg').className = "mt-8 text-center font-bold text-xl text-green-600";
-
-            setTimeout(() => {
-                keyEl.classList.remove('key-correct');
-                currentIndex++;
-                if(currentIndex >= alphabet.length) {
-                    document.getElementById('msg').innerText = "MAP COMPLETE! YOU FOUND THEM ALL! 🎉";
-                    currentIndex = 0;
-                }
-                updateTarget();
-            }, 500);
-        } else {
-            document.getElementById('msg').innerText = "Try again! Look for the orange key.";
-            document.getElementById('msg').className = "mt-8 text-center font-bold text-xl text-red-500";
-        }
-    });
-
-    // Initialize
-    updateTarget();
-  </script>
-</body>
-</html>
-
-
-
-
-<!--<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Year 1: Keyboard Hunt | SmartKids Learning</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    .key-cap {
-      box-shadow: 0 8px 0 px #cbd5e1, 0 12px 20px rgba(0,0,0,0.1);
-      transition: all 0.1s ease;
-    }
-    .key-pressed {
-      transform: translateY(4px);
-      box-shadow: 0 4px 0 px #cbd5e1, 0 4px 10px rgba(0,0,0,0.1);
-      background-color: #fef08a !important; /* Yellow-200 */
-    }
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-20px); }
-    }
-    .target-letter { animation: bounce 1s infinite; }
-  </style>
-</head>
-<body class="bg-orange-50 text-slate-900 font-sans min-h-screen flex flex-col">
-
-  <nav class="bg-white border-b py-4 px-6 flex justify-between items-center shadow-sm">
-    <a href="../keyboard-practice.html" class="text-orange-600 font-bold flex items-center gap-2">
-      <span>←</span> Back to Hub
-    </a>
-    <div class="text-slate-500 font-medium text-sm">Year 1: Finding Letters</div>
-  </nav>
-
-  <main class="flex-grow max-w-4xl mx-auto py-8 px-4 w-full text-center">
-    <header class="mb-8">
-      <h1 class="text-3xl font-extrabold text-orange-800">The Letter Hunt! 🔍</h1>
-      <p class="text-slate-600 mt-2">Look at the big letter and find it on your keyboard!</p>
-    </header>
-
-    <div class="bg-white rounded-3xl p-12 shadow-xl border-4 border-orange-200 relative overflow-hidden mb-8">
-      <div id="game-screen">
-        <div id="instruction-text" class="text-xl font-bold text-slate-400 mb-4">Press any key to start...</div>
-        <div id="display-letter" class="text-9xl font-black text-orange-500 target-letter">?</div>
-      </div>
-      
-      <div id="feedback" class="hidden absolute inset-0 flex items-center justify-center bg-green-500/90 text-white text-6xl font-bold">
-        GREAT! ✅
-      </div>
-    </div>
-
-    <div class="grid grid-cols-2 gap-4 max-w-sm mx-auto mb-12">
-      <div class="bg-orange-100 p-4 rounded-2xl border-2 border-orange-200">
-        <div class="text-xs uppercase font-bold text-orange-600">Score</div>
-        <div id="score" class="text-2xl font-black">0</div>
-      </div>
-      <div class="bg-blue-100 p-4 rounded-2xl border-2 border-blue-200">
-        <div class="text-xs uppercase font-bold text-blue-600">Level</div>
-        <div id="level" class="text-2xl font-black">1</div>
-      </div>
-    </div>
-
-    <section class="bg-white p-6 rounded-2xl border border-slate-200 text-left">
-      <h3 class="font-bold text-orange-700 flex items-center gap-2">
-        <span>💡</span> Smart Tip:
-      </h3>
-      <p class="text-sm text-slate-600 mt-2">
-        The letters on your keyboard are not in "A-B-C" order. They are in <strong>Q-W-E-R-T-Y</strong> order. This helps people type faster once they learn where the letters are hiding!
-      </p>
-    </section>
-  </main>
-
-  <script>
-    const displayLetter = document.getElementById('display-letter');
-    const instructionText = document.getElementById('instruction-text');
-    const scoreEl = document.getElementById('score');
-    const feedback = document.getElementById('feedback');
-    
-    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    let currentLetter = "";
-    let score = 0;
-    let gameStarted = false;
-
-    function nextLetter() {
-      const randomIndex = Math.floor(Math.random() * alphabet.length);
-      currentLetter = alphabet[randomIndex];
-      displayLetter.innerText = currentLetter;
-      instructionText.innerText = "Can you find...";
-      displayLetter.classList.add('target-letter');
-    }
-
-    document.addEventListener('keydown', (event) => {
-      if (!gameStarted) {
-        gameStarted = true;
-        nextLetter();
-        return;
-      }
-
-      const pressedKey = event.key.toUpperCase();
-
-      if (pressedKey === currentLetter) {
-        score++;
-        scoreEl.innerText = score;
-        
-        // Show feedback
-        feedback.classList.remove('hidden');
-        displayLetter.classList.remove('target-letter');
-        
-        setTimeout(() => {
-          feedback.classList.add('hidden');
-          nextLetter();
-        }, 600);
-      } else {
-        // Shaking effect for wrong key
-        displayLetter.classList.add('text-red-500');
-        setTimeout(() => displayLetter.classList.remove('text-red-500'), 200);
-      }
-    });
+    showOverlay(); // Show first overlay on load
   </script>
 </body>
 </html>
