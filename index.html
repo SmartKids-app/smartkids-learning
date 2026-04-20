@@ -37,9 +37,22 @@
         <button id="authBtn" class="border border-slate-300 px-4 py-2 rounded-full hover:bg-slate-50 transition">Student Login</button>
       </nav>
 
-      <button id="menu-toggle" class="md:hidden p-2 text-slate-600">
+      <!--<button id="menu-toggle" class="md:hidden p-2 text-slate-600">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-      </button>
+      </button>-->
+      <button id="menu-toggle" class="md:hidden p-2 text-slate-800">
+  <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+  </svg>
+</button>
+
+<div id="mobile-menu" class="hidden fixed inset-0 z-50 bg-slate-900/95 flex flex-col items-center justify-center space-y-8 text-white text-2xl font-bold">
+    <button id="menu-close" class="absolute top-6 right-6 text-4xl">&times;</button>
+    <a href="index.html" class="hover:text-blue-400">Home</a>
+    <a href="lessons/keyboard.html" class="hover:text-blue-400">Keyboarding</a>
+    <a href="lessons/mouse.html" class="hover:text-blue-400">Mouse Mastery</a>
+    <a href="#about" class="hover:text-blue-400">Our Story</a>
+</div>
     </div>
   </header>
 
@@ -176,16 +189,29 @@
       alert('Mobile menu clicked! (Connect your mobile nav div here)');
     });
   </script>
-  <script>
-    const menuBtn = document.getElementById('menu-toggle');
+ <script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const menuClose = document.getElementById('menu-close');
     const mobileMenu = document.getElementById('mobile-menu');
 
-    if (menuBtn && mobileMenu) {
-        menuBtn.addEventListener('click', () => {
-            // This toggles the 'hidden' class common in Tailwind/CSS
-            mobileMenu.classList.toggle('hidden');
+    // 1. Open the menu
+    menuToggle.addEventListener('click', (e) => {
+        e.preventDefault(); // This stops any "Coming Soon" alerts if they are attached to the link
+        mobileMenu.classList.remove('hidden');
+    });
+
+    // 2. Close the menu
+    menuClose.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+    });
+
+    // 3. Close menu when a link is clicked
+    const navLinks = mobileMenu.querySelectorAll('a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
         });
-    }
+    });
 </script>
 </body>
 </html>
