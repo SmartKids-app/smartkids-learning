@@ -72,6 +72,150 @@
         { name: "Family_Photo.jpg", icon: "🖼️", method: "Double-Click" },
         { name: "Drum_Beat.mp3", icon: "🎵", method: "Drag-and-Drop" },
         { name: "Math_Homework.pdf", icon: "📝", method: "Right-Click" },
+        { name: "Drawing_of_Dad.png", icon: "🎨", method: "Drag-and-Drop" }
+    ];
+
+    let rescuedCount = 0;
+    const totalToRescue = rescueList.length;
+
+    // 1. SETUP THE DROP ZONE (Crucial for Drag-and-Drop)
+    const desktopZone = document.getElementById('desktop-files');
+    desktopZone.ondragover = (e) => e.preventDefault(); // Allows dropping
+    desktopZone.ondrop = (e) => {
+        e.preventDefault();
+        if (rescueList[rescuedCount]?.method === "Drag-and-Drop") {
+            // Find the item currently being dragged
+            const currentItem = rescueList[rescuedCount];
+            restoreFile(rescuedCount, currentItem.name, currentItem.icon);
+        }
+    };
+
+    function initRescue() {
+        const bin = document.getElementById('bin-files');
+        bin.innerHTML = ''; 
+        
+        updateInstruction(rescueList[rescuedCount].method);
+
+        rescueList.forEach((file, index) => {
+            const div = document.createElement('div');
+            div.id = `item-${index}`;
+            div.className = "file-card bg-white p-4 rounded-2xl shadow-md flex items-center gap-4 border-2 border-transparent hover:border-blue-500 transition-all cursor-pointer select-none";
+            div.draggable = true;
+            
+            div.innerHTML = `
+                <span class="text-3xl">${file.icon}</span>
+                <div>
+                    <p class="font-bold text-slate-700">${file.name}</p>
+                    <p class="text-[10px] text-blue-500 font-bold uppercase">${file.method}</p>
+                </div>
+            `;
+
+            // METHOD: Double Click
+            div.ondblclick = () => {
+                if (rescueList[rescuedCount]?.method === "Double-Click") {
+                    restoreFile(index, file.name, file.icon);
+                } else { flashError(div); }
+            };
+
+            // METHOD: Right Click
+            div.oncontextmenu = (e) => {
+                e.preventDefault();
+                if (rescueList[rescuedCount]?.method === "Right-Click") {
+                    showCustomMenu(e, index, file.name, file.icon);
+                } else { flashError(div); }
+            };
+
+            // METHOD: Drag Start
+            div.ondragstart = (e) => {
+                if (rescueList[rescuedCount]?.method !== "Drag-and-Drop") {
+                    e.preventDefault();
+                    flashError(div);
+                }
+            };
+
+            bin.appendChild(div);
+        });
+    }
+
+    function updateInstruction(method) {
+        // Targets the sub-header in your Year 3 HTML
+        const instructionHeading = document.querySelector('header p');
+        if (instructionHeading) {
+            instructionHeading.innerHTML = `MISSION: Rescue using <span class="text-blue-600 font-black underline">${method}</span>`;
+        }
+    }
+
+    function flashError(el) {
+        el.classList.add('bg-red-100', 'border-red-500', 'animate-shake');
+        setTimeout(() => el.classList.remove('bg-red-100', 'border-red-500'), 500);
+    }
+
+    function restoreFile(id, name, icon) {
+        // We find the element by the index ID we gave it in initRescue
+        const item = document.getElementById(`item-${rescuedCount}`);
+        if (!item) return;
+
+        item.style.transform = "scale(0)";
+        item.style.opacity = "0";
+        
+        setTimeout(() => {
+            item.remove();
+            document.getElementById('empty-msg')?.classList.add('hidden');
+            
+            const restored = document.createElement('div');
+            restored.className = "bg-green-50 p-3 rounded-xl border border-green-200 flex items-center gap-3 mb-3 animate-bounce shadow-sm";
+            restored.innerHTML = `<span class="text-2xl">${icon}</span><p class="text-sm font-bold text-green-800">${name}</p>`;
+            desktopZone.prepend(restored);
+
+            rescuedCount++;
+            
+            if (rescuedCount < totalToRescue) {
+                updateInstruction(rescueList[rescuedCount].method);
+            }
+            checkWin();
+        }, 300);
+    }
+
+    // Custom Menu Logic
+    function showCustomMenu(e, index, name, icon) {
+        const oldMenu = document.getElementById('custom-menu');
+        if (oldMenu) oldMenu.remove();
+
+        const menu = document.createElement('div');
+        menu.id = 'custom-menu';
+        menu.className = "fixed bg-white shadow-2xl border rounded-xl p-2 z-50 text-sm font-bold";
+        menu.style.top = `${e.clientY}px`;
+        menu.style.left = `${e.clientX}px`;
+        menu.innerHTML = `<div class="hover:bg-blue-600 hover:text-white p-3 rounded-lg cursor-pointer">📂 Restore File</div>`;
+        
+        menu.onclick = () => {
+            menu.remove();
+            restoreFile(index, name, icon);
+        };
+        document.body.appendChild(menu);
+        document.addEventListener('click', () => menu.remove(), { once: true });
+    }
+
+    function checkWin() {
+        if (rescuedCount === totalToRescue) {
+            document.getElementById('recycle-bin').classList.add('animate-ping');
+            setTimeout(() => {
+                document.getElementById('success-modal').classList.remove('hidden');
+            }, 1000);
+        }
+    }
+
+    window.onload = initRescue;
+</script>
+  
+  
+  
+  <!--<script>
+    const rescueList = [
+        { name: "School_Project.doc", icon: "📄", method: "Right-Click" },
+        { name: "Family_Photo.jpg", icon: "🖼️", method: "Double-Click" },
+        { name: "Drum_Beat.mp3", icon: "🎵", method: "Drag-and-Drop" },
+        { name: "Math_Homework.pdf", icon: "📝", method: "Right-Click" },
         { name: "Drawing_of_Dad.png", icon: "🎨", method: "Double-Click" }
     ];
 
@@ -196,6 +340,6 @@
     }
 
     window.onload = initRescue;
-</script>
+</script>-->
 </body>
 </html>
