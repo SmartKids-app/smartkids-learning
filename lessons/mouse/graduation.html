@@ -20,7 +20,7 @@
     <div class="text-6xl mb-4">✍️</div>
     <h2 class="text-3xl font-black text-white mb-2">Keep Practicing!</h2>
     <p id="fail-score" class="text-red-400 font-mono text-xl mb-6"></p>
-    <p class="text-slate-400 max-w-md mb-8">You need at least 75% (6/8) to graduate. Review the summary and try again!</p>
+    <p class="text-slate-400 max-w-md mb-8">You need at least 75% (8/10) to graduate. Review the summary and try again!</p>
     <button onclick="restartQuiz()" class="bg-white text-slate-900 px-10 py-4 rounded-full font-bold hover:bg-amber-400 transition">Try Again</button>
   </div>
 
@@ -119,6 +119,21 @@
                     <label class="flex items-center gap-2 text-sm"><input type="radio" name="q8" value="wrong"> Clicking every word</label>
                 </div>
             </div>
+          <div class="bg-white p-6 rounded-xl border border-slate-200">
+    <p class="font-bold mb-3">9. What does the "Zoom" tool (Scroll Wheel) allow you to do?</p>
+    <div class="space-y-2">
+        <label class="flex items-center gap-2 text-sm"><input type="radio" name="q9" value="correct"> See fine details by making the view larger</label>
+        <label class="flex items-center gap-2 text-sm"><input type="radio" name="q9" value="wrong"> Change the color of the screen</label>
+    </div>
+</div>
+
+<div class="bg-white p-6 rounded-xl border border-slate-200">
+    <p class="font-bold mb-3">10. In a Browser, what is a "Tab"?</p>
+    <div class="space-y-2">
+        <label class="flex items-center gap-2 text-sm"><input type="radio" name="q10" value="wrong"> A physical button on the side of the monitor</label>
+        <label class="flex items-center gap-2 text-sm"><input type="radio" name="q10" value="correct"> A way to keep multiple websites open in one window</label>
+    </div>
+</div>
 
             <button type="button" onclick="submitQuiz()" class="w-full py-5 bg-blue-600 text-white rounded-xl font-black text-lg">SUBMIT ASSESSMENT</button>
         </form>
