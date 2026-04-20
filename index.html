@@ -30,7 +30,12 @@
     </a>
 
     <nav class="hidden md:flex gap-8 items-center text-sm font-semibold text-slate-600">
-      </nav>
+      <a href="lessons.html" class="hover:text-blue-600 transition">Lessons</a>
+      <a href="lessons/keyboard-practice.html" class="hover:text-blue-600 transition">Typing Drill</a>
+      <a href="morals.html" class="hover:text-blue-600 transition">African Morals</a>
+      <a href="quiz.html" class="bg-blue-600 text-white px-5 py-2 rounded-full hover:bg-blue-700 transition shadow-md">Start Quiz</a>
+      <button id="authBtn" class="border border-slate-300 px-4 py-2 rounded-full hover:bg-slate-50 transition">Student Login</button>
+    </nav>
 
     <button id="menu-toggle" class="md:hidden flex flex-col justify-center items-end w-8 h-8 gap-1.5 z-[70] focus:outline-none group">
       <span class="w-8 h-1 bg-slate-800 rounded-full transition-all duration-300 origin-center group-[.active]:rotate-45 group-[.active]:translate-y-[10px]"></span>
@@ -38,11 +43,12 @@
       <span class="w-5 h-1 bg-slate-800 rounded-full transition-all duration-300 origin-center group-[.active]:w-8 group-[.active]:-rotate-45 group-[.active]:-translate-y-[10px]"></span>
     </button>
 
-    <div id="mobile-menu" class="hidden fixed inset-0 bg-slate-900 flex flex-col items-center justify-center space-y-8 text-white text-3xl font-bold z-[65]">
-        <a href="index.html" class="hover:text-blue-400 transition">Home</a>
-        <a href="lessons/keyboard-practice.html" class="hover:text-blue-400 transition">Typing Drill</a>
-        <a href="lessons/mouse.html" class="hover:text-blue-400 transition">Mouse Mastery</a>
-        <a href="morals.html" class="hover:text-blue-400 transition">African Morals</a>
+    <div id="mobile-menu" class="hidden fixed inset-0 z-[65] bg-slate-900/95 flex flex-col items-center justify-center space-y-8 text-white text-2xl font-bold">
+      <button id="menu-close" class="absolute top-6 right-6 text-4xl">&times;</button>
+      <a href="index.html" class="hover:text-blue-400">Home</a>
+      <a href="lessons/keyboard-practice.html" class="hover:text-blue-400">Typing Drill</a>
+      <a href="lessons/mouse.html" class="hover:text-blue-400">Mouse Mastery</a>
+      <a href="morals.html" class="hover:text-blue-400">African Morals</a>
     </div>
   </div>
 </header>
@@ -123,7 +129,7 @@
   </div>
 </footer>
 <script>
-  /** 1. TYPING ANIMATION LOGIC **/
+  /** 1. TYPING ANIMATION **/
   const typeText = "Empowering the next generation of African tech leaders.";
   const typeSpeed = 70; 
   let charIndex = 0;
@@ -135,7 +141,6 @@
       charIndex++;
       setTimeout(typeWriter, typeSpeed);
     } else if (displayElement) {
-      // Reset after 5 seconds to keep the landing page dynamic
       setTimeout(() => {
         displayElement.innerHTML = "";
         charIndex = 0;
@@ -144,31 +149,29 @@
     }
   }
 
-  /** 2. MOBILE MENU & HAMBURGER X LOGIC **/
+  /** 2. MOBILE MENU & X TRANSFORMATION **/
   const menuToggle = document.getElementById('menu-toggle');
   const mobileMenu = document.getElementById('mobile-menu');
+  const menuClose = document.getElementById('menu-close');
 
   if (menuToggle && mobileMenu) {
     menuToggle.addEventListener('click', (e) => {
       e.preventDefault();
-      
-      // Toggle the 'active' class to trigger the X animation in CSS
       menuToggle.classList.toggle('active');
-      
-      // Toggle the menu visibility
       mobileMenu.classList.toggle('hidden');
-      
-      // Prevent background scrolling when menu is open
-      if (!mobileMenu.classList.contains('hidden')) {
-          document.body.style.overflow = 'hidden';
-      } else {
-          document.body.style.overflow = 'auto';
-      }
+      document.body.style.overflow = mobileMenu.classList.contains('hidden') ? 'auto' : 'hidden';
     });
 
-    // Close menu when a link is clicked
-    const navLinks = mobileMenu.querySelectorAll('a');
-    navLinks.forEach(link => {
+    if (menuClose) {
+      menuClose.addEventListener('click', () => {
+        menuToggle.classList.remove('active');
+        mobileMenu.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+      });
+    }
+
+    // Auto-close on link click
+    mobileMenu.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         menuToggle.classList.remove('active');
         mobileMenu.classList.add('hidden');
@@ -177,7 +180,6 @@
     });
   }
 
-  // Initialize typing animation on load
   window.addEventListener('load', typeWriter);
 </script>
 
