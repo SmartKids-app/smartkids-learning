@@ -95,13 +95,14 @@
         }
     }
 
-    function checkWin() {
-        const currentTotal = scores.photo + scores.doc + scores.music;
-        if (currentTotal === totalItems) {
-            alert("Year 1 Complete! You are a master organizer.");
-            window.location.href = '../keyboard-practice.html'; // Or next year
-        }
+function checkWin() {
+    const currentTotal = scores.photo + scores.doc + scores.music;
+    if (currentTotal === totalItems) {
+        alert("Year 1 Complete! You are a master organizer.");
+        // CHANGE THIS LINE:
+        window.location.href = 'year2.html'; 
     }
+}
   </script>
 </body>
 </html>
