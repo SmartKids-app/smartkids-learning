@@ -3,72 +3,99 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Year 3: Top Row Reach | SmartKids</title>
+  <title>Year 3: Top Row Mastery | SmartKids</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    .key-cap { width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-weight: 800; border-bottom: 4px solid #cbd5e1; background: white; transition: all 0.2s; position: relative; }
-    .key-active { background: #f97316 !important; color: white !important; border-color: #ea580c !important; transform: translateY(-5px); box-shadow: 0 10px 15px rgba(249, 115, 22, 0.3); }
-    .key-success { background: #22c55e !important; color: white !important; }
+    .key-cap { width: 55px; height: 55px; display: flex; align-items: center; justify-content: center; border-radius: 12px; font-weight: 800; border-bottom: 5px solid #cbd5e1; background: white; transition: all 0.1s; position: relative; }
+    .key-active { background: #3b82f6 !important; color: white !important; border-color: #2563eb !important; transform: translateY(-4px); border-bottom-width: 6px; box-shadow: 0 10px 20px rgba(59, 130, 246, 0.4); }
+    .key-success { background: #22c55e !important; color: white !important; border-color: #16a34a !important; }
     
+    /* Finger Guides */
     .f-pinky { border-top: 5px solid #ec4899; }
     .f-ring { border-top: 5px solid #a855f7; }
     .f-middle { border-top: 5px solid #3b82f6; }
     .f-index { border-top: 5px solid #eab308; }
 
-    .home-indicator { position: absolute; bottom: -20px; font-size: 10px; font-weight: bold; color: #94a3b8; }
+    .timer-bar { transition: width 0.1s linear; }
+    .ghost-row { opacity: 0.2; filter: grayscale(1); }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-900 font-sans min-h-screen">
 
   <div id="mission-overlay" class="fixed inset-0 z-[100] bg-slate-900/95 flex items-center justify-center p-6">
-    <div class="bg-white max-w-2xl w-full rounded-[2.5rem] p-10 shadow-2xl">
+    <div class="bg-white max-w-xl w-full rounded-[2.5rem] p-10 shadow-2xl text-center">
       <div class="text-6xl mb-4 text-center">🚀</div>
-      <h2 class="text-3xl font-black text-center text-slate-800 mb-4">The Upward Reach</h2>
-      <div class="text-slate-600 leading-relaxed mb-8 space-y-4">
-        <p><strong>Definition:</strong> "Reaching" means moving a finger from its home base to a new key and then <b>immediately</b> moving it back.</p>
-        <div class="bg-blue-50 p-4 rounded-xl border-l-4 border-blue-500 text-sm">
-            <strong>The Trick:</strong> Keep your other fingers resting on the Home Row while one finger reaches up for the Top Row. Don't lift your whole hand!
-        </div>
-        <p class="text-center font-bold">Today we learn: Q W E R T Y U I O P</p>
+      <h2 class="text-3xl font-black text-slate-800 mb-4">Top Row: The Reach</h2>
+      <div class="text-slate-600 space-y-4 mb-8">
+        <p><strong>The Challenge:</strong> Your fingers must reach UP to hit these keys, then immediately "snap" back to your Home Row parking spots.</p>
+        <p class="font-bold text-blue-600 italic">"Don't look down. Trust the reach!"</p>
       </div>
-      <button onclick="startMission()" class="w-full bg-blue-600 text-white font-bold py-5 rounded-2xl text-xl shadow-lg">Start Reaching! 🚀</button>
+      <button onclick="startMission()" class="w-full bg-blue-600 text-white font-bold py-5 rounded-2xl text-xl shadow-lg hover:bg-blue-700 transition-all">
+        Launch Mission 🚀
+      </button>
     </div>
   </div>
 
   <nav class="bg-white border-b py-4 px-6 flex justify-between items-center sticky top-0 z-50">
-    <a href="../keyboard.html" class="text-orange-600 font-bold">← Hub</a>
-    <span class="font-black text-xs uppercase tracking-widest text-slate-400">Year 3: Top Row Reach</span>
+    <a href="../keyboard.html" class="text-blue-600 font-bold flex items-center gap-2">← Hub</a>
+    <div id="phase-badge" class="bg-blue-100 px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest text-blue-600">Phase 1: Muscle Memory</div>
   </nav>
 
-  <main class="max-w-4xl mx-auto py-10 px-6 text-center">
-    <div class="bg-white p-8 rounded-[2rem] shadow-xl border-b-8 border-slate-200 mb-10">
-        <div id="target-box" class="text-8xl font-black text-slate-800 h-24 flex items-center justify-center uppercase">Q</div>
-        <p id="finger-instruction" class="mt-4 font-bold text-orange-600 uppercase tracking-widest text-sm"></p>
+  <main class="max-w-4xl mx-auto py-10 px-6">
+    <div class="bg-white p-8 rounded-[2.5rem] shadow-xl border-b-8 border-slate-200 mb-8 text-center relative overflow-hidden">
+        <div id="timer-container" class="absolute top-0 left-0 w-full h-2 bg-slate-100 hidden">
+            <div id="timer-progress" class="h-full bg-blue-500 timer-bar" style="width: 100%"></div>
+        </div>
+        <div id="target-box" class="text-9xl font-black text-slate-800 h-32 flex items-center justify-center uppercase">Q</div>
+        <p id="finger-instruction" class="mt-4 font-bold text-slate-500 uppercase tracking-widest text-sm"></p>
     </div>
 
-    <div class="bg-slate-900 p-12 rounded-[3rem] shadow-2xl">
-        <div class="flex gap-2 justify-center mb-12">
-            <div id="K-Q" class="key-cap f-pinky">Q <span class="home-indicator">Pinky</span></div>
-            <div id="K-W" class="key-cap f-ring">W <span class="home-indicator">Ring</span></div>
-            <div id="K-E" class="key-cap f-middle">E <span class="home-indicator">Middle</span></div>
-            <div id="K-R" class="key-cap f-index">R <span class="home-indicator">Index</span></div>
-            <div id="K-T" class="key-cap f-index">T <span class="home-indicator">Index</span></div>
-            <div id="K-Y" class="key-cap f-index">Y <span class="home-indicator">Index</span></div>
-            <div id="K-U" class="key-cap f-index">U <span class="home-indicator">Index</span></div>
-            <div id="K-I" class="key-cap f-middle">I <span class="home-indicator">Middle</span></div>
-            <div id="K-O" class="key-cap f-ring">O <span class="home-indicator">Ring</span></div>
-            <div id="K-P" class="key-cap f-pinky">P <span class="home-indicator">Pinky</span></div>
+    <div class="bg-slate-900 p-12 rounded-[3.5rem] shadow-2xl mb-8">
+        <div class="flex gap-2 justify-center mb-8">
+            <div id="K-Q" class="key-cap f-pinky">Q</div>
+            <div id="K-W" class="key-cap f-ring">W</div>
+            <div id="K-E" class="key-cap f-middle">E</div>
+            <div id="K-R" class="key-cap f-index">R</div>
+            <div id="K-T" class="key-cap f-index">T</div>
+            <div id="K-Y" class="key-cap f-index">Y</div>
+            <div id="K-U" class="key-cap f-index">U</div>
+            <div id="K-I" class="key-cap f-middle">I</div>
+            <div id="K-O" class="key-cap f-ring">O</div>
+            <div id="K-P" class="key-cap f-pinky">P</div>
         </div>
-        <p class="text-slate-500 text-xs font-mono">Always return to ASDF JKL; after each press!</p>
+        <div class="flex gap-2 justify-center ghost-row">
+            <div class="key-cap border-t-2 border-pink-400">A</div>
+            <div class="key-cap border-t-2 border-purple-400">S</div>
+            <div class="key-cap border-t-2 border-blue-400">D</div>
+            <div class="key-cap border-t-2 border-yellow-400">F</div>
+            <div class="w-8"></div>
+            <div class="key-cap border-t-2 border-yellow-400">J</div>
+            <div class="key-cap border-t-2 border-blue-400">K</div>
+            <div class="key-cap border-t-2 border-purple-400">L</div>
+        </div>
+    </div>
+
+    <div class="flex justify-center gap-8">
+        <div class="text-center">
+            <span class="block text-[10px] font-black text-slate-400 uppercase">Current Streak</span>
+            <span id="stat-streak" class="text-3xl font-black text-slate-700">0</span>
+        </div>
     </div>
   </main>
 
   <script>
-    const sequence = ["Q", "P", "W", "O", "E", "I", "R", "U"];
-    const fingers = ["Left Pinky", "Right Pinky", "Left Ring", "Right Ring", "Left Middle", "Right Middle", "Left Index", "Right Index"];
-    
+    const sequence = ["Q", "W", "E", "R", "U", "I", "O", "P"];
+    const fingers = {
+        "Q": "Left Pinky", "W": "Left Ring", "E": "Left Middle", "R": "Left Index", "T": "Left Index",
+        "Y": "Right Index", "U": "Right Index", "I": "Right Middle", "O": "Right Ring", "P": "Right Pinky"
+    };
+
     let step = 0;
+    let phase = 1;
+    let randomCount = 0;
     let missionActive = false;
+    let streak = 0;
+    let timerId = null;
 
     function startMission() {
         document.getElementById('mission-overlay').classList.add('hidden');
@@ -77,32 +104,81 @@
     }
 
     function updateUI() {
-        const target = sequence[step];
-        document.getElementById('target-box').innerText = target;
-        document.getElementById('finger-instruction').innerText = `Reach with your ${fingers[step]}!`;
+        let target;
+        if (phase === 1) {
+            target = sequence[step];
+        } else {
+            const allKeys = Object.keys(fingers);
+            target = allKeys[Math.floor(Math.random() * allKeys.length)];
+            document.getElementById('phase-badge').innerText = `Phase 2: Speed Trial (${randomCount + 1}/10)`;
+            document.getElementById('phase-badge').className = "bg-red-100 px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest text-red-600";
+            startTimer();
+        }
 
+        document.getElementById('target-box').innerText = target;
+        document.getElementById('finger-instruction').innerText = `Reach with your ${fingers[target]}`;
+        
         document.querySelectorAll('.key-cap').forEach(k => k.classList.remove('key-active'));
         document.getElementById(`K-${target}`).classList.add('key-active');
     }
 
+    function startTimer() {
+        clearInterval(timerId);
+        document.getElementById('timer-container').classList.remove('hidden');
+        let timeLeft = 4000; // Even faster! 4 seconds for Top Row
+        timerId = setInterval(() => {
+            timeLeft -= 100;
+            const percent = (timeLeft / 4000) * 100;
+            document.getElementById('timer-progress').style.width = percent + "%";
+            if (timeLeft <= 0) { clearInterval(timerId); resetChallenge(); }
+        }, 100);
+    }
+
+    function resetChallenge() {
+        streak = 0;
+        document.getElementById('stat-streak').innerText = streak;
+        document.getElementById('target-box').classList.add('text-red-500');
+        setTimeout(() => {
+            document.getElementById('target-box').classList.remove('text-red-500');
+            updateUI();
+        }, 400);
+    }
+
     window.addEventListener('keydown', (e) => {
-        if(!missionActive) return;
-        if (e.key.toUpperCase() === sequence[step]) {
-            const el = document.getElementById(`K-${sequence[step]}`);
-            el.classList.replace('key-active', 'key-success');
-            
+        if (!missionActive) return;
+        const pressed = e.key.toUpperCase();
+        const target = document.getElementById('target-box').innerText;
+
+        if (pressed === target) {
+            const el = document.getElementById(`K-${target}`);
+            el.classList.add('key-success');
+            streak++;
+            document.getElementById('stat-streak').innerText = streak;
+
             setTimeout(() => {
                 el.classList.remove('key-success');
-                step++;
-                if (step >= sequence.length) {
-                    document.getElementById('target-box').innerText = "🚀🏆";
-                    document.getElementById('finger-instruction').innerText = "Top Row Reaching Mastery!";
-                } else {
+                if (phase === 1) {
+                    step++;
+                    if (step >= sequence.length) phase = 2;
                     updateUI();
+                } else {
+                    randomCount++;
+                    if (randomCount >= 10) victory();
+                    else updateUI();
                 }
-            }, 300);
+            }, 150);
+        } else {
+            resetChallenge();
         }
     });
+
+    function victory() {
+        missionActive = false;
+        clearInterval(timerId);
+        document.getElementById('target-box').innerText = "⭐";
+        document.getElementById('finger-instruction').innerText = "TOP ROW REACTION MASTERED!";
+        setTimeout(() => window.location.href = 'year4.html', 3000);
+    }
   </script>
 </body>
 </html>
