@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Year 9: Tab Multitasking | SmartKids Learning</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .tab { transition: all 0.2s ease; cursor: pointer; border-top-left-radius: 12px; border-top-right-radius: 12px; }
+    .tab.active { background-color: white; color: #1e293b; border-bottom: 2px solid white; margin-bottom: -2px; }
+    .tab.inactive { background-color: #334155; color: #94a3b8; }
+    .tab.inactive:hover { background-color: #475569; color: #f1f5f9; }
+    .window-content { min-height: 300px; }
+  </style>
+</head>
+<body class="bg-slate-200 text-slate-900 font-sans min-h-screen">
+
+  <nav class="bg-white border-b py-4 px-6 flex justify-between items-center shadow-sm">
+    <a href="../mouse-practice.html" class="text-slate-600 font-bold flex items-center gap-2">
+      <span>←</span> Back to Hub
+    </a>
+    <div class="text-slate-400 font-medium text-sm">Year 9: Tabbed Navigation</div>
+  </nav>
+
+  <main class="max-w-4xl mx-auto py-12 px-6">
+    <header class="mb-8 text-center">
+      <h1 class="text-3xl font-extrabold text-slate-800">The Tab Hunter 🕵️‍♂️</h1>
+      <p class="text-slate-600 mt-2">Switch between the tabs below to collect the hidden numbers!</p>
+    </header>
+
+    <div class="bg-slate-700 rounded-3xl p-4 shadow-2xl border-4 border-slate-800">
+      
+      <div class="flex gap-1 px-4 items-end">
+        <div id="tab-1" onclick="switchTab(1)" class="tab active px-6 py-2 text-xs font-bold">Search.com</div>
+        <div id="tab-2" onclick="switchTab(2)" class="tab inactive px-6 py-2 text-xs font-bold">Email</div>
+        <div id="tab-3" onclick="switchTab(3)" class="tab inactive px-6 py-2 text-xs font-bold">Weather</div>
+        <div id="tab-4" onclick="switchTab(4)" class="tab inactive px-6 py-2 text-xs font-bold">Maps</div>
+      </div>
+
+      <div class="bg-white rounded-2xl window-content p-10 relative">
+        <div id="content-1" class="tab-content">
+          <h2 class="text-xl font-bold text-slate-800">Search Engine</h2>
+          <p class="text-slate-500 mt-4">First digit: <span class="text-4xl font-black text-blue-600">8</span></p>
+        </div>
+        <div id="content-2" class="tab-content hidden text-center">
+            <h2 class="text-xl font-bold text-slate-800">Inbox (1)</h2>
+            <div class="mt-6 p-4 bg-slate-50 rounded-xl inline-block border border-slate-100">
+                <p class="text-sm">From: SmartKids Admin</p>
+                <p class="font-bold">Code Part 2: <span class="text-green-600">4</span></p>
+            </div>
+        </div>
+        <div id="content-3" class="tab-content hidden">
+            <h2 class="text-xl font-bold text-slate-800">Local Weather</h2>
+            <p class="mt-4 text-slate-500">It is a sunny day! The third number is <span class="font-bold text-orange-500">0</span></p>
+        </div>
+        <div id="content-4" class="tab-content hidden">
+            <h2 class="text-xl font-bold text-slate-800">Map View</h2>
+            <p class="mt-4 text-slate-500">The final location is marked with number <span class="font-bold text-red-500">2</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-8 flex flex-col items-center">
+        <input id="final-code" type="text" placeholder="Enter 4-digit code" class="px-6 py-3 rounded-full border-2 border-slate-300 text-center font-bold tracking-widest outline-none focus:border-slate-800 w-64">
+        <button onclick="checkCode()" class="mt-4 bg-slate-900 text-white px-8 py-3 rounded-full font-bold hover:bg-black transition">Submit Code</button>
+        <p id="result" class="mt-4 font-bold"></p>
+    </div>
+  </main>
+
+  <script>
+    function switchTab(num) {
+      // Toggle Tabs
+      document.querySelectorAll('.tab').forEach(t => {
+        t.classList.remove('active');
+        t.classList.add('inactive');
+      });
+      document.getElementById('tab-' + num).classList.add('active');
+      document.getElementById('tab-' + num).classList.remove('inactive');
+
+      // Toggle Content
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+      document.getElementById('content-' + num).classList.remove('hidden');
+    }
+
+    function checkCode() {
+      const code = document.getElementById('final-code').value;
+      const res = document.getElementById('result');
+      if(code === "8402") {
+        res.innerText = "🎉 Success! You are a Tab Navigation Pro!";
+        res.className = "mt-4 font-bold text-green-600";
+      } else {
+        res.innerText = "❌ Incorrect. Check all 4 tabs again!";
+        res.className = "mt-4 font-bold text-red-500";
+      }
+    }
+  </script>
+
+</body>
+</html>
