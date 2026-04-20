@@ -18,7 +18,10 @@
       <h1 class="text-4xl font-black text-slate-800">The Recycle Bin Rescue</h1>
       <p class="text-slate-500 mt-2">Oops! We accidentally deleted the "School_Project.doc". Can you go into the Bin and restore it?</p>
     </header>
-
+<div id="methodIndicator" class="mb-8 p-4 bg-blue-600 text-white rounded-2xl text-center shadow-lg">
+    <p class="text-xs uppercase font-bold opacity-80">Rescue Method Required:</p>
+    <h2 id="currentMethodText" class="text-2xl font-black italic tracking-wide">Right-Click -> Restore</h2>
+</div>
     <div class="grid md:grid-cols-2 gap-12">
       
       <div class="bg-white p-8 rounded-[3rem] shadow-xl">
@@ -63,14 +66,13 @@
         </div>
     </div>
   </div>
- <script>
-    // List of important files to rescue
+  <script>
     const rescueList = [
-        { name: "School_Project.doc", icon: "📄" },
-        { name: "Family_Photo.jpg", icon: "🖼️" },
-        { name: "Drum_Beat.mp3", icon: "🎵" },
-        { name: "Math_Homework.pdf", icon: "📝" },
-        { name: "Drawing_of_Dad.png", icon: "🎨" }
+        { name: "School_Project.doc", icon: "📄", method: "Right-Click" },
+        { name: "Family_Photo.jpg", icon: "🖼️", method: "Double-Click" },
+        { name: "Drum_Beat.mp3", icon: "🎵", method: "Drag-and-Drop" },
+        { name: "Math_Homework.pdf", icon: "📝", method: "Right-Click" },
+        { name: "Drawing_of_Dad.png", icon: "🎨", method: "Double-Click" }
     ];
 
     let rescuedCount = 0;
@@ -78,22 +80,84 @@
 
     function initRescue() {
         const bin = document.getElementById('bin-files');
-        bin.innerHTML = ''; // Clear existing
+        bin.innerHTML = ''; 
+        
+        // Update instruction for the first item
+        updateInstruction(rescueList[0].method);
 
         rescueList.forEach((file, index) => {
             const div = document.createElement('div');
             div.id = `item-${index}`;
-            div.onclick = () => restoreFile(index, file.name, file.icon);
-            div.className = "file-card bg-white p-4 rounded-2xl shadow-md flex items-center gap-4 border-2 border-transparent hover:border-blue-500 transition-all cursor-pointer";
+            div.className = "file-card bg-white p-4 rounded-2xl shadow-md flex items-center gap-4 border-2 border-transparent hover:border-blue-500 transition-all cursor-pointer select-none";
+            div.draggable = true;
+            
             div.innerHTML = `
                 <span class="text-3xl">${file.icon}</span>
                 <div>
                     <p class="font-bold text-slate-700">${file.name}</p>
-                    <p class="text-[10px] text-blue-500 font-bold uppercase">Click to Restore</p>
+                    <p class="text-[10px] text-blue-500 font-bold uppercase">${file.method} to Restore</p>
                 </div>
             `;
+
+            // METHOD 1: Double Click
+            div.ondblclick = () => {
+                if (rescueList[rescuedCount]?.method === "Double-Click") {
+                    restoreFile(index, file.name, file.icon);
+                } else {
+                    flashError(div);
+                }
+            };
+
+            // METHOD 2: Right Click (Context Menu)
+            div.oncontextmenu = (e) => {
+                e.preventDefault();
+                if (rescueList[rescuedCount]?.method === "Right-Click") {
+                    showCustomMenu(e, index, file.name, file.icon);
+                } else {
+                    flashError(div);
+                }
+            };
+
+            // METHOD 3: Drag and Drop
+            div.ondragstart = (e) => {
+                if (rescueList[rescuedCount]?.method !== "Drag-and-Drop") {
+                    e.preventDefault();
+                    flashError(div);
+                }
+            };
+
             bin.appendChild(div);
         });
+    }
+
+    function updateInstruction(method) {
+        const header = document.querySelector('header p');
+        header.innerHTML = `MISSION: Rescue files using <b class="text-blue-600 underline">${method}</b>!`;
+    }
+
+    function flashError(el) {
+        el.classList.add('bg-red-100', 'border-red-500');
+        setTimeout(() => el.classList.remove('bg-red-100', 'border-red-500'), 500);
+    }
+
+    function showCustomMenu(e, index, name, icon) {
+        const existingMenu = document.getElementById('custom-menu');
+        if (existingMenu) existingMenu.remove();
+
+        const menu = document.createElement('div');
+        menu.id = 'custom-menu';
+        menu.className = "fixed bg-white shadow-2xl border rounded-xl p-2 z-50 text-sm font-bold";
+        menu.style.top = `${e.clientY}px`;
+        menu.style.left = `${e.clientX}px`;
+        menu.innerHTML = `<div class="hover:bg-blue-600 hover:text-white p-3 rounded-lg cursor-pointer">📂 Restore File</div>`;
+        
+        menu.onclick = () => {
+            menu.remove();
+            restoreFile(index, name, icon);
+        };
+        document.body.appendChild(menu);
+
+        document.addEventListener('click', () => menu.remove(), { once: true });
     }
 
     function restoreFile(id, name, icon) {
@@ -101,42 +165,36 @@
         const desktop = document.getElementById('desktop-files');
         const emptyMsg = document.getElementById('empty-msg');
         
-        // 1. Visual feedback: Slide out and remove from Bin
-        item.style.transform = "translateX(-100px)";
+        item.style.transform = "translateX(-100px) scale(0)";
         item.style.opacity = "0";
         
         setTimeout(() => {
             item.remove();
-            
-            // 2. Hide "Empty" message
             if (emptyMsg) emptyMsg.classList.add('hidden');
             
-            // 3. Add to Desktop with fresh styling
             const restored = document.createElement('div');
             restored.className = "bg-green-50 p-3 rounded-xl border border-green-200 flex items-center gap-3 mb-3 animate-bounce shadow-sm";
-            restored.innerHTML = `
-                <span class="text-2xl">${icon}</span>
-                <p class="text-sm font-bold text-green-800">${name}</p>
-            `;
+            restored.innerHTML = `<span class="text-2xl">${icon}</span><p class="text-sm font-bold text-green-800">${name}</p>`;
             desktop.prepend(restored);
 
             rescuedCount++;
+            
+            if (rescuedCount < totalToRescue) {
+                updateInstruction(rescueList[rescuedCount].method);
+            }
             checkWin();
         }, 300);
     }
 
     function checkWin() {
         if (rescuedCount === totalToRescue) {
-            // Shake the bin one last time for fun
             document.getElementById('recycle-bin').classList.add('animate-ping');
-            
             setTimeout(() => {
                 document.getElementById('success-modal').classList.remove('hidden');
             }, 1000);
         }
     }
 
-    // Initialize the game when the page loads
     window.onload = initRescue;
 </script>
 </body>
