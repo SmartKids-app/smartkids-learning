@@ -41,24 +41,29 @@
       </div>
     </div>
   </div>
-
-  <script>
+<script>
     const files = [
       "Homework", "Family_Photo", "Drum_Beat", "Recipe", "Game_Save", 
       "Gold_Coin", "School_Project", "Old_Music", "Vacation", "Ideas",
       "Draft_1", "Draft_2", "Secret_Map", "Banana", "Zebra", "Computer_Drawing"
     ];
 
+    let treasuresFound = 0;
+    const goal = 3;
     const container = document.getElementById('folderContainer');
 
-    // 1. Create the folders
     function initGame() {
-      files.forEach(name => {
+      // Clear container first for reshuffling
+      container.innerHTML = '';
+      
+      // Shuffle the file array so the treasure moves to a different index
+      const shuffledFiles = [...files].sort(() => Math.random() - 0.5);
+
+      shuffledFiles.forEach(name => {
         const div = document.createElement('div');
-        div.className = 'folder-item flex flex-col items-center text-center';
+        div.className = 'folder-item flex flex-col items-center text-center p-2 rounded-xl transition-all duration-300';
         div.setAttribute('data-name', name.toLowerCase());
         
-        // Use a coin icon for the treasure, folder for the rest
         const icon = name === "Gold_Coin" ? "🪙" : "📁";
         
         div.innerHTML = `
@@ -67,15 +72,31 @@
         `;
 
         if(name === "Gold_Coin") {
-          div.onclick = () => document.getElementById('winMessage').classList.remove('hidden');
+          div.onclick = () => handleFound();
           div.style.cursor = "pointer";
+          div.classList.add('hover:bg-yellow-50');
         }
 
         container.appendChild(div);
       });
     }
 
-    // 2. The "Search" Logic
+    function handleFound() {
+      treasuresFound++;
+      
+      if (treasuresFound < goal) {
+        alert(`🏆 You found it! (Treasure ${treasuresFound} of ${goal}). But wait... it moved! Use the search bar again.`);
+        
+        // Reset for next round
+        document.getElementById('searchBar').value = ""; 
+        initGame(); // Re-render and shuffle
+        filterFolders(); // Reset visibility
+      } else {
+        // Final Win
+        document.getElementById('winMessage').classList.remove('hidden');
+      }
+    }
+
     function filterFolders() {
       const query = document.getElementById('searchBar').value.toLowerCase();
       const items = document.querySelectorAll('.folder-item');
@@ -91,6 +112,6 @@
     }
 
     initGame();
-  </script>
-</body>
+</script>
+  </body>
 </html>
