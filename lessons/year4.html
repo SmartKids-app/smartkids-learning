@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Year 4: Bottom Curl | SmartKids</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .sonar-pulse {
+      animation: pulse 2s infinite;
+      border: 2px solid #38bdf8;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(2.5); opacity: 0; }
+    }
+    .key-hint { font-family: monospace; }
+  </style>
+</head>
+<body class="bg-slate-900 min-h-screen flex flex-col items-center justify-center font-sans overflow-hidden">
+
+  <div id="diy-manual" class="fixed inset-0 bg-slate-900/95 backdrop-blur-md z-[100] flex items-center justify-center p-6">
+    <div class="bg-white max-w-md rounded-[3rem] p-10 shadow-2xl border-4 border-sky-500">
+      <div class="text-5xl mb-4">🤿</div>
+      <h2 class="text-3xl font-black mb-4 text-slate-800">Mission: Bottom Curl</h2>
+      <div class="space-y-4 mb-8 text-slate-600">
+        <p>Your submarine is diving deep! You need to use the <b>Bottom Row</b> to navigate.</p>
+        <ul class="space-y-2 font-medium">
+            <li class="flex gap-2"><span>⬇️</span> Curl your fingers <b>under</b> the home row.</li>
+            <li class="flex gap-2"><span>📍</span> Use <b>X, C, V, B</b> and <b>N, M</b>.</li>
+            <li class="flex gap-2"><span>🏠</span> Always return your fingers to their "Homes" after a dive!</li>
+        </ul>
+      </div>
+      <button onclick="startGame()" class="w-full bg-sky-600 text-white py-4 rounded-2xl font-bold text-xl hover:scale-105 transition-all">Dive! Dive! Dive!</button>
+    </div>
+  </div>
+
+  <div class="relative w-80 h-80 flex items-center justify-center mb-12">
+    <div class="absolute inset-0 rounded-full border-4 border-sky-900/50"></div>
+    <div class="absolute inset-10 rounded-full border-2 border-sky-900/30"></div>
+    <div class="absolute sonar-pulse rounded-full w-24 h-24"></div>
+    <div id="target-key" class="text-8xl font-black text-sky-400 z-10 uppercase">V</div>
+  </div>
+
+  <div class="text-center">
+    <div class="text-sky-500/50 font-black tracking-widest mb-4">SONAR LOCKS: <span id="score">0</span> / 15</div>
+    
+    <div class="flex gap-2 justify-center opacity-80">
+        <div class="px-4 py-2 bg-slate-800 rounded-lg text-sky-300 text-xs font-bold border border-sky-900">Z X C V</div>
+        <div class="px-4 py-2 bg-slate-800 rounded-lg text-sky-300 text-xs font-bold border border-sky-900">B N M</div>
+    </div>
+  </div>
+
+  <div id="success-modal" class="hidden fixed inset-0 bg-slate-900/98 flex items-center justify-center z-50 p-6 text-center">
+    <div class="bg-white p-12 rounded-[3.5rem] max-w-sm border-b-8 border-sky-600">
+        <div class="text-7xl mb-4">⚓</div>
+        <h2 class="text-3xl font-black mb-2 text-slate-800">Expert Diver!</h2>
+        <p class="text-slate-500 mb-8">You've mastered the tricky Bottom Row curl. Your foundations are solid!</p>
+        <button onclick="window.location.href='keyboard-practice.html?unlocked=5'" class="w-full bg-sky-600 text-white py-4 rounded-2xl font-bold text-xl">Surface & Proceed</button>
+    </div>
+  </div>
+
+  <script>
+    const bottomRow = ['Z', 'X', 'C', 'V', 'B', 'N', 'M'];
+    let currentTarget = '';
+    let score = 0;
+
+    function startGame() {
+        document.getElementById('diy-manual').remove();
+        nextKey();
+        
+        window.addEventListener('keydown', (e) => {
+            const key = e.key.toUpperCase();
+            if (key === currentTarget) {
+                score++;
+                document.getElementById('score').innerText = score;
+                if (score >= 15) {
+                    document.getElementById('success-modal').classList.remove('hidden');
+                } else {
+                    nextKey();
+                }
+            }
+        });
+    }
+
+    function nextKey() {
+        const targetEl = document.getElementById('target-key');
+        currentTarget = bottomRow[Math.floor(Math.random() * bottomRow.length)];
+        targetEl.innerText = currentTarget;
+        
+        // Add a "blip" sound effect feel via animation
+        targetEl.style.transform = "scale(1.2)";
+        setTimeout(() => targetEl.style.transform = "scale(1)", 100);
+    }
+  </script>
+</body>
+</html>
