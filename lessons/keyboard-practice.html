@@ -2,6 +2,135 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <title>Mouse Roadmap | SmartKids</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+    .item-open .accordion-content { max-height: 500px; padding: 20px; }
+    .item-open .chevron { transform: rotate(180deg); }
+    .locked-phase { opacity: 0.6; filter: grayscale(1); cursor: not-allowed; }
+    .phase-badge { font-size: 10px; padding: 2px 8px; border-radius: 99px; font-weight: 800; }
+  </style>
+</head>
+<body class="bg-slate-50 min-h-screen p-4 md:p-12 font-sans">
+
+  <div class="max-w-4xl mx-auto">
+    <header class="bg-white p-8 rounded-[3rem] shadow-xl border-b-8 border-amber-200 mb-10 flex justify-between items-center">
+      <div>
+        <h1 class="text-3xl font-black text-slate-800">Mouse Mastery Roadmap 🖱️</h1>
+        <p class="text-slate-500">From Clicker Rookie to Interface Architect.</p>
+      </div>
+      <div class="text-right">
+        <div class="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Graduation Progress</div>
+        <div class="w-32 h-4 bg-slate-100 rounded-full overflow-hidden border">
+            <div id="prog-bar" class="bg-amber-400 h-full transition-all duration-1000" style="width: 8%"></div>
+        </div>
+      </div>
+    </header>
+
+    <div class="space-y-4" id="roadmap">
+      
+      <div id="phase-1" class="bg-white rounded-[2rem] shadow-sm border-2 border-amber-400 overflow-hidden">
+        <button onclick="togglePhase(1)" class="w-full p-6 text-left flex justify-between items-center group">
+          <div class="flex items-center gap-4">
+            <span class="w-10 h-10 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center font-black text-sm">01</span>
+            <div>
+              <h3 class="font-black text-xl text-slate-800">Phase 1: Basic Coordination</h3>
+              <span class="phase-badge bg-green-100 text-green-700">UNLOCKED</span>
+            </div>
+          </div>
+          <span class="chevron transition-transform">▼</span>
+        </button>
+        <div class="accordion-content bg-amber-50/30 border-t border-amber-100">
+          <div class="grid gap-4">
+            <a href="year1.html" class="flex items-center justify-between p-4 bg-white rounded-2xl border hover:border-amber-400 transition-all">
+                <span class="font-bold">Year 1: Balloon Pop (Clicking)</span>
+                <span class="text-amber-500 font-black">PLAY →</span>
+            </a>
+            <a href="year2.html" id="link-y2" class="flex items-center justify-between p-4 bg-white rounded-2xl border opacity-50 pointer-events-none">
+                <span class="font-bold">Year 2: Scroll Racer (Control)</span>
+                <span id="lock-y2">🔒 Locked</span>
+            </a>
+            <a href="year3.html" id="link-y3" class="flex items-center justify-between p-4 bg-white rounded-2xl border opacity-50 pointer-events-none">
+                <span class="font-bold">Year 3: Menu Rescue (Right-Click)</span>
+                <span id="lock-y3">🔒 Locked</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div id="phase-2" class="locked-phase bg-white rounded-[2rem] shadow-sm border-2 border-slate-100 overflow-hidden">
+        <button class="w-full p-6 text-left flex justify-between items-center">
+          <div class="flex items-center gap-4">
+            <span class="w-10 h-10 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center font-black text-sm">02</span>
+            <div>
+              <h3 class="font-black text-xl text-slate-400">Phase 2: Speed & Dragging</h3>
+              <span class="phase-badge bg-slate-100 text-slate-400">LOCKED</span>
+            </div>
+          </div>
+          <span>🔒</span>
+        </button>
+      </div>
+
+      <div id="phase-3" class="locked-phase bg-white rounded-[2rem] shadow-sm border-2 border-slate-100 overflow-hidden">
+        <button class="w-full p-6 text-left flex justify-between items-center">
+            <div class="flex items-center gap-4">
+              <span class="w-10 h-10 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center font-black text-sm">03</span>
+              <h3 class="font-black text-xl text-slate-400">Phase 3: The Graduation Project</h3>
+            </div>
+            <span>🔒</span>
+        </button>
+      </div>
+
+    </div>
+
+    <div id="grad-box" class="hidden mt-10 bg-slate-900 text-white p-10 rounded-[3rem] text-center shadow-2xl">
+        <h2 class="text-3xl font-black mb-4">🎓 Ready to Graduate?</h2>
+        <p class="text-slate-400 mb-6 italic">"You have mastered the hand-eye coordination required to navigate any professional software."</p>
+        <button class="bg-amber-400 text-black px-10 py-4 rounded-full font-black hover:scale-105 transition-all">Claim Your Certificate</button>
+    </div>
+  </div>
+
+  <script>
+    function togglePhase(id) {
+        const el = document.getElementById(`phase-${id}`);
+        el.classList.toggle('item-open');
+    }
+
+    // LOCKING LOGIC BASED ON URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const unlocked = urlParams.get('unlocked');
+
+    if (unlocked >= 2) {
+        const y2 = document.getElementById('link-y2');
+        y2.classList.remove('opacity-50', 'pointer-events-none');
+        y2.classList.add('border-amber-400');
+        document.getElementById('lock-y2').innerHTML = '<span class="text-green-500">PLAY →</span>';
+        document.getElementById('prog-bar').style.width = '16%';
+    }
+    
+    if (unlocked >= 3) {
+        const y3 = document.getElementById('link-y3');
+        y3.classList.remove('opacity-50', 'pointer-events-none');
+        y3.classList.add('border-amber-400');
+        document.getElementById('lock-y3').innerHTML = '<span class="text-green-500">PLAY →</span>';
+        document.getElementById('prog-bar').style.width = '25%';
+    }
+
+    // Logic for Graduation would trigger when unlocked === '13'
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Keyboarding Hub | SmartKids</title>
   <script src="https://cdn.tailwindcss.com"></script>
@@ -87,319 +216,11 @@
 
     loadHub();
 </script>
-  
-  
-  <!--<main class="max-w-6xl mx-auto py-16 px-6">
-    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8">
-      
-      <a href="keyboard/year1.html" class="year-card unlocked bg-white p-8 rounded-[2.5rem] shadow-xl border-b-8 border-orange-500 text-center">
-        <span class="text-5xl block mb-4">🗺️</span>
-        <h3 class="font-black text-xl mb-2 text-slate-800">Year 1</h3>
-        <p class="text-xs text-slate-500 font-bold uppercase tracking-widest">Geography</p>
-      </a>
-
-      <div id="y2-gate" class="year-card locked bg-white p-8 rounded-[2.5rem] shadow-xl border-b-8 border-green-500 text-center">
-        <span class="text-5xl block mb-4">🏠</span>
-        <h3 class="font-black text-xl mb-2 text-slate-800">Year 2</h3>
-        <p class="text-xs text-slate-500 font-bold uppercase tracking-widest">Home Row</p>
-      </div>
-
-      <div id="y3-gate" class="year-card locked bg-white p-8 rounded-[2.5rem] shadow-xl border-b-8 border-blue-500 text-center">
-        <span class="text-5xl block mb-4">🚀</span>
-        <h3 class="font-black text-xl mb-2 text-slate-800">Year 3</h3>
-        <p class="text-xs text-slate-500 font-bold uppercase tracking-widest">Top Reach</p>
-      </div>
-
-      <div id="y4-gate" class="year-card locked bg-white p-8 rounded-[2.5rem] shadow-xl border-b-8 border-purple-500 text-center">
-        <span class="text-5xl block mb-4">⚓</span>
-        <h3 class="font-black text-xl mb-2 text-slate-800">Year 4</h3>
-        <p class="text-xs text-slate-500 font-bold uppercase tracking-widest">Bottom Curl</p>
-      </div>
-
-      <div id="y5-gate" class="year-card locked bg-white p-8 rounded-[2.5rem] shadow-xl border-b-8 border-sky-500 text-center">
-        <span class="text-5xl block mb-4">⚡</span>
-        <h3 class="font-black text-xl mb-2 text-slate-800">Year 5</h3>
-        <p class="text-xs text-slate-500 font-bold uppercase tracking-widest">Power Keys</p>
-      </div>
-
-    </div>
-
-    <div class="mt-20 p-8 bg-slate-800 rounded-[3rem] text-white flex flex-col md:flex-row items-center justify-between gap-8">
-        <div class="text-center md:text-left">
-            <h2 class="text-2xl font-black mb-2 italic">Ready for Certification?</h2>
-            <p class="text-slate-400 max-w-md">Complete all 5 years with 95% accuracy to receive your SmartKids Junior Tech Certificate.</p>
-        </div>
-        <button onclick="resetProgress()" class="text-xs font-bold text-slate-500 hover:text-white underline">Reset All Progress</button>
-    </div>
-  </main>
-
-  <script>
-    // Logic to unlock cards based on performance
-    function checkProgress() {
-        const progress = JSON.parse(localStorage.getItem('smartkids_typing_progress')) || { year: 1 };
-        
-        for (let i = 2; i <= 5; i++) {
-            const gate = document.getElementById(`y${i}-gate`);
-            if (progress.year >= i) {
-                gate.classList.remove('locked');
-                gate.classList.add('unlocked');
-                gate.innerHTML = gate.innerHTML; // Refresh HTML to enable pointer events if needed
-                // Wrap in anchor tag
-                const link = `keyboard/year${i}.html`;
-                gate.onclick = () => window.location.href = link;
-            }
-        }
-    }
-
-    function resetProgress() {
-        if(confirm("Are you sure? This will lock all years again!")) {
-            localStorage.setItem('smartkids_typing_progress', JSON.stringify({ year: 1 }));
-            location.reload();
-        }
-    }
-
-    checkProgress();
-  </script>-->
+ 
 </body>
 </html>
 
 
 
 
-<!--<!DOCTY<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Keyboarding Hub | SmartKids</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    .year-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-    .locked { filter: grayscale(1); opacity: 0.6; cursor: not-allowed; }
-    .unlocked:hover { transform: translateY(-10px); }
-  </style>
-</head>
-<body class="bg-slate-50 text-slate-900 font-sans min-h-screen">
 
-  <header class="py-12 px-6 text-center bg-white border-b-4 border-slate-100">
-    <h1 class="text-4xl font-black text-slate-800 mb-2">Keyboarding Academy</h1>
-    <p class="text-slate-500 font-medium">Master the keys, unlock your future.</p>
-  </header>
-
-  <main class="max-w-6xl mx-auto py-16 px-6">
-    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8">
-      
-      <a href="keyboard/year1.html" class="year-card unlocked bg-white p-8 rounded-[2.5rem] shadow-xl border-b-8 border-orange-500 text-center">
-        <span class="text-5xl block mb-4">🗺️</span>
-        <h3 class="font-black text-xl mb-2 text-slate-800">Year 1</h3>
-        <p class="text-xs text-slate-500 font-bold uppercase tracking-widest">Geography</p>
-      </a>
-
-      <div id="y2-gate" class="year-card locked bg-white p-8 rounded-[2.5rem] shadow-xl border-b-8 border-green-500 text-center">
-        <span class="text-5xl block mb-4">🏠</span>
-        <h3 class="font-black text-xl mb-2 text-slate-800">Year 2</h3>
-        <p class="text-xs text-slate-500 font-bold uppercase tracking-widest">Home Row</p>
-      </div>
-
-      <div id="y3-gate" class="year-card locked bg-white p-8 rounded-[2.5rem] shadow-xl border-b-8 border-blue-500 text-center">
-        <span class="text-5xl block mb-4">🚀</span>
-        <h3 class="font-black text-xl mb-2 text-slate-800">Year 3</h3>
-        <p class="text-xs text-slate-500 font-bold uppercase tracking-widest">Top Reach</p>
-      </div>
-
-      <div id="y4-gate" class="year-card locked bg-white p-8 rounded-[2.5rem] shadow-xl border-b-8 border-purple-500 text-center">
-        <span class="text-5xl block mb-4">⚓</span>
-        <h3 class="font-black text-xl mb-2 text-slate-800">Year 4</h3>
-        <p class="text-xs text-slate-500 font-bold uppercase tracking-widest">Bottom Curl</p>
-      </div>
-
-      <div id="y5-gate" class="year-card locked bg-white p-8 rounded-[2.5rem] shadow-xl border-b-8 border-sky-500 text-center">
-        <span class="text-5xl block mb-4">⚡</span>
-        <h3 class="font-black text-xl mb-2 text-slate-800">Year 5</h3>
-        <p class="text-xs text-slate-500 font-bold uppercase tracking-widest">Power Keys</p>
-      </div>
-
-    </div>
-
-    <div class="mt-20 p-8 bg-slate-800 rounded-[3rem] text-white flex flex-col md:flex-row items-center justify-between gap-8">
-        <div class="text-center md:text-left">
-            <h2 class="text-2xl font-black mb-2 italic">Ready for Certification?</h2>
-            <p class="text-slate-400 max-w-md">Complete all 5 years with 95% accuracy to receive your SmartKids Junior Tech Certificate.</p>
-        </div>
-        <button onclick="resetProgress()" class="text-xs font-bold text-slate-500 hover:text-white underline">Reset All Progress</button>
-    </div>
-  </main>
-
-  <script>
-    // Logic to unlock cards based on performance
-    function checkProgress() {
-        const progress = JSON.parse(localStorage.getItem('smartkids_typing_progress')) || { year: 1 };
-        
-        for (let i = 2; i <= 5; i++) {
-            const gate = document.getElementById(`y${i}-gate`);
-            if (progress.year >= i) {
-                gate.classList.remove('locked');
-                gate.classList.add('unlocked');
-                gate.innerHTML = gate.innerHTML; // Refresh HTML to enable pointer events if needed
-                // Wrap in anchor tag
-                const link = `keyboard/year${i}.html`;
-                gate.onclick = () => window.location.href = link;
-            }
-        }
-    }
-
-    function resetProgress() {
-        if(confirm("Are you sure? This will lock all years again!")) {
-            localStorage.setItem('smartkids_typing_progress', JSON.stringify({ year: 1 }));
-            location.reload();
-        }
-    }
-
-    checkProgress();
-  </script>
-</body>
-</html>PE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Keyboard Practice Hub | SmartKids Learning</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    /* Fixed Animation Logic */
-    .accordion-body { 
-      max-height: 0; 
-      overflow: hidden; 
-      transition: max-height 0.5s ease-in-out, opacity 0.3s ease;
-      opacity: 0;
-    }
-    .accordion-body.is-open { 
-      max-height: 1000px; /* Big enough to hold content */
-      opacity: 1;
-    }
-    .rotate-icon { transition: transform 0.3s ease; }
-    .lesson-btn:hover { transform: translateX(8px); }
-  </style>
-</head>
-<body class="bg-slate-50 text-slate-900 font-sans">
-
-  <nav class="bg-white border-b py-4 px-6 sticky top-0 z-50 shadow-sm">
-    <div class="max-w-5xl mx-auto flex justify-between items-center">
-      <a href="../index.html" class="flex items-center gap-2">
-        <div class="w-8 h-8 bg-orange-600 rounded-lg flex items-center justify-center text-white font-bold">SK</div>
-        <span class="font-bold text-xl tracking-tight text-slate-800">SmartKids</span>
-      </a>
-      <a href="../lessons.html" class="text-sm font-semibold text-orange-600">← All Lessons</a>
-    </div>
-  </nav>
-
-  <header class="bg-gradient-to-b from-orange-500 to-red-600 text-white py-16 px-6 text-center">
-    <div class="max-w-3xl mx-auto">
-      <div class="inline-block bg-orange-400/30 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4 text-white">Typing Skills</div>
-      <h1 class="text-4xl md:text-5xl font-extrabold mb-4">Master Your Keyboard</h1>
-      <p class="text-orange-50 text-lg">From finding letters to professional coding speed—start your typing journey here.</p>
-    </div>
-  </header>
-
-  <main class="max-w-4xl mx-auto py-12 px-6 min-h-screen">
-    <div id="accordion" class="space-y-4">
-      </div>
-  </main>
-
-  <footer class="bg-slate-900 text-slate-400 py-12 px-4 mt-20">
-    <div class="max-w-5xl mx-auto text-center md:text-left">
-      <div class="h-5">
-        <p id="footer-typing" class="text-sm font-mono text-blue-400"></p>
-      </div>
-    </div>
-  </footer>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const container = document.getElementById("accordion");
-      
-      const years = [
-        {id:"year1", name:"Year 1", topics:["Keyboard Geography","Finding Letters","Alphabet Map"]},
-        {id:"year2", name:"Year 2", topics:["Home Row Mastery","ASDF JKL; Keys","Middle Row Reach"]},
-        {id:"year3", name:"Year 3", topics:["Top Row Keys","QWERTY Reach","Upward Finger Stretch"]},
-        {id:"year4", name:"Year 4", topics:["Bottom Row Keys","ZXCVB Reach","Downward Finger Stretch"]},
-        {id:"year5", name:"Year 5", topics:["The Spacebar","Backspace Eraser","The Enter Key"]},
-        {id:"year6", name:"Year 6", topics:["Shift Key Mastery","Capital Letters","Basic Symbols"]},
-        {id:"year7", name:"Year 7", topics:["Punctuation Marks","The Number Row","Common Symbols"]},
-        {id:"year8", name:"Year 8", topics:["WPM Speed Intro","Accuracy Drills","Common Word Typing"]},
-        {id:"year9", name:"Year 9", topics:["Keyboard Shortcuts","Ctrl+C / Ctrl+V","Undo & Redo"]},
-        {id:"year10", name:"Year 10", topics:["Paragraph Typing","Text Formatting","High-Speed Focus"]},
-        {id:"year11", name:"Year 11", topics:["System Navigation","Tab & Escape Keys","Alt-Tab Multitasking"]},
-        {id:"year12", name:"Year 12", topics:["Command Line Typing","Developer Symbols","Final Speed Test"]},
-        {id:"graduation", name:"🎓 GRADUATION", topics:["Full Speed Assessment","Certificate Generation","Course Summary"], isSpecial: true}
-      ];
-
-      years.forEach(year => {
-        const card = document.createElement("div");
-        card.className = `bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden ${year.isSpecial ? 'border-amber-400 ring-1 ring-amber-100' : ''}`;
-
-        const header = document.createElement("button");
-        const iconBg = year.isSpecial ? "bg-amber-100 text-amber-600" : "bg-orange-100 text-orange-600";
-        
-        header.className = "w-full flex justify-between items-center px-6 py-5 text-lg font-bold text-slate-700 hover:bg-slate-50 transition-colors";
-        header.innerHTML = `
-          <span class="flex items-center gap-3">
-            <span class="w-8 h-8 ${iconBg} rounded-full text-xs flex items-center justify-center font-bold">
-              ${year.isSpecial ? '★' : year.id.replace('year','')}
-            </span>
-            ${year.name}
-          </span>
-          <span class="rotate-icon text-slate-400 font-light text-2xl">+</span>
-        `;
-
-        const body = document.createElement("div");
-        body.className = "accordion-body bg-slate-50 px-6"; // REMOVED "hidden"
-
-        body.innerHTML = `
-          <div class="py-4 grid gap-3">
-            ${year.topics.map(topic => `
-              <a href="keyboard/${year.id === 'graduation' ? 'graduation' : year.id}.html" class="lesson-btn flex items-center gap-3 p-4 bg-white rounded-xl border border-slate-100 shadow-sm hover:border-orange-300 transition-all group">
-                <span class="text-xl">${year.isSpecial ? '🏆' : '⌨️'}</span>
-                <span class="text-sm font-semibold text-slate-700 group-hover:text-orange-600">${topic}</span>
-              </a>
-            `).join("")}
-          </div>
-        `;
-
-        header.addEventListener("click", () => {
-          const isOpen = body.classList.contains('is-open');
-          
-          // Close all others
-          document.querySelectorAll('.accordion-body').forEach(b => b.classList.remove('is-open'));
-          document.querySelectorAll('.rotate-icon').forEach(i => i.style.transform = 'rotate(0deg)');
-          
-          // Open clicked one if it was closed
-          if (!isOpen) {
-            body.classList.add('is-open');
-            header.querySelector('.rotate-icon').style.transform = 'rotate(45deg)';
-          }
-        });
-
-        card.appendChild(header);
-        card.appendChild(body);
-        container.appendChild(card);
-      });
-
-      // Typing animation
-      const footerMsg = "Empowering the next generation of African tech leaders.";
-      let charIdx = 0;
-      const type = () => {
-        const el = document.getElementById("footer-typing");
-        if (charIdx < footerMsg.length) {
-          el.innerHTML += footerMsg.charAt(charIdx);
-          charIdx++;
-          setTimeout(type, 70);
-        } else {
-          setTimeout(() => { el.innerHTML = ""; charIdx = 0; type(); }, 5000);
-        }
-      };
-      type();
-    });
-  </script>
-</body>
-</html>
