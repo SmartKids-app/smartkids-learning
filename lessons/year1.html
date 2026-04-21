@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Year 1: Home Row Hero | SmartKids</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .key-cap { transition: all 0.1s; transform: translateY(0); }
+    .key-pressed { transform: translateY(4px); background-color: #fda4af !important; border-bottom-width: 0px !important; }
+    
+    @keyframes dropKnight {
+      0% { transform: translateY(-100px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+    .knight-fall { animation: dropKnight 0.4s ease-out; }
+    
+    @keyframes slideUp {
+      0% { transform: translateY(100%); opacity: 0; }
+      10% { transform: translateY(0); opacity: 1; }
+      90% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(100%); opacity: 0; }
+    }
+    .feedback-overlay { animation: slideUp 2s forwards; }
+  </style>
+</head>
+<body class="bg-rose-900 min-h-screen flex flex-col items-center justify-center font-sans overflow-hidden">
+
+  <div id="diy-manual" class="fixed inset-0 bg-slate-900/95 backdrop-blur-md z-[100] flex items-center justify-center p-6">
+    <div class="bg-white max-w-md rounded-[3rem] p-10 shadow-2xl border-4 border-rose-500">
+      <div class="text-5xl mb-4">🏰</div>
+      <h2 class="text-3xl font-black mb-4 text-slate-800">Mission: Knight's Landing</h2>
+      <div class="space-y-4 mb-8 text-slate-600">
+        <p>Your fingers are knights. They must stay on the <b>Home Row</b> to protect the castle!</p>
+        <ul class="space-y-2 font-medium">
+            <li class="flex gap-2"><span>👉</span> Feel the bumps on <b>F</b> and <b>J</b>.</li>
+            <li class="flex gap-2"><span>⌨️</span> Press the letter that appears on screen.</li>
+            <li class="flex gap-2"><span>🚫</span> <b>Don't look down!</b> Trust your knights.</li>
+        </ul>
+      </div>
+      <button onclick="startGame()" class="w-full bg-rose-600 text-white py-4 rounded-2xl font-bold text-xl hover:scale-105 transition-all">Start Training</button>
+    </div>
+  </div>
+
+  <div class="text-center">
+    <div id="target-letter" class="text-[12rem] font-black text-rose-300 mb-8 knight-fall uppercase">F</div>
+    
+    <div class="flex gap-3 justify-center mb-12">
+        <div id="visual-A" class="key-cap w-16 h-16 bg-white rounded-xl border-b-8 border-rose-200 flex items-center justify-center text-2xl font-black text-slate-700">A</div>
+        <div id="visual-S" class="key-cap w-16 h-16 bg-white rounded-xl border-b-8 border-rose-200 flex items-center justify-center text-2xl font-black text-slate-700">S</div>
+        <div id="visual-D" class="key-cap w-16 h-16 bg-white rounded-xl border-b-8 border-rose-200 flex items-center justify-center text-2xl font-black text-slate-700">D</div>
+        <div id="visual-F" class="key-cap w-16 h-16 bg-rose-100 rounded-xl border-b-8 border-rose-300 flex items-center justify-center text-2xl font-black text-rose-600">F</div>
+        <div class="w-8"></div>
+        <div id="visual-J" class="key-cap w-16 h-16 bg-rose-100 rounded-xl border-b-8 border-rose-300 flex items-center justify-center text-2xl font-black text-rose-600">J</div>
+        <div id="visual-K" class="key-cap w-16 h-16 bg-white rounded-xl border-b-8 border-rose-200 flex items-center justify-center text-2xl font-black text-slate-700">K</div>
+        <div id="visual-L" class="key-cap w-16 h-16 bg-white rounded-xl border-b-8 border-rose-200 flex items-center justify-center text-2xl font-black text-slate-700">L</div>
+    </div>
+
+    <div class="text-white font-bold tracking-widest uppercase text-sm opacity-50">
+        Progress: <span id="score">0</span> / 15
+    </div>
+  </div>
+
+  <div id="feedback-container" class="fixed inset-x-0 bottom-10 flex justify-center pointer-events-none z-50"></div>
+
+  <div id="success-modal" class="hidden fixed inset-0 bg-slate-900/95 flex items-center justify-center z-50 p-6 text-center">
+    <div class="bg-white p-12 rounded-[3.5rem] max-w-sm border-b-8 border-rose-600">
+        <div class="text-7xl mb-4">🎖️</div>
+        <h2 class="text-3xl font-black mb-2 text-slate-800">Home Row Hero!</h2>
+        <p class="text-slate-500 mb-8">Your fingers found their homes perfectly. Ready to weave some words?</p>
+        <button onclick="window.location.href='keyboard-practice.html?unlocked=2'" class="w-full bg-rose-600 text-white py-4 rounded-2xl font-bold text-xl">Continue Journey</button>
+    </div>
+  </div>
+
+  <script>
+    const homeRow = ['A', 'S', 'D', 'F', 'J', 'K', 'L'];
+    let currentTarget = '';
+    let score = 0;
+    const targetEl = document.getElementById('target-letter');
+
+    function startGame() {
+        document.getElementById('diy-manual').remove();
+        nextLetter();
+        
+        window.addEventListener('keydown', (e) => {
+            const key = e.key.toUpperCase();
+            if (!homeRow.includes(key)) return;
+
+            // Visual Keyboard Animation
+            const keyEl = document.getElementById(`visual-${key}`);
+            if (keyEl) {
+                keyEl.classList.add('key-pressed');
+                setTimeout(() => keyEl.classList.remove('key-pressed'), 100);
+            }
+
+            if (key === currentTarget) {
+                score++;
+                document.getElementById('score').innerText = score;
+                showFeedback("✨ Perfect Strike!", true);
+                
+                if (score >= 15) {
+                    document.getElementById('success-modal').classList.remove('hidden');
+                } else {
+                    nextLetter();
+                }
+            } else {
+                showFeedback("❌ Wrong Knight! Check your Home Row.", false);
+            }
+        });
+    }
+
+    function nextLetter() {
+        currentTarget = homeRow[Math.floor(Math.random() * homeRow.length)];
+        targetEl.classList.remove('knight-fall');
+        void targetEl.offsetWidth; // Trigger reflow for animation
+        targetEl.innerText = currentTarget;
+        targetEl.classList.add('knight-fall');
+    }
+
+    function showFeedback(text, isSuccess) {
+        const container = document.getElementById('feedback-container');
+        container.innerHTML = '';
+        const div = document.createElement('div');
+        div.className = `feedback-overlay px-8 py-3 rounded-full text-white font-bold bg-rose-500 shadow-xl`;
+        div.innerHTML = text;
+        container.appendChild(div);
+    }
+  </script>
+</body>
+</html>
