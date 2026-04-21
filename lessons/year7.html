@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Year 7: Symbols | SmartKids</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @font-face {
+      font-family: 'Matrix';
+      src: url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;700&display=swap');
+    }
+    .glitch { text-shadow: 2px 0 #00ff41, -2px 0 #ff003c; animation: glitch 2s infinite; }
+    @keyframes glitch {
+      0% { transform: translate(0); }
+      20% { transform: translate(-2px, 2px); }
+      40% { transform: translate(-2px, -2px); }
+      60% { transform: translate(2px, 2px); }
+      80% { transform: translate(2px, -2px); }
+      100% { transform: translate(0); }
+    }
+    .matrix-bg { background: radial-gradient(circle, #0a2e0a 0%, #000 100%); }
+  </style>
+</head>
+<body class="matrix-bg min-h-screen flex flex-col items-center justify-center font-mono text-[#00ff41] p-6 overflow-hidden">
+
+  <div id="diy-manual" class="fixed inset-0 bg-black/95 z-[100] flex items-center justify-center p-6">
+    <div class="bg-slate-900 max-w-md rounded-[2rem] p-10 shadow-[0_0_50px_rgba(0,255,65,0.2)] border-2 border-[#00ff41] text-center">
+      <div class="text-6xl mb-4">🔐</div>
+      <h2 class="text-3xl font-black mb-4 uppercase tracking-widest">Symbol Decrypter</h2>
+      <div class="space-y-4 mb-8 text-slate-300 text-left text-sm">
+        <p>To break the firewall, you must master the symbols. Remember your **Shift Rule**!</p>
+        <ul class="space-y-3">
+            <li class="flex gap-3 text-[#00ff41]"><span>⌨️</span> <b>Top Row:</b> ! @ # $ % ^ & * ( )</li>
+            <li class="flex gap-3 text-[#00ff41]"><span>⚓</span> <b>Punctuation:</b> : " < > ? { } |</li>
+            <li class="flex gap-3 text-[#00ff41]"><span>⚠️</span> NO mistakes allowed in the code.</li>
+        </ul>
+      </div>
+      <button onclick="startGame()" class="w-full bg-[#00ff41] text-black py-4 rounded-xl font-black text-xl hover:bg-emerald-400 transition-all">ACCESS CONSOLE</button>
+    </div>
+  </div>
+
+  <div class="w-full max-w-2xl border-2 border-[#00ff41] rounded-lg p-8 bg-black/50 shadow-[0_0_20px_rgba(0,255,65,0.1)]">
+    <div class="flex items-center gap-2 mb-6 border-b border-[#00ff41]/30 pb-4 text-xs opacity-70">
+        <span class="animate-pulse">●</span> SYSTEM STATUS: BREACHING...
+    </div>
+    
+    <div class="text-center py-12">
+        <div id="target-symbol" class="text-9xl font-bold glitch mb-6">!</div>
+        <div id="symbol-name" class="text-xs uppercase tracking-[0.5em] text-[#00ff41]/50 mb-8 underline">Exclamation Point</div>
+    </div>
+
+    <div class="flex justify-between items-end text-[10px] font-bold uppercase opacity-50">
+        <div>Progress: <span id="count">0</span> / 15</div>
+        <div id="hint-text">Hold Shift + 1</div>
+    </div>
+  </div>
+
+  <div id="success-modal" class="hidden fixed inset-0 bg-black/98 flex items-center justify-center z-50 p-6 text-center">
+    <div class="bg-slate-900 p-12 rounded-[3rem] max-w-sm border-2 border-[#00ff41]">
+        <div class="text-7xl mb-4">🔓</div>
+        <h2 class="text-3xl font-black mb-2 uppercase">Firewall Broken</h2>
+        <p class="text-slate-400 mb-8">Your command of symbols is elite. You have unlocked the Common Word algorithms.</p>
+        <button onclick="window.location.href='keyboard-practice.html?unlocked=8'" class="w-full bg-[#00ff41] text-black py-4 rounded-xl font-bold text-xl uppercase tracking-tighter">Enter Year 8</button>
+    </div>
+  </div>
+
+  <script>
+    const symbolDict = [
+        { char: '!', name: 'Exclamation Point', hint: 'Shift + 1' },
+        { char: '@', name: 'At Sign', hint: 'Shift + 2' },
+        { char: '#', name: 'Hashtag', hint: 'Shift + 3' },
+        { char: '$', name: 'Dollar Sign', hint: 'Shift + 4' },
+        { char: '%', name: 'Percent', hint: 'Shift + 5' },
+        { char: '&', name: 'Ampersand', hint: 'Shift + 7' },
+        { char: '*', name: 'Asterisk', hint: 'Shift + 8' },
+        { char: ':', name: 'Colon', hint: 'Shift + ;' },
+        { char: '?', name: 'Question Mark', hint: 'Shift + /' },
+        { char: '"', name: 'Double Quote', hint: "Shift + '" }
+    ];
+
+    let current = null;
+    let score = 0;
+
+    function startGame() {
+        document.getElementById('diy-manual').remove();
+        nextSymbol();
+        
+        window.addEventListener('keydown', (e) => {
+            if (e.key === current.char) {
+                score++;
+                document.getElementById('count').innerText = score;
+                if (score >= 15) {
+                    document.getElementById('success-modal').classList.remove('hidden');
+                } else {
+                    nextSymbol();
+                }
+            }
+        });
+    }
+
+    function nextSymbol() {
+        current = symbolDict[Math.floor(Math.random() * symbolDict.length)];
+        document.getElementById('target-symbol').innerText = current.char;
+        document.getElementById('symbol-name').innerText = current.name;
+        document.getElementById('hint-text').innerText = `Hold ${current.hint}`;
+    }
+  </script>
+</body>
+</html>
