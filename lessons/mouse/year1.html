@@ -2,6 +2,134 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <title>Year 1: Balloon Pop | SmartKids</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    #game-canvas { cursor: crosshair; touch-action: none; }
+    .balloon { position: absolute; transition: transform 0.1s linear; cursor: pointer; user-select: none; }
+    
+    /* Modern Feedback Overlay Animation */
+    @keyframes slideUp {
+      0% { transform: translateY(100%); opacity: 0; }
+      10% { transform: translateY(0); opacity: 1; }
+      90% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(100%); opacity: 0; }
+    }
+    .feedback-overlay { animation: slideUp 2s forwards; }
+  </style>
+</head>
+<body class="bg-slate-900 min-h-screen overflow-hidden font-sans">
+
+  <div id="diy-manual" class="fixed inset-0 bg-slate-900/90 backdrop-blur-md z-[100] flex items-center justify-center p-6">
+    <div class="bg-white max-w-md rounded-[3rem] p-10 shadow-2xl border-4 border-amber-400">
+      <div class="text-4xl mb-4">🎈</div>
+      <h2 class="text-3xl font-black mb-4 text-slate-800">Mission: Accuracy</h2>
+      <div class="space-y-3 mb-8 text-slate-600">
+        <p class="font-bold">How to Play:</p>
+        <ul class="list-disc pl-5 space-y-2">
+            <li>Use your <b>Index Finger</b> on the <b>Left Button</b>.</li>
+            <li>Click the center of the balloons to pop them.</li>
+            <li>Pop 10 balloons to complete Year 1!</li>
+        </ul>
+      </div>
+      <button onclick="startGame()" class="w-full bg-amber-500 text-white py-4 rounded-2xl font-bold text-xl hover:scale-105 transition-all">Start Popping!</button>
+    </div>
+  </div>
+
+  <div class="absolute top-6 left-6 z-10 flex gap-4">
+    <div class="bg-white/10 backdrop-blur-md border border-white/20 px-6 py-2 rounded-2xl text-white font-black">
+      POPS: <span id="score" class="text-amber-400">0</span> / 10
+    </div>
+  </div>
+
+  <div id="game-canvas" class="w-full h-screen relative">
+    </div>
+
+  <div id="feedback-container" class="fixed inset-x-0 bottom-10 flex justify-center pointer-events-none z-50"></div>
+
+  <div id="success-modal" class="hidden fixed inset-0 bg-slate-900/95 flex items-center justify-center z-50 p-6 text-center">
+    <div class="bg-white p-12 rounded-[3.5rem] max-w-sm border-b-8 border-amber-400">
+        <div class="text-7xl mb-4">🎈✨</div>
+        <h2 class="text-3xl font-black mb-2 text-slate-800">Precision Master!</h2>
+        <p class="text-slate-500 mb-8">Your index finger is getting fast! You've unlocked Year 2.</p>
+        <button onclick="window.location.href='mouse-practice.html?unlocked=2'" class="w-full bg-amber-500 text-white py-4 rounded-2xl font-bold">Return to Roadmap</button>
+    </div>
+  </div>
+
+  <script>
+    let score = 0;
+    const canvas = document.getElementById('game-canvas');
+    const colors = ['#f59e0b', '#3b82f6', '#ef4444', '#10b981', '#8b5cf6'];
+
+    function startGame() {
+        document.getElementById('diy-manual').remove();
+        spawnBalloon();
+    }
+
+    function spawnBalloon() {
+        if (score >= 10) return;
+
+        const balloon = document.createElement('div');
+        balloon.className = 'balloon text-6xl';
+        balloon.innerHTML = '🎈';
+        balloon.style.left = Math.random() * 80 + 10 + '%';
+        balloon.style.top = '100%';
+        balloon.style.color = colors[Math.floor(Math.random() * colors.length)];
+        
+        canvas.appendChild(balloon);
+
+        let pos = 100;
+        const speed = 0.3 + (score * 0.05); // Gets faster as you progress
+        
+        const moveInterval = setInterval(() => {
+            pos -= speed;
+            balloon.style.top = pos + '%';
+            
+            if (pos < -10) {
+                clearInterval(moveInterval);
+                balloon.remove();
+                spawnBalloon(); // Respawn if missed
+            }
+        }, 10);
+
+        balloon.onclick = () => {
+            clearInterval(moveInterval);
+            balloon.innerHTML = '💥';
+            score++;
+            document.getElementById('score').innerText = score;
+            showFeedback("🎯 Nice Shot!", true);
+            
+            setTimeout(() => {
+                balloon.remove();
+                if (score < 10) {
+                    spawnBalloon();
+                } else {
+                    document.getElementById('success-modal').classList.remove('hidden');
+                }
+            }, 300);
+        };
+    }
+
+    function showFeedback(text, isSuccess) {
+        const container = document.getElementById('feedback-container');
+        container.innerHTML = '';
+        const div = document.createElement('div');
+        div.className = `feedback-overlay px-8 py-3 rounded-full text-white font-bold bg-amber-500 shadow-xl`;
+        div.innerHTML = text;
+        container.appendChild(div);
+    }
+  </script>
+</body>
+</html>
+
+
+
+
+
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Year 1: Mouse Basics | SmartKids Learning</title>
   <script src="https://cdn.tailwindcss.com"></script>
