@@ -5,6 +5,156 @@
   <title>Year 1: Browser Pilot | SmartKids</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
+    .browser-frame { border: 12px solid #e2e8f0; border-radius: 3rem 3rem 0 0; }
+    .island-view { height: 400px; transition: background-color 1s ease; }
+    
+    @keyframes slideUp {
+      0% { transform: translateY(100%); opacity: 0; }
+      10% { transform: translateY(0); opacity: 1; }
+      90% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(100%); opacity: 0; }
+    }
+    .feedback-overlay { animation: slideUp 3.5s forwards; }
+    .cloud { animation: float 6s infinite ease-in-out; }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+  </style>
+</head>
+<body class="bg-sky-50 min-h-screen p-8 font-sans overflow-x-hidden">
+
+  <div id="diy-manual" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-[100] flex items-center justify-center p-6">
+    <div class="bg-white max-w-md rounded-[3rem] p-10 shadow-2xl border-4 border-sky-400">
+      <div class="text-4xl mb-4">✈️</div>
+      <h2 class="text-3xl font-black mb-4 text-slate-800">How To: Pilot</h2>
+      <ul class="text-slate-600 space-y-4 mb-8 font-medium">
+        <li class="flex gap-3"><span>📍</span> <b>Check</b> the Mission at the top for the address.</li>
+        <li class="flex gap-3"><span>⌨️</span> <b>Type</b> the URL exactly into the address bar.</li>
+        <li class="flex gap-3"><span>🏁</span> <b>Press Enter</b> or click "Fly" to travel.</li>
+        <li class="flex gap-3"><span>💡</span> <b>Hint:</b> Every address needs a <b>www.</b> and a <b>.com</b> (or .net)!</li>
+      </ul>
+      <button onclick="document.getElementById('diy-manual').remove()" class="w-full bg-sky-500 text-white py-4 rounded-2xl font-bold text-xl hover:bg-sky-600">Got it, Captain!</button>
+    </div>
+  </div>
+
+  <div class="max-w-5xl mx-auto">
+    <div class="bg-white p-6 rounded-[2.5rem] mb-6 flex items-center justify-between shadow-sm border border-slate-200">
+      <div>
+        <p class="text-[10px] font-black text-sky-500 uppercase tracking-widest">Current Flight Path:</p>
+        <h2 id="missionTitle" class="text-2xl font-black text-slate-800 tracking-tight">Destination: <span class="text-sky-500" id="targetURL">www.island.com</span></h2>
+      </div>
+      <div class="bg-sky-50 px-6 py-2 rounded-2xl border border-sky-100">
+        <p id="progress" class="text-2xl font-black text-sky-600">0 / 3</p>
+      </div>
+    </div>
+
+    <div class="browser-frame bg-white shadow-2xl overflow-hidden border-b-0">
+      <div class="bg-slate-100 p-4 border-b">
+        <div class="flex items-center gap-3 bg-white border-2 border-slate-300 rounded-full px-5 py-2">
+          <span class="text-slate-400">🔒</span>
+          <input type="text" id="urlInput" placeholder="Enter web address..." 
+                 class="bg-transparent w-full outline-none font-mono text-slate-600 font-bold tracking-tight">
+          <button onclick="navigate()" class="bg-sky-500 text-white px-8 py-1 rounded-full font-bold hover:bg-sky-600 transition-colors">FLY</button>
+        </div>
+      </div>
+
+      <div id="viewport" class="island-view bg-sky-200 flex items-center justify-center relative">
+        <div id="content" class="text-center z-10">
+            <div class="text-[100px] cloud mb-4">🚀</div>
+            <p class="text-sky-800 font-black text-2xl uppercase tracking-tighter">Enter URL to Take Off</p>
+        </div>
+        <div class="absolute top-10 left-10 text-white text-5xl opacity-40 cloud">☁️</div>
+        <div class="absolute bottom-10 right-20 text-white text-6xl opacity-40 cloud" style="animation-delay: 3s;">☁️</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="feedback-container" class="fixed inset-x-0 bottom-10 flex justify-center pointer-events-none z-50"></div>
+
+  <div id="success-modal" class="hidden fixed inset-0 bg-slate-900/90 flex items-center justify-center z-50 p-6">
+    <div class="bg-white p-12 rounded-[3.5rem] text-center max-w-sm">
+        <div class="text-7xl mb-4">🌍</div>
+        <h2 class="text-3xl font-black mb-2 text-slate-800">Global Navigator!</h2>
+        <p class="text-slate-500 mb-8">You can now navigate the world using digital addresses.</p>
+        <button onclick="window.location.href='year2.html'" class="w-full bg-sky-500 text-white py-4 rounded-2xl font-bold">Year 2: Search Scout</button>
+    </div>
+  </div>
+
+  <script>
+    const destinations = [
+        { url: "www.island.com", icon: "🏝️", color: "#7dd3fc", name: "Sunny Island", feedback: "✨ <b>Land ho!</b> You reached the Island safely." },
+        { url: "www.mountain.net", icon: "🏔️", color: "#cbd5e1", name: "Snowy Peaks", feedback: "✨ <b>Brrr!</b> Welcome to the .net mountains!" },
+        { url: "www.jungle.org", icon: "🌴", color: "#86efac", name: "Deep Jungle", feedback: "✨ <b>Wild!</b> You found the .org jungle." }
+    ];
+
+    let currentStep = 0;
+
+    function navigate() {
+        const input = document.getElementById('urlInput').value.toLowerCase().trim();
+        const target = destinations[currentStep].url;
+
+        if (input === target) {
+            showFeedback(destinations[currentStep].feedback, true);
+            currentStep++;
+            updateDisplay();
+        } else {
+            analyzeError(input);
+        }
+    }
+
+    function analyzeError(input) {
+        let msg = "❌ <b>Wrong Way!</b> Check the address again.";
+        if (!input.startsWith("www.")) msg = "📍 <b>Hint:</b> Web addresses usually start with <b>www.</b>";
+        else if (!input.includes(".")) msg = "📍 <b>Hint:</b> Don't forget the <b>.com</b> or <b>.net</b> at the end!";
+        else if (input !== destinations[currentStep].url) msg = "⌨️ <b>Typo!</b> Make sure the spelling is perfect.";
+        
+        showFeedback(msg, false);
+    }
+
+    function showFeedback(text, isSuccess) {
+        const container = document.getElementById('feedback-container');
+        container.innerHTML = '';
+        const overlay = document.createElement('div');
+        overlay.className = `feedback-overlay px-8 py-4 rounded-full shadow-2xl text-white font-bold text-lg flex items-center gap-3 ${isSuccess ? 'bg-green-500' : 'bg-slate-800'}`;
+        overlay.innerHTML = `<span>${isSuccess ? '🛰️' : '⚠️'}</span> ${text}`;
+        container.appendChild(overlay);
+        setTimeout(() => overlay.remove(), 3500);
+    }
+
+    function updateDisplay() {
+        const data = destinations[currentStep - 1];
+        const viewport = document.getElementById('viewport');
+        const content = document.getElementById('content');
+        
+        viewport.style.backgroundColor = data.color;
+        content.innerHTML = `
+            <div class="text-[120px] animate-bounce mb-4">${data.icon}</div>
+            <p class="text-white font-black text-4xl drop-shadow-lg uppercase tracking-widest">${data.name}</p>
+        `;
+        document.getElementById('progress').innerText = `${currentStep} / ${destinations.length}`;
+        document.getElementById('urlInput').value = "";
+
+        if (currentStep < destinations.length) {
+            document.getElementById('targetURL').innerText = destinations[currentStep].url;
+        } else {
+            setTimeout(() => document.getElementById('success-modal').classList.remove('hidden'), 2000);
+        }
+    }
+
+    document.getElementById('urlInput').onkeypress = (e) => { if(e.key === 'Enter') navigate(); };
+  </script>
+</body>
+</html>
+
+
+
+
+
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Year 1: Browser Pilot | SmartKids</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
     .browser-chrome { border: 12px solid #cbd5e1; border-radius: 2rem 2rem 0 0; }
     .url-bar { background: #f1f5f9; border: 2px solid #94a3b8; }
     .island-view { height: 400px; transition: all 1s ease-in-out; }
