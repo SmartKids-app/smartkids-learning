@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Year 6: Shift Rule | SmartKids</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .mirror-box { perspective: 1000px; }
+    .card-inner { transition: transform 0.6s; transform-style: preserve-3d; }
+    .side-label { writing-mode: vertical-rl; text-orientation: mixed; }
+    
+    @keyframes pulse-red { 0%, 100% { background: #fee2e2; } 50% { background: #fecaca; } }
+    @keyframes pulse-blue { 0%, 100% { background: #e0f2fe; } 50% { background: #bae6fd; } }
+    .active-left { animation: pulse-red 1s infinite; }
+    .active-right { animation: pulse-blue 1s infinite; }
+  </style>
+</head>
+<body class="bg-slate-50 min-h-screen flex flex-col items-center justify-center font-sans p-6 overflow-hidden">
+
+  <div id="diy-manual" class="fixed inset-0 bg-slate-900/95 backdrop-blur-md z-[100] flex items-center justify-center p-6">
+    <div class="bg-white max-w-md rounded-[3rem] p-10 shadow-2xl border-4 border-indigo-500">
+      <div class="text-6xl mb-4 text-center">🪞</div>
+      <h2 class="text-3xl font-black mb-4 text-slate-800 text-center">The Opposite Rule</h2>
+      <div class="space-y-4 mb-8 text-slate-600">
+        <p class="font-bold text-indigo-600 italic">"Never let your hands fight!"</p>
+        <ul class="space-y-3 font-medium">
+            <li class="flex gap-3"><span>👈</span> <b>Left-side letter?</b> Hold the RIGHT Shift.</li>
+            <li class="flex gap-3"><span>👉</span> <b>Right-side letter?</b> Hold the LEFT Shift.</li>
+            <li class="flex gap-3"><span>🚫</span> Caps Lock is forbidden in this kingdom!</li>
+        </ul>
+      </div>
+      <button onclick="startGame()" class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-bold text-xl hover:scale-105 transition-all">I Promise to Mirror</button>
+    </div>
+  </div>
+
+  <div class="flex gap-8 items-center">
+    <div id="zone-left" class="w-24 h-64 bg-slate-200 rounded-3xl flex items-center justify-center border-4 border-transparent transition-all">
+        <span class="side-label font-black text-slate-400 uppercase tracking-widest">Left Shift</span>
+    </div>
+
+    <div class="text-center">
+        <div id="target-display" class="text-9xl font-black text-slate-800 mb-4 transition-all uppercase">A</div>
+        <div id="instruction" class="text-indigo-500 font-bold uppercase tracking-widest text-sm">Hold Right Shift + A</div>
+    </div>
+
+    <div id="zone-right" class="w-24 h-64 bg-slate-200 rounded-3xl flex items-center justify-center border-4 border-transparent transition-all">
+        <span class="side-label font-black text-slate-400 uppercase tracking-widest">Right Shift</span>
+    </div>
+  </div>
+
+  <div class="mt-12 text-slate-400 font-black">Successes: <span id="count">0</span> / 12</div>
+
+  <div id="success-modal" class="hidden fixed inset-0 bg-slate-900/98 flex items-center justify-center z-50 p-6 text-center">
+    <div class="bg-white p-12 rounded-[3.5rem] max-w-sm border-b-8 border-indigo-600">
+        <div class="text-7xl mb-4">🧘‍♂️</div>
+        <h2 class="text-3xl font-black mb-2 text-slate-800">Perfect Harmony!</h2>
+        <p class="text-slate-500 mb-8">You've mastered the mirror movement. You're typing like a professional.</p>
+        <button onclick="window.location.href='keyboard-practice.html?unlocked=7'" class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-bold text-xl">Continue Journey</button>
+    </div>
+  </div>
+
+  <script>
+    const leftLetters = ['Q','W','E','R','T','A','S','D','F','G','Z','X','C','V'];
+    const rightLetters = ['Y','U','I','O','P','H','J','K','L','N','M'];
+    
+    let currentLetter = '';
+    let needsRightShift = false;
+    let score = 0;
+
+    function startGame() {
+        document.getElementById('diy-manual').remove();
+        nextRound();
+        
+        window.addEventListener('keydown', (e) => {
+            const key = e.key.toUpperCase();
+            if(key === 'SHIFT') return; // Wait for the letter
+
+            const leftShiftActive = e.getModifierState('Shift') && e.code === 'ShiftLeft';
+            const rightShiftActive = e.getModifierState('Shift') && e.code === 'ShiftRight';
+
+            if (key === currentLetter) {
+                if ((needsRightShift && rightShiftActive) || (!needsRightShift && leftShiftActive)) {
+                    score++;
+                    document.getElementById('count').innerText = score;
+                    if(score >= 12) {
+                        document.getElementById('success-modal').classList.remove('hidden');
+                    } else {
+                        nextRound();
+                    }
+                } else {
+                    showError();
+                }
+            }
+        });
+    }
+
+    function nextRound() {
+        // Pick random side
+        needsRightShift = Math.random() > 0.5;
+        const list = needsRightShift ? leftLetters : rightLetters;
+        currentLetter = list[Math.floor(Math.random() * list.length)];
+        
+        document.getElementById('target-display').innerText = currentLetter;
+        document.getElementById('instruction').innerText = needsRightShift ? `Hold RIGHT SHIFT + ${currentLetter}` : `Hold LEFT SHIFT + ${currentLetter}`;
+        
+        // Highlight the correct zone
+        document.getElementById('zone-left').className = (!needsRightShift ? 'w-24 h-64 bg-blue-50 rounded-3xl flex items-center justify-center border-4 border-blue-400 active-right' : 'w-24 h-64 bg-slate-100 rounded-3xl flex items-center justify-center');
+        document.getElementById('zone-right').className = (needsRightShift ? 'w-24 h-64 bg-red-50 rounded-3xl flex items-center justify-center border-4 border-red-400 active-left' : 'w-24 h-64 bg-slate-100 rounded-3xl flex items-center justify-center');
+    }
+
+    function showError() {
+        const target = document.getElementById('target-display');
+        target.classList.add('text-red-500', 'animate-shake');
+        setTimeout(() => target.classList.remove('text-red-500', 'animate-shake'), 500);
+    }
+  </script>
+</body>
+</html>
