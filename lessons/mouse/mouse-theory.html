@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mouse Mastery | SmartKids</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .locked { opacity: 0.5; pointer-events: none; filter: grayscale(1); }
+    .unlocked-pulse { border-color: #fbbf24 !important; animation: pulse-border 2s infinite; }
+    @keyframes pulse-border {
+      0% { border-color: #fbbf24; }
+      50% { border-color: #fef3c7; }
+      100% { border-color: #fbbf24; }
+    }
+  </style>
+</head>
+<body class="bg-amber-50 min-h-screen p-8 md:p-12 font-sans">
+
+  <div class="max-w-5xl mx-auto">
+    <a href="../../lessons.html" class="inline-flex items-center gap-2 text-amber-600 font-bold mb-8 hover:underline">
+      <span>🏠</span> Back to All Lessons
+    </a>
+
+    <header class="bg-white p-10 rounded-[3rem] shadow-xl border-b-8 border-amber-200 mb-12">
+      <div class="flex flex-col md:flex-row gap-10 items-center">
+        <div class="flex-1">
+          <span class="bg-amber-100 text-amber-600 px-4 py-1 rounded-full text-xs font-black uppercase tracking-widest">Module 1: Mouse Skills</span>
+          <h1 class="text-4xl font-black text-slate-800 mt-4 mb-6">The Magic of the Mouse 🖱️</h1>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-slate-600 text-lg leading-relaxed">
+            <div class="bg-white p-4 rounded-2xl border-2 border-slate-100">
+               <b class="text-amber-600">Left Click:</b> The "Do It" button. Use this to select items and open apps.
+            </div>
+            <div class="bg-white p-4 rounded-2xl border-2 border-slate-100">
+               <b class="text-amber-600">Right Click:</b> The "Secret Menu." It shows you extra options you can't see!
+            </div>
+            <div class="bg-white p-4 rounded-2xl border-2 border-slate-100">
+               <b class="text-amber-600">Scroll Wheel:</b> The "Elevator." Use it to move up and down long pages.
+            </div>
+             <div class="bg-white p-4 rounded-2xl border-2 border-slate-100">
+               <b class="text-amber-600">Drag & Drop:</b> The "Grabber." Pick up an item and move it to a new home.
+            </div>
+          </div>
+        </div>
+        <div class="w-56 h-56 bg-amber-100 rounded-full flex items-center justify-center text-[100px] shadow-inner">
+          🖱️
+        </div>
+      </div>
+    </header>
+
+    <h2 class="text-2xl font-black text-slate-800 mb-6 flex items-center gap-3">
+      <span>🎯</span> Training Missions:
+    </h2>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      <div id="card-1" class="bg-white p-8 rounded-[2.5rem] shadow-md border-4 border-amber-200 flex flex-col">
+        <div class="text-4xl mb-4">🎈</div>
+        <h3 class="text-xl font-black text-slate-800 mb-2">Year 1: Clicker</h3>
+        <p class="text-slate-500 text-sm mb-8 flex-grow">Practice clicking moving targets to build your speed and accuracy.</p>
+        <a href="year1.html" class="block text-center bg-amber-500 text-white py-4 rounded-2xl font-bold hover:bg-amber-600">Start Mission</a>
+      </div>
+
+      <div id="card-2" class="locked bg-white p-8 rounded-[2.5rem] shadow-md border-4 border-transparent flex flex-col">
+        <div class="text-4xl mb-4" id="icon-2">🔒</div>
+        <h3 class="text-xl font-black text-slate-800 mb-2">Year 2: Scroller</h3>
+        <p class="text-slate-500 text-sm mb-8 flex-grow">Use the scroll wheel to navigate a deep-sea race track.</p>
+        <a href="year2.html" class="block text-center bg-amber-600 text-white py-4 rounded-2xl font-bold">Locked</a>
+      </div>
+
+      <div id="card-3" class="locked bg-white p-8 rounded-[2.5rem] shadow-md border-4 border-transparent flex flex-col">
+        <div class="text-4xl mb-4" id="icon-3">🔒</div>
+        <h3 class="text-xl font-black text-slate-800 mb-2">Year 3: Pro</h3>
+        <p class="text-slate-500 text-sm mb-8 flex-grow">Master Right-Click menus and Drag & Drop file moves.</p>
+        <a href="year3.html" class="block text-center bg-amber-700 text-white py-4 rounded-2xl font-bold">Locked</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const unlockLevel = urlParams.get('unlocked');
+
+    if (unlockLevel === '2') {
+        unlock(2, '🌊', 'Start Racing');
+    } else if (unlockLevel === '3') {
+        unlock(2, '🌊', 'Completed');
+        unlock(3, '🖱️', 'Start Pro');
+    }
+
+    function unlock(level, icon, btnText) {
+        const card = document.getElementById(`card-${level}`);
+        const btn = card.querySelector('a');
+        const iconEl = document.getElementById(`icon-${level}`);
+
+        card.classList.remove('locked');
+        card.classList.add('unlocked-pulse');
+        iconEl.innerText = icon;
+        btn.innerText = btnText;
+    }
+  </script>
+</body>
+</html>
