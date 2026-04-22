@@ -2,6 +2,138 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <title>Year 1: URL Pilot | SmartKids</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .sky-bg { background: linear-gradient(to bottom, #0ea5e9, #bae6fd); }
+    .plane-shadow { filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2)); }
+    .input-glow:focus { box-shadow: 0 0 20px rgba(14, 165, 233, 0.5); border-color: #0ea5e9; }
+    .cloud { animation: float 10s linear infinite; opacity: 0.8; }
+    @keyframes float { from { transform: translateX(110vw); } to { transform: translateX(-20vw); } }
+  </style>
+</head>
+<body class="sky-bg min-h-screen overflow-hidden font-sans p-6">
+
+  <div class="absolute top-20 text-white text-6xl cloud" style="animation-duration: 15s;">☁️</div>
+  <div class="absolute top-60 text-white text-8xl cloud" style="animation-duration: 25s; animation-delay: 2s;">☁️</div>
+
+  <div class="max-w-4xl mx-auto relative z-10">
+    <div class="bg-white/90 backdrop-blur p-6 rounded-[2rem] shadow-2xl flex justify-between items-center mb-12 border-b-4 border-sky-600">
+      <div>
+        <h1 class="text-3xl font-black text-slate-800 tracking-tighter">URL_PILOT v1.0</h1>
+        <p class="text-sky-600 font-bold text-xs uppercase">Mission: Perfect Pathfinding</p>
+      </div>
+      <div class="text-right">
+        <span id="score" class="text-2xl font-black text-slate-800">0/3</span>
+        <p class="text-[10px] text-slate-400 font-bold">DELIVERIES</p>
+      </div>
+    </div>
+
+    <div class="flex flex-col items-center">
+        <div id="plane" class="text-8xl mb-12 plane-shadow transition-transform duration-500">✈️</div>
+
+        <div class="w-full bg-slate-900 p-10 rounded-[3rem] shadow-2xl border-4 border-slate-800">
+            <p class="text-sky-400 font-mono text-sm mb-4 uppercase tracking-widest text-center">Enter destination URL exactly as shown:</p>
+            
+            <div id="target-url" class="text-white text-3xl font-mono text-center mb-8 bg-black/40 py-4 rounded-xl border border-white/10 tracking-wider">
+                https://www.nasa.gov
+            </div>
+
+            <div class="relative max-w-xl mx-auto">
+                <input type="text" id="url-input" autocomplete="off" placeholder="type here..." 
+                       class="w-full p-5 rounded-2xl bg-white text-2xl font-mono text-slate-800 border-4 border-slate-200 outline-none input-glow">
+                <div id="error-shake" class="hidden absolute -bottom-8 left-0 right-0 text-center text-rose-400 font-bold text-sm">⚠️ DOTS AND SLASHES MATTER!</div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <div id="success-modal" class="hidden fixed inset-0 bg-slate-900/90 backdrop-blur-md z-50 flex items-center justify-center p-6">
+    <div class="bg-white p-12 rounded-[4rem] max-w-sm text-center border-b-[12px] border-sky-500">
+        <div class="text-7xl mb-6">🏆</div>
+        <h2 class="text-3xl font-black text-slate-800 mb-4">Pilot Certified!</h2>
+        <p class="text-slate-500 mb-8">You navigated the web with 100% accuracy. Year 2 is now open for scouting!</p>
+        <button onclick="window.location.href='email-basics.html?unlocked=2'" class="w-full bg-sky-500 text-white py-5 rounded-2xl font-black text-xl hover:bg-sky-400">UNLOCK YEAR 2</button>
+    </div>
+  </div>
+
+  <script>
+    const missions = [
+        "https://www.nasa.gov",
+        "https://kids.nationalgeographic.com",
+        "https://www.lego.com/en-us"
+    ];
+
+    let currentMission = 0;
+    const input = document.getElementById('url-input');
+    const target = document.getElementById('target-url');
+    const plane = document.getElementById('plane');
+    const scoreDisplay = document.getElementById('score');
+
+    input.focus();
+
+    input.addEventListener('input', (e) => {
+        const value = e.target.value;
+        const currentTarget = missions[currentMission];
+
+        // Check for match
+        if (value === currentTarget) {
+            completeMission();
+        } 
+        // Visual feedback for errors
+        else if (!currentTarget.startsWith(value)) {
+            showError();
+        } else {
+            hideError();
+        }
+    });
+
+    function completeMission() {
+        currentMission++;
+        scoreDisplay.innerText = `${currentMission}/3`;
+        
+        // Plane Animation
+        plane.style.transform = "translateX(500px) translateY(-100px) rotate(-20deg)";
+        plane.style.opacity = "0";
+
+        setTimeout(() => {
+            if (currentMission >= missions.length) {
+                document.getElementById('success-modal').classList.remove('hidden');
+            } else {
+                // Reset plane and set next mission
+                input.value = "";
+                target.innerText = missions[currentMission];
+                plane.style.transform = "translateX(-500px) translateY(0) rotate(0deg)";
+                setTimeout(() => {
+                    plane.style.transform = "translateX(0)";
+                    plane.style.opacity = "1";
+                    input.focus();
+                }, 100);
+            }
+        }, 600);
+    }
+
+    function showError() {
+        input.classList.add('border-rose-400', 'animate-shake');
+        document.getElementById('error-shake').classList.remove('hidden');
+    }
+
+    function hideError() {
+        input.classList.remove('border-rose-400', 'animate-shake');
+        document.getElementById('error-shake').classList.add('hidden');
+    }
+  </script>
+</body>
+</html>
+
+
+
+
+
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
   <title>Year 1: Browser Pilot | SmartKids</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
@@ -148,117 +280,4 @@
 
 
 
-<!--<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Year 1: Browser Pilot | SmartKids</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    .browser-chrome { border: 12px solid #cbd5e1; border-radius: 2rem 2rem 0 0; }
-    .url-bar { background: #f1f5f9; border: 2px solid #94a3b8; }
-    .island-view { height: 400px; transition: all 1s ease-in-out; }
-    .cloud { animation: float 6s infinite ease-in-out; }
-    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
-  </style>
-</head>
-<body class="bg-sky-100 min-h-screen p-8 font-sans overflow-hidden">
 
-  <div class="max-w-5xl mx-auto">
-    <div class="bg-white/80 backdrop-blur-md p-4 rounded-3xl mb-6 flex items-center justify-between shadow-sm border border-white">
-      <div>
-        <p class="text-xs font-black text-sky-600 uppercase tracking-widest">Pilot Mission:</p>
-        <h2 id="missionTitle" class="text-2xl font-black text-slate-800">Fly to: <span class="text-blue-600">www.island.com</span></h2>
-      </div>
-      <div class="text-right">
-        <p class="text-xs font-bold text-slate-400">ISLANDS DISCOVERED</p>
-        <p id="progress" class="text-xl font-black text-slate-700">0 / 3</p>
-      </div>
-    </div>
-
-    <div class="browser-chrome bg-white shadow-2xl overflow-hidden">
-      <div class="bg-slate-200 p-4 space-y-4">
-        <div class="flex gap-2">
-            <div class="w-20 h-8 bg-white rounded-t-lg"></div>
-            <div class="w-8 h-8 bg-slate-300 rounded-full flex items-center justify-center font-bold text-slate-500">+</div>
-        </div>
-        <div class="url-bar w-full p-3 rounded-full flex items-center gap-4">
-          <span class="text-slate-400">🔒</span>
-          <input type="text" id="urlInput" placeholder="Enter URL here..." 
-                 class="bg-transparent w-full outline-none font-mono text-slate-600 font-bold">
-          <button onclick="navigate()" class="bg-blue-600 text-white px-6 py-1 rounded-full font-bold hover:bg-blue-700">GO</button>
-        </div>
-      </div>
-
-      <div id="viewport" class="island-view bg-sky-300 flex items-center justify-center relative">
-        <div id="content" class="text-center z-10">
-            <div class="text-[120px] cloud mb-4">✈️</div>
-            <p class="text-white font-black text-3xl drop-shadow-lg">Ready for takeoff?</p>
-        </div>
-        <div class="absolute top-10 left-10 text-white text-5xl opacity-50 cloud">☁️</div>
-        <div class="absolute bottom-20 right-20 text-white text-6xl opacity-50 cloud" style="animation-delay: 2s;">☁️</div>
-      </div>
-    </div>
-  </div>
-
-  <div id="success-modal" class="hidden fixed inset-0 bg-slate-900/90 flex items-center justify-center z-50 p-6">
-    <div class="bg-white p-12 rounded-[3rem] text-center max-w-sm">
-        <div class="text-7xl mb-4">🏝️</div>
-        <h2 class="text-3xl font-black mb-2">Master Navigator!</h2>
-        <p class="text-slate-500 mb-8">You successfully navigated the web using three different URLs.</p>
-        <button onclick="window.location.href='year2.html'" class="w-full bg-blue-600 text-white py-4 rounded-2xl font-bold">Next Year: The Search Engine</button>
-    </div>
-  </div>
-
-  <script>
-    const missions = [
-        { url: "www.island.com", icon: "🏝️", color: "#7dd3fc", name: "Island Retreat" },
-        { url: "www.mountain.net", icon: "🏔️", color: "#94a3b8", name: "Snowy Peak" },
-        { url: "www.jungle.org", icon: "🌴", color: "#4ade80", name: "Monkey Jungle" }
-    ];
-
-    let currentMission = 0;
-
-    function navigate() {
-        const input = document.getElementById('urlInput').value.toLowerCase().trim();
-        const target = missions[currentMission].url;
-
-        if (input === target) {
-            currentMission++;
-            updateUI();
-            
-            if (currentMission === missions.length) {
-                setTimeout(() => {
-                    document.getElementById('success-modal').classList.remove('hidden');
-                }, 1000);
-            } else {
-                alert(`✅ Target reached! Next destination: ${missions[currentMission].url}`);
-                document.getElementById('urlInput').value = "";
-                document.getElementById('missionTitle').innerHTML = `Fly to: <span class="text-blue-600">${missions[currentMission].url}</span>`;
-            }
-        } else {
-            alert("❌ Incorrect URL! Check your spelling (e.g. www._____.com)");
-        }
-    }
-
-    function updateUI() {
-        const data = missions[currentMission - 1];
-        const viewport = document.getElementById('viewport');
-        const content = document.getElementById('content');
-        
-        // Visual transition
-        viewport.style.backgroundColor = data.color;
-        content.innerHTML = `
-            <div class="text-[120px] animate-bounce mb-4">${data.icon}</div>
-            <p class="text-white font-black text-4xl drop-shadow-lg">${data.name}</p>
-        `;
-        document.getElementById('progress').innerText = `${currentMission} / ${missions.length}`;
-    }
-
-    // Allow Enter key to submit
-    document.getElementById('urlInput').onkeypress = (e) => {
-        if(e.key === 'Enter') navigate();
-    };
-  </script>
-</body>
-</html>
