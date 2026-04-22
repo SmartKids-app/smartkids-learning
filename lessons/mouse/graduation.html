@@ -6,12 +6,27 @@
   <title>Graduation | SmartKids Mouse Mastery</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
+    /* Premium Certificate Border */
     .cert-border { 
-      border: 15px solid #1e293b; 
+      border: 12px solid #1e293b; 
       border-image: url("data:image/svg+xml,%3Csvg width='50' height='50' viewBox='0 0 50 50' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M25 0l5 15h15l-12 9 5 15-13-10-13 10 5-15-12-9h15z' fill='%23fbbf24'/%3E%3C/svg%3E") 30 stretch; 
     }
     .tab-active { border-bottom: 4px solid #f59e0b; color: #f59e0b; }
-    @media print { .no-print { display: none !important; } .print-only { display: block !important; } body { background: white; } }
+    
+    @media print { 
+      .no-print { display: none !important; } 
+      .print-only { display: block !important; } 
+      body { background: white; padding: 0; }
+      .cert-border { border: 15px solid #fbbf24 !important; } /* Simple solid gold for printers */
+      #cert-display { shadow: none !important; margin: 0; }
+    }
+
+    /* Smooth fading between sections */
+    .section-fade { animation: fadeIn 0.4s ease-out; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-900 font-sans min-h-screen">
@@ -19,146 +34,169 @@
   <div id="fail-overlay" class="hidden fixed inset-0 bg-slate-900/95 z-[100] flex-col items-center justify-center text-center p-6">
     <div class="text-6xl mb-4">✍️</div>
     <h2 class="text-3xl font-black text-white mb-2">Keep Practicing!</h2>
-    <p id="fail-score" class="text-red-400 font-mono text-xl mb-6"></p>
-    <p class="text-slate-400 max-w-md mb-8">You need at least 75% (8/10) to graduate. Review the summary and try again!</p>
-    <button onclick="restartQuiz()" class="bg-white text-slate-900 px-10 py-4 rounded-full font-bold hover:bg-amber-400 transition">Try Again</button>
+    <p id="fail-score" class="text-rose-400 font-mono text-xl mb-6 font-bold"></p>
+    <p class="text-slate-400 max-w-md mb-8 leading-relaxed">You need at least 80% to graduate and receive your certificate. Review the summary and try again!</p>
+    <button onclick="restartQuiz()" class="bg-amber-500 text-slate-900 px-12 py-4 rounded-full font-black hover:bg-amber-400 transition transform active:scale-95">Try Again</button>
   </div>
 
-  <nav class="no-print bg-slate-900 text-white sticky top-0 z-50">
-    <div class="max-w-4xl mx-auto flex justify-around font-bold text-[10px] sm:text-xs uppercase tracking-widest">
-        <button onclick="showSection('summary')" id="tab-summary" class="py-4 px-2 tab-active">1. Summary</button>
-        <button onclick="showSection('quiz')" id="tab-quiz" class="py-4 px-2">2. Assessment</button>
-        <button onclick="showSection('cert')" id="tab-cert" class="py-4 px-2 opacity-50 cursor-not-allowed" disabled>3. Certificate</button>
+  <nav class="no-print bg-slate-900 text-white sticky top-0 z-50 shadow-xl">
+    <div class="max-w-4xl mx-auto flex justify-around font-black text-[10px] sm:text-xs uppercase tracking-[0.2em]">
+        <button onclick="showSection('summary')" id="tab-summary" class="py-5 px-2 tab-active transition-all">1. Summary</button>
+        <button onclick="showSection('quiz')" id="tab-quiz" class="py-5 px-2 transition-all">2. Assessment</button>
+        <button onclick="showSection('cert')" id="tab-cert" class="py-5 px-2 opacity-30 cursor-not-allowed transition-all" disabled>3. Certificate</button>
     </div>
   </nav>
 
   <main class="max-w-4xl mx-auto py-12 px-6">
 
-    <section id="section-summary" class="space-y-8 animate-in fade-in duration-500">
+    <section id="section-summary" class="section-fade space-y-10">
         <header class="text-center">
-            <h1 class="text-4xl font-black">Course Summary 📋</h1>
-            <p class="text-slate-500 mt-2">The 12-Year Roadmap you have completed.</p>
+            <h1 class="text-5xl font-black tracking-tighter">Mission Recap 📋</h1>
+            <p class="text-slate-500 mt-3 text-lg">You've come a long way, Mouse Master.</p>
         </header>
-        <div class="grid md:grid-cols-2 gap-4">
-            <div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-blue-500">
-                <h4 class="font-bold">Foundation (Y1-4)</h4>
-                <p class="text-xs text-slate-500 mt-1">Single/Double Clicking, Drag & Drop, and Window Controls.</p>
+        <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-white p-8 rounded-3xl shadow-sm border-l-8 border-blue-500 hover:shadow-md transition-shadow">
+                <h4 class="font-black text-xl mb-2">Foundation</h4>
+                <p class="text-sm text-slate-500 leading-relaxed">Mastering the Click, Double-Click, and the "Elevator" Scroll Wheel. You learned how to dive deep into the ocean!</p>
             </div>
-            <div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-emerald-500">
-                <h4 class="font-bold">Productivity (Y5-8)</h4>
-                <p class="text-xs text-slate-500 mt-1">Context Menus, Copy/Paste, and Spreadsheet Navigation.</p>
+            <div class="bg-white p-8 rounded-3xl shadow-sm border-l-8 border-emerald-500 hover:shadow-md transition-shadow">
+                <h4 class="font-black text-xl mb-2">Productivity</h4>
+                <p class="text-sm text-slate-500 leading-relaxed">Handling Context Menus (Right Click) and the magic of Copy & Paste to save time.</p>
             </div>
-            <div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-purple-500">
-                <h4 class="font-bold">Advanced UI (Y9-11)</h4>
-                <p class="text-xs text-slate-500 mt-1">Tab Management, File Systems, and Metadata Search.</p>
+            <div class="bg-white p-8 rounded-3xl shadow-sm border-l-8 border-purple-500 hover:shadow-md transition-shadow">
+                <h4 class="font-black text-xl mb-2">Advanced UI</h4>
+                <p class="text-sm text-slate-500 leading-relaxed">Navigating complex systems, managing many Browser Tabs, and finding files with Metadata.</p>
             </div>
-            <div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-amber-500">
-                <h4 class="font-bold">Future Tech (Y12)</h4>
-                <p class="text-xs text-slate-500 mt-1">Web Inspection, AI Prompting, and Digital Logic.</p>
+            <div class="bg-white p-8 rounded-3xl shadow-sm border-l-8 border-amber-500 hover:shadow-md transition-shadow">
+                <h4 class="font-black text-xl mb-2">Future Tech</h4>
+                <p class="text-sm text-slate-500 leading-relaxed">Using Web Inspectors to see how the world is built and talking to AI with Prompts.</p>
             </div>
         </div>
-        <button onclick="showSection('quiz')" class="w-full py-4 bg-slate-900 text-white rounded-xl font-bold shadow-lg hover:bg-blue-700 transition">Proceed to Final Test →</button>
+        <button onclick="showSection('quiz')" class="w-full py-5 bg-slate-900 text-white rounded-2xl font-black text-xl shadow-2xl hover:bg-blue-700 transition transform hover:-translate-y-1">Start Final Assessment →</button>
     </section>
 
-    <section id="section-quiz" class="hidden space-y-6">
-        <h2 class="text-2xl font-black">Final Mastery Test 🧠</h2>
-        <form id="quiz-form" class="space-y-6">
-            <div class="bg-white p-6 rounded-xl border border-slate-200">
-                <p class="font-bold mb-3">1. Which click opens the "Secret" Context Menu?</p>
-                <div class="space-y-2">
-                    <label class="flex items-center gap-2 text-sm"><input type="radio" name="q1" value="wrong"> Left Click</label>
-                    <label class="flex items-center gap-2 text-sm"><input type="radio" name="q1" value="correct"> Right Click</label>
+    <section id="section-quiz" class="hidden section-fade space-y-8">
+        <div class="bg-indigo-50 p-6 rounded-2xl border-2 border-indigo-100 mb-8">
+            <h2 class="text-2xl font-black text-indigo-900">Mastery Assessment 🧠</h2>
+            <p class="text-indigo-700 text-sm">Select the correct answer for each. 8/10 required to graduate!</p>
+        </div>
+        
+        <form id="quiz-form" class="space-y-4">
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <p class="font-bold mb-4">1. Which click opens the "Secret" Context Menu?</p>
+                <div class="flex flex-col gap-3">
+                    <label class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 cursor-pointer border border-transparent hover:border-slate-200 transition"><input type="radio" name="q1" value="wrong" class="w-4 h-4"> Left Click</label>
+                    <label class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 cursor-pointer border border-transparent hover:border-slate-200 transition"><input type="radio" name="q1" value="correct" class="w-4 h-4"> Right Click</label>
                 </div>
             </div>
-            <div class="bg-white p-6 rounded-xl border border-slate-200">
-                <p class="font-bold mb-3">2. Moving a map view without moving the item is called:</p>
-                <div class="space-y-2">
-                    <label class="flex items-center gap-2 text-sm"><input type="radio" name="q2" value="correct"> Panning</label>
-                    <label class="flex items-center gap-2 text-sm"><input type="radio" name="q2" value="wrong"> Resizing</label>
-                </div>
-            </div>
-            <div class="bg-white p-6 rounded-xl border border-slate-200">
-                <p class="font-bold mb-3">3. What is "Metadata"?</p>
-                <div class="space-y-2">
-                    <label class="flex items-center gap-2 text-sm"><input type="radio" name="q3" value="wrong"> A computer virus</label>
-                    <label class="flex items-center gap-2 text-sm"><input type="radio" name="q3" value="correct"> Data about a file (size, date)</label>
-                </div>
-            </div>
-            <div class="bg-white p-6 rounded-xl border border-slate-200">
-                <p class="font-bold mb-3">4. To duplicate a file without re-typing, use:</p>
-                <div class="space-y-2">
-                    <label class="flex items-center gap-2 text-sm"><input type="radio" name="q4" value="correct"> Copy & Paste</label>
-                    <label class="flex items-center gap-2 text-sm"><input type="radio" name="q4" value="wrong"> Delete & Restart</label>
-                </div>
-            </div>
-            <div class="bg-white p-6 rounded-xl border border-slate-200">
-                <p class="font-bold mb-3">5. Which key helps navigate buttons without a mouse?</p>
-                <div class="space-y-2">
-                    <label class="flex items-center gap-2 text-sm"><input type="radio" name="q5" value="correct"> Tab Key</label>
-                    <label class="flex items-center gap-2 text-sm"><input type="radio" name="q5" value="wrong"> Escape Key</label>
-                </div>
-            </div>
-            <div class="bg-white p-6 rounded-xl border border-slate-200">
-                <p class="font-bold mb-3">6. A "Firewall" is used for:</p>
-                <div class="space-y-2">
-                    <label class="flex items-center gap-2 text-sm"><input type="radio" name="q6" value="correct"> Security and Protection</label>
-                    <label class="flex items-center gap-2 text-sm"><input type="radio" name="q6" value="wrong"> Making the internet faster</label>
-                </div>
-            </div>
-            <div class="bg-white p-6 rounded-xl border border-slate-200">
-                <p class="font-bold mb-3">7. What is an AI "Prompt"?</p>
-                <div class="space-y-2">
-                    <label class="flex items-center gap-2 text-sm"><input type="radio" name="q7" value="correct"> Instructions given to the AI</label>
-                    <label class="flex items-center gap-2 text-sm"><input type="radio" name="q7" value="wrong"> The AI's power cable</label>
-                </div>
-            </div>
-            <div class="bg-white p-6 rounded-xl border border-slate-200">
-                <p class="font-bold mb-3">8. To find text on a page quickly, use:</p>
-                <div class="space-y-2">
-                    <label class="flex items-center gap-2 text-sm"><input type="radio" name="q8" value="correct"> Ctrl + F (Find)</label>
-                    <label class="flex items-center gap-2 text-sm"><input type="radio" name="q8" value="wrong"> Clicking every word</label>
-                </div>
-            </div>
-          <div class="bg-white p-6 rounded-xl border border-slate-200">
-    <p class="font-bold mb-3">9. What does the "Zoom" tool (Scroll Wheel) allow you to do?</p>
-    <div class="space-y-2">
-        <label class="flex items-center gap-2 text-sm"><input type="radio" name="q9" value="correct"> See fine details by making the view larger</label>
-        <label class="flex items-center gap-2 text-sm"><input type="radio" name="q9" value="wrong"> Change the color of the screen</label>
-    </div>
-</div>
 
-<div class="bg-white p-6 rounded-xl border border-slate-200">
-    <p class="font-bold mb-3">10. In a Browser, what is a "Tab"?</p>
-    <div class="space-y-2">
-        <label class="flex items-center gap-2 text-sm"><input type="radio" name="q10" value="wrong"> A physical button on the side of the monitor</label>
-        <label class="flex items-center gap-2 text-sm"><input type="radio" name="q10" value="correct"> A way to keep multiple websites open in one window</label>
-    </div>
-</div>
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <p class="font-bold mb-4">2. Moving a map view without moving the item is called:</p>
+                <div class="flex flex-col gap-3">
+                    <label class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 cursor-pointer border border-transparent hover:border-slate-200 transition"><input type="radio" name="q2" value="correct"> Panning</label>
+                    <label class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 cursor-pointer border border-transparent hover:border-slate-200 transition"><input type="radio" name="q2" value="wrong"> Resizing</label>
+                </div>
+            </div>
 
-            <button type="button" onclick="submitQuiz()" class="w-full py-5 bg-blue-600 text-white rounded-xl font-black text-lg">SUBMIT ASSESSMENT</button>
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <p class="font-bold mb-4">3. What is "Metadata"?</p>
+                <div class="flex flex-col gap-3">
+                    <label class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 cursor-pointer border border-transparent hover:border-slate-200 transition"><input type="radio" name="q3" value="wrong"> A computer virus</label>
+                    <label class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 cursor-pointer border border-transparent hover:border-slate-200 transition"><input type="radio" name="q3" value="correct"> Data about a file (size, date)</label>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <p class="font-bold mb-4">4. To duplicate a file without re-typing, use:</p>
+                <div class="flex flex-col gap-3">
+                    <label class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 cursor-pointer border border-transparent hover:border-slate-200 transition"><input type="radio" name="q4" value="correct"> Copy & Paste</label>
+                    <label class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 cursor-pointer border border-transparent hover:border-slate-200 transition"><input type="radio" name="q4" value="wrong"> Delete & Restart</label>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <p class="font-bold mb-4">5. Which key helps navigate buttons without a mouse?</p>
+                <div class="flex flex-col gap-3">
+                    <label class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 cursor-pointer border border-transparent hover:border-slate-200 transition"><input type="radio" name="q5" value="correct"> Tab Key</label>
+                    <label class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 cursor-pointer border border-transparent hover:border-slate-200 transition"><input type="radio" name="q5" value="wrong"> Escape Key</label>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <p class="font-bold mb-4">6. A "Firewall" is used for:</p>
+                <div class="flex flex-col gap-3">
+                    <label class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 cursor-pointer border border-transparent hover:border-slate-200 transition"><input type="radio" name="q6" value="correct"> Security and Protection</label>
+                    <label class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 cursor-pointer border border-transparent hover:border-slate-200 transition"><input type="radio" name="q6" value="wrong"> Making the internet faster</label>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <p class="font-bold mb-4">7. What is an AI "Prompt"?</p>
+                <div class="flex flex-col gap-3">
+                    <label class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 cursor-pointer border border-transparent hover:border-slate-200 transition"><input type="radio" name="q7" value="correct"> Instructions given to the AI</label>
+                    <label class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 cursor-pointer border border-transparent hover:border-slate-200 transition"><input type="radio" name="q7" value="wrong"> The AI's power cable</label>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <p class="font-bold mb-4">8. To find text on a page quickly, use:</p>
+                <div class="flex flex-col gap-3">
+                    <label class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 cursor-pointer border border-transparent hover:border-slate-200 transition"><input type="radio" name="q8" value="correct"> Ctrl + F (Find)</label>
+                    <label class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 cursor-pointer border border-transparent hover:border-slate-200 transition"><input type="radio" name="q8" value="wrong"> Clicking every word</label>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <p class="font-bold mb-4">9. What does the "Zoom" tool (Scroll Wheel) allow you to do?</p>
+                <div class="flex flex-col gap-3">
+                    <label class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 cursor-pointer border border-transparent hover:border-slate-200 transition"><input type="radio" name="q9" value="correct"> See fine details by making the view larger</label>
+                    <label class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 cursor-pointer border border-transparent hover:border-slate-200 transition"><input type="radio" name="q9" value="wrong"> Change the color of the screen</label>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <p class="font-bold mb-4">10. In a Browser, what is a "Tab"?</p>
+                <div class="flex flex-col gap-3">
+                    <label class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 cursor-pointer border border-transparent hover:border-slate-200 transition"><input type="radio" name="q10" value="wrong"> A physical button on the side of the monitor</label>
+                    <label class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 cursor-pointer border border-transparent hover:border-slate-200 transition"><input type="radio" name="q10" value="correct"> A way to keep multiple websites open</label>
+                </div>
+            </div>
+
+            <button type="button" onclick="submitQuiz()" class="w-full py-6 bg-blue-600 text-white rounded-2xl font-black text-2xl shadow-xl hover:bg-emerald-600 transition transform hover:scale-[1.02]">SUBMIT MY TEST 🎓</button>
         </form>
     </section>
 
-    <section id="section-cert" class="hidden text-center">
-        <div class="no-print mb-8">
-            <h2 class="text-3xl font-black text-slate-800">You Passed! 🏆</h2>
-            <p class="text-slate-500 mt-2">Enter your name below to generate your award.</p>
-            <input type="text" id="certName" placeholder="Full Name" class="mt-6 p-4 border-2 rounded-xl w-64 text-center font-bold outline-none focus:border-amber-500">
-            <button onclick="printCert()" class="mt-4 sm:mt-0 sm:ml-2 bg-amber-500 text-white px-8 py-4 rounded-xl font-bold">Print Certificate</button>
+    <section id="section-cert" class="hidden section-fade text-center">
+        <div class="no-print mb-12">
+            <h2 class="text-4xl font-black text-slate-800">You Graduated! 🏆</h2>
+            <p class="text-slate-500 mt-2 text-lg">Enter your name and claim your reward.</p>
+            
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
+                <input type="text" id="certName" placeholder="Type Your Full Name" class="p-5 border-4 border-slate-200 rounded-2xl w-80 text-center font-black text-xl outline-none focus:border-amber-500 transition-all">
+                <button onclick="printCert()" class="bg-amber-500 text-white px-10 py-5 rounded-2xl font-black text-xl shadow-lg hover:bg-amber-600 transition transform hover:scale-105">Print Certificate 🖨️</button>
+            </div>
         </div>
 
-        <div id="cert-display" class="bg-white p-8 sm:p-16 cert-border relative shadow-2xl">
-            <h3 class="text-amber-600 font-bold tracking-[0.3em] uppercase text-[10px] mb-10">Certificate of Excellence</h3>
-            <p class="italic text-slate-400">This is to certify that</p>
-            <h4 id="display-name" class="text-3xl sm:text-5xl font-serif border-b-2 border-slate-100 py-6 mb-8">[Student Name]</h4>
-            <p class="text-sm text-slate-600 max-w-lg mx-auto leading-relaxed">
-                Has successfully completed the 12-Year Digital Literacy curriculum, demonstrating mastery in Mouse Control, UI/UX Navigation, and Future Tech Fundamentals.
+        <div id="cert-display" class="bg-white p-12 sm:p-20 cert-border relative shadow-[0_40px_100px_rgba(0,0,0,0.15)] max-w-3xl mx-auto">
+            <div class="absolute top-10 right-10 w-24 h-24 bg-amber-400 rounded-full flex items-center justify-center border-4 border-amber-200 shadow-xl transform rotate-12">
+                <span class="text-4xl">🥇</span>
+            </div>
+
+            <h3 class="text-amber-600 font-black tracking-[0.4em] uppercase text-xs mb-10">Certificate of Excellence</h3>
+            <p class="italic text-slate-400 font-serif text-lg">This is to certify that</p>
+            <h4 id="display-name" class="text-4xl sm:text-6xl font-serif border-b-4 border-slate-100 py-8 mb-10 text-slate-800">[Student Name]</h4>
+            
+            <p class="text-lg text-slate-600 max-w-lg mx-auto leading-relaxed font-medium">
+                Has successfully completed the <span class="text-slate-900 font-bold underline decoration-amber-400">12-Year Digital Literacy</span> curriculum, demonstrating elite mastery in Mouse Coordination, UI/UX Logic, and Modern Computing.
             </p>
-            <div class="mt-16 flex justify-between items-end text-[10px] uppercase font-bold text-slate-400">
+            
+            <div class="mt-20 flex justify-between items-end text-xs uppercase font-black text-slate-400 tracking-widest">
                 <div class="text-left">Date: <span class="text-slate-900">April 2026</span></div>
                 <div class="text-right italic text-amber-700">SmartKids Learning Nigeria</div>
             </div>
         </div>
+
+        <button onclick="window.location.href='../mouse-practice.html'" class="no-print mt-12 text-slate-400 font-bold hover:text-slate-900 transition">← Back to Lesson Roadmaps</button>
     </section>
 
   </main>
@@ -167,14 +205,20 @@
     function showSection(id) {
         document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
         document.getElementById('section-' + id).classList.remove('hidden');
-        document.querySelectorAll('nav button').forEach(b => b.classList.remove('tab-active'));
+        
+        // Tab styling
+        document.querySelectorAll('nav button').forEach(b => {
+            b.classList.remove('tab-active');
+        });
         document.getElementById('tab-' + id).classList.add('tab-active');
-        window.scrollTo(0,0);
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function submitQuiz() {
         let score = 0;
-        const total = 8;
+        const total = 10; // FIXED: Changed from 8 to 10
+        
         for(let i=1; i<=total; i++) {
             const val = document.querySelector(`input[name="q${i}"]:checked`);
             if(val && val.value === 'correct') score++;
@@ -182,27 +226,33 @@
 
         const percent = (score / total) * 100;
 
-        if(percent >= 75) {
+        if(percent >= 80) { // Slightly higher bar for graduation
             const certTab = document.getElementById('tab-cert');
             certTab.disabled = false;
-            certTab.classList.remove('opacity-50', 'cursor-not-allowed');
+            certTab.classList.remove('opacity-30', 'cursor-not-allowed');
+            certTab.classList.add('opacity-100');
             showSection('cert');
         } else {
-            document.getElementById('fail-score').innerText = `Your Score: ${score} / ${total} (${percent}%)`;
-            document.getElementById('fail-overlay').classList.replace('hidden', 'flex');
+            document.getElementById('fail-score').innerText = `SCORE: ${score} / ${total} (${percent}%)`;
+            document.getElementById('fail-overlay').classList.remove('hidden');
+            document.getElementById('fail-overlay').classList.add('flex');
         }
     }
 
     function restartQuiz() {
-        document.getElementById('fail-overlay').classList.replace('flex', 'hidden');
+        document.getElementById('fail-overlay').classList.add('hidden');
+        document.getElementById('fail-overlay').classList.remove('flex');
         document.getElementById('quiz-form').reset();
         showSection('quiz');
     }
 
     function printCert() {
-        const name = document.getElementById('certName').value;
-        if(!name) return alert("Please enter your name!");
-        document.getElementById('display-name').innerText = name;
+        const nameInput = document.getElementById('certName').value.trim();
+        if(!nameInput) return alert("Please enter your name for the certificate!");
+        
+        document.getElementById('display-name').innerText = nameInput;
+        
+        // Hide UI elements before print
         window.print();
     }
   </script>
