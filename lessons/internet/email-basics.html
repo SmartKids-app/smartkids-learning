@@ -6,6 +6,162 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     .locked { opacity: 0.5; pointer-events: none; filter: grayscale(1); }
+    .unlocked-pulse { border-color: #6366f1 !important; animation: pulse-border 2s infinite; }
+    @keyframes pulse-border {
+      0% { border-color: #6366f1; }
+      50% { border-color: #a5b4fc; }
+      100% { border-color: #6366f1; }
+    }
+    .tab-active { background: #6366f1; color: white; border-color: #6366f1; }
+    .station-content { display: none; }
+    .station-content.active { display: block; animation: fadeIn 0.4s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body class="bg-indigo-50 min-h-screen p-6 md:p-12 font-sans">
+
+  <div class="max-w-5xl mx-auto">
+    <a href="../../lessons.html" class="inline-flex items-center gap-2 text-indigo-600 font-bold mb-8 hover:underline">
+      <span>🏠</span> Back to All Lessons
+    </a>
+
+    <section class="bg-white rounded-[3rem] shadow-xl border-b-8 border-indigo-200 mb-12 overflow-hidden">
+      <div class="bg-indigo-600 p-6 text-white flex justify-between items-center">
+        <h1 class="text-2xl font-black tracking-tight">POSTAL_SORTING_DESK v1.0</h1>
+        <div class="text-xs font-mono bg-black/20 px-3 py-1 rounded-full">STATUS: READY_TO_LEARN</div>
+      </div>
+      
+      <div class="p-8 md:p-12 flex flex-col md:flex-row gap-10">
+        <div class="md:w-1/3 flex flex-col gap-2">
+            <button onclick="openTab(event, 'history')" class="tab-btn tab-active text-left p-4 rounded-2xl border-2 font-bold transition-all hover:bg-indigo-50">🕰️ Origin Story</button>
+            <button onclick="openTab(event, 'anatomy')" class="tab-btn text-left p-4 rounded-2xl border-2 font-bold transition-all hover:bg-indigo-50">🏷️ Address Logic</button>
+            <button onclick="openTab(event, 'interface')" class="tab-btn text-left p-4 rounded-2xl border-2 font-bold transition-all hover:bg-indigo-50">📧 Inside Gmail</button>
+            <button onclick="openTab(event, 'safety')" class="tab-btn text-left p-4 rounded-2xl border-2 font-bold transition-all hover:bg-indigo-50 text-rose-600 border-rose-100">🚫 The Spam Bin</button>
+        </div>
+
+        <div class="flex-1 min-h-[300px]">
+            <div id="history" class="station-content active space-y-4">
+                <h3 class="text-2xl font-black text-slate-800">1971: The First Stamp</h3>
+                <p class="text-slate-600">Before the web, <b>Ray Tomlinson</b> sent the first network email. He chose the <b>@</b> symbol to separate the user's name from their computer's name. It was like magic—sending mail without a truck!</p>
+                <div class="bg-indigo-50 p-4 rounded-xl border-l-4 border-indigo-400 italic text-sm">"I sent the message to myself, from one machine to another." — Ray T.</div>
+            </div>
+
+            <div id="anatomy" class="station-content space-y-4">
+                <h3 class="text-2xl font-black text-slate-800">Who can have an account?</h3>
+                <p class="text-slate-600 text-sm">Almost anyone! Most sites need you to be 13, but schools provide student boxes. Every address has 3 parts:</p>
+                <div class="bg-slate-900 p-6 rounded-2xl text-center shadow-inner">
+                    <span class="text-blue-400 font-mono text-xl">kid_hero</span><span class="text-white text-xl">@</span><span class="text-emerald-400 font-mono text-xl">gmail.com</span>
+                </div>
+                <div class="grid grid-cols-2 gap-4 text-xs">
+                    <div class="p-3 bg-slate-50 rounded-lg"><b>Username:</b> Your unique digital name.</div>
+                    <div class="p-3 bg-slate-50 rounded-lg"><b>Domain:</b> The "Post Office" hosting your mail.</div>
+                </div>
+            </div>
+
+            <div id="interface" class="station-content space-y-4">
+                <h3 class="text-2xl font-black text-slate-800">Gmail Training</h3>
+                <p class="text-slate-600 text-sm">Gmail is the world's most popular post office. Here’s what’s inside:</p>
+                <ul class="space-y-2 text-sm">
+                    <li class="flex gap-2"><b>📥 Inbox:</b> Where your new mail lands.</li>
+                    <li class="flex gap-2"><b>➕ Compose:</b> Click this to write a new letter.</li>
+                    <li class="flex gap-2"><b>📎 Attachment:</b> The paperclip icon to send photos/files.</li>
+                </ul>
+            </div>
+
+            <div id="safety" class="station-content space-y-4">
+                <h3 class="text-2xl font-black text-rose-600">Defeating Spam & Phishing</h3>
+                <p class="text-slate-600 text-sm">Email is amazing, but some people use it to be "Digital Pirates."</p>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="p-4 bg-rose-50 rounded-xl border-t-4 border-rose-400">
+                        <b class="block text-rose-700">🥫 SPAM</b>
+                        <p class="text-[10px]">Digital junk mail. Annoying, but harmless. Just delete it!</p>
+                    </div>
+                    <div class="p-4 bg-amber-50 rounded-xl border-t-4 border-amber-400">
+                        <b class="block text-amber-700">🎣 PHISHING</b>
+                        <p class="text-[10px]">Fake mail trying to steal your password. <b>NEVER</b> click their links.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </section>
+
+    <h2 class="text-2xl font-black text-slate-800 mb-6 flex items-center gap-3">
+      <span>🚀</span> Your Training Path:
+    </h2>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      <div id="card-1" class="bg-white p-8 rounded-[2.5rem] shadow-md border-4 border-sky-200 flex flex-col">
+        <div class="text-4xl mb-4">✈️</div>
+        <h3 class="text-xl font-black text-slate-800 mb-2">Year 1: Pilot</h3>
+        <p class="text-slate-500 text-sm mb-8 flex-grow">Learn to steer the browser by typing web addresses (URLs) perfectly.</p>
+        <a href="year1.html" class="block text-center bg-sky-500 text-white py-4 rounded-2xl font-bold hover:bg-sky-600">Start Flight</a>
+      </div>
+
+      <div id="card-2" class="locked bg-white p-8 rounded-[2.5rem] shadow-md border-4 border-transparent flex flex-col">
+        <div class="text-4xl mb-4" id="icon-2">🔒</div>
+        <h3 class="text-xl font-black text-slate-800 mb-2">Year 2: Scout</h3>
+        <p class="text-slate-500 text-sm mb-8 flex-grow">Become an expert at finding facts and ignoring tricky ads.</p>
+        <a href="year2.html" class="block text-center bg-blue-600 text-white py-4 rounded-2xl font-bold">Mission Locked</a>
+      </div>
+
+      <div id="card-3" class="locked bg-white p-8 rounded-[2.5rem] shadow-md border-4 border-transparent flex flex-col">
+        <div class="text-4xl mb-4" id="icon-3">🔒</div>
+        <h3 class="text-xl font-black text-slate-800 mb-2">Year 3: Hero</h3>
+        <p class="text-slate-500 text-sm mb-8 flex-grow">Rescue your mailbox! Learn to spot Spam and fake Phishing emails.</p>
+        <a href="year3.html" class="block text-center bg-indigo-600 text-white py-4 rounded-2xl font-bold">Mission Locked</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // TAB LOGIC
+    function openTab(evt, tabName) {
+        let i, content, buttons;
+        content = document.getElementsByClassName("station-content");
+        for (i = 0; i < content.length; i++) { content[i].classList.remove("active"); }
+        buttons = document.getElementsByClassName("tab-btn");
+        for (i = 0; i < buttons.length; i++) { buttons[i].classList.remove("tab-active"); }
+        document.getElementById(tabName).classList.add("active");
+        evt.currentTarget.classList.add("tab-active");
+    }
+
+    // LOCKING LOGIC
+    const urlParams = new URLSearchParams(window.location.search);
+    const unlockLevel = urlParams.get('unlocked');
+
+    if (unlockLevel === '2') {
+        unlock(2, '🔍', 'Start Scouting');
+    } else if (unlockLevel === '3') {
+        unlock(2, '🔍', 'Mission Done');
+        unlock(3, '🛡️', 'Rescue Inbox');
+    }
+
+    function unlock(level, icon, btnText) {
+        const card = document.getElementById(`card-${level}`);
+        const btn = card.querySelector('a');
+        const iconEl = document.getElementById(`icon-${level}`);
+
+        card.classList.remove('locked');
+        card.classList.add('unlocked-pulse', 'border-indigo-400');
+        iconEl.innerText = icon;
+        btn.innerText = btnText;
+    }
+  </script>
+</body>
+</html>
+
+
+
+
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>The Digital Post Office | SmartKids</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .locked { opacity: 0.5; pointer-events: none; filter: grayscale(1); }
     .unlocked-pulse { border-color: #6366f1 !important; animation: pulse border 2s infinite; }
     @keyframes pulse-border {
       0% { border-color: #6366f1; }
@@ -99,194 +255,4 @@
 
 
 
-<!--<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>The Digital Post Office | SmartKids</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    .step-card:hover { transform: translateY(-5px); border-color: #6366f1; }
-    .path-line { border-left: 4px dashed #e2e8f0; }
-  </style>
-</head>
-<body class="bg-indigo-50 min-h-screen p-4 md:p-12 font-sans">
 
-  <div class="max-w-4xl mx-auto">
-    <a href="../../lessons.html" class="inline-flex items-center gap-2 text-indigo-600 font-bold mb-8 hover:underline">
-      <span>🏠</span> Back to All Lessons
-    </a>
-
-    <header class="bg-white p-8 md:p-12 rounded-[3rem] shadow-xl border-b-8 border-indigo-200 mb-12">
-      <div class="flex flex-col md:flex-row gap-10 items-center">
-        <div class="flex-1">
-          <span class="bg-indigo-100 text-indigo-600 px-4 py-1 rounded-full text-xs font-black uppercase tracking-widest">Module 4: Internet</span>
-          <h1 class="text-4xl font-black text-slate-800 mt-4 mb-6">The Digital Post Office 🌐</h1>
-          <p class="text-slate-600 text-lg leading-relaxed">
-            Sending an email or visiting a website is just like sending a letter! 
-            Instead of a mailman on a bike, your message travels through 
-            <b>undersea cables</b> and <b>satellites</b> in space at the speed of light.
-          </p>
-        </div>
-        <div class="w-48 h-48 bg-indigo-50 rounded-full flex items-center justify-center text-8xl shadow-inner">
-          📬
-        </div>
-      </div>
-    </header>
-
-    <div class="grid md:grid-cols-3 gap-6 relative">
-      
-      <div class="step-card bg-white p-8 rounded-[2.5rem] shadow-md border-2 border-transparent transition-all flex flex-col h-full">
-        <div class="w-12 h-12 bg-sky-100 text-sky-600 rounded-2xl flex items-center justify-center text-2xl mb-6">✈️</div>
-        <h3 class="text-xl font-black text-slate-800 mb-2">Year 1: The Pilot</h3>
-        <p class="text-slate-500 text-sm mb-8 flex-grow">Learn how to drive the browser and type addresses (URLs) correctly.</p>
-        <a href="year1.html" class="block text-center bg-sky-500 text-white py-3 rounded-2xl font-bold hover:bg-sky-600 transition-colors">Start Flight</a>
-      </div>
-
-      <div class="step-card bg-white p-8 rounded-[2.5rem] shadow-md border-2 border-transparent transition-all flex flex-col h-full">
-        <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-2xl mb-6">🔍</div>
-        <h3 class="text-xl font-black text-slate-800 mb-2">Year 2: The Scout</h3>
-        <p class="text-slate-500 text-sm mb-8 flex-grow">Become a search expert! Learn to ignore ads and find real facts.</p>
-        <a href="year2.html" class="block text-center bg-blue-600 text-white py-3 rounded-2xl font-bold hover:bg-blue-700 transition-colors">Go Scouting</a>
-      </div>
-
-      <div class="step-card bg-white p-8 rounded-[2.5rem] shadow-md border-2 border-transparent transition-all flex flex-col h-full">
-        <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center text-2xl mb-6">🛡️</div>
-        <h3 class="text-xl font-black text-slate-800 mb-2">Year 3: The Hero</h3>
-        <p class="text-slate-500 text-sm mb-8 flex-grow">Rescue your inbox! Spot dangerous phishing and annoying spam emails.</p>
-        <a href="year3.html" class="block text-center bg-indigo-600 text-white py-3 rounded-2xl font-bold hover:bg-indigo-700 transition-colors">Rescue Inbox</a>
-      </div>
-
-    </div>
-
-    <div class="mt-12 bg-slate-800 text-white p-8 rounded-[2.5rem] flex items-center gap-6 shadow-2xl">
-      <div class="text-4xl">💡</div>
-      <div>
-        <h4 class="font-bold text-indigo-300">Did you know?</h4>
-        <p class="text-sm text-slate-300">The Internet is a massive web of billions of computers all talking to each other at the same time!</p>
-      </div>
-    </div>
-  </div>
-
-</body>
-</html>
-
-
-
-
-
-
-<!--<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Year 1: Browser Pilot | SmartKids</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    .browser-chrome { border: 12px solid #cbd5e1; border-radius: 2rem 2rem 0 0; }
-    .url-bar { background: #f1f5f9; border: 2px solid #94a3b8; }
-    .island-view { height: 400px; transition: all 1s ease-in-out; }
-    .cloud { animation: float 6s infinite ease-in-out; }
-    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
-  </style>
-</head>
-<body class="bg-sky-100 min-h-screen p-8 font-sans overflow-hidden">
-
-  <div class="max-w-5xl mx-auto">
-    <div class="bg-white/80 backdrop-blur-md p-4 rounded-3xl mb-6 flex items-center justify-between shadow-sm border border-white">
-      <div>
-        <p class="text-xs font-black text-sky-600 uppercase tracking-widest">Pilot Mission:</p>
-        <h2 id="missionTitle" class="text-2xl font-black text-slate-800">Fly to: <span class="text-blue-600">www.island.com</span></h2>
-      </div>
-      <div class="text-right">
-        <p class="text-xs font-bold text-slate-400">ISLANDS DISCOVERED</p>
-        <p id="progress" class="text-xl font-black text-slate-700">0 / 3</p>
-      </div>
-    </div>
-
-    <div class="browser-chrome bg-white shadow-2xl overflow-hidden">
-      <div class="bg-slate-200 p-4 space-y-4">
-        <div class="flex gap-2">
-            <div class="w-20 h-8 bg-white rounded-t-lg"></div>
-            <div class="w-8 h-8 bg-slate-300 rounded-full flex items-center justify-center font-bold text-slate-500">+</div>
-        </div>
-        <div class="url-bar w-full p-3 rounded-full flex items-center gap-4">
-          <span class="text-slate-400">🔒</span>
-          <input type="text" id="urlInput" placeholder="Enter URL here..." 
-                 class="bg-transparent w-full outline-none font-mono text-slate-600 font-bold">
-          <button onclick="navigate()" class="bg-blue-600 text-white px-6 py-1 rounded-full font-bold hover:bg-blue-700">GO</button>
-        </div>
-      </div>
-
-      <div id="viewport" class="island-view bg-sky-300 flex items-center justify-center relative">
-        <div id="content" class="text-center z-10">
-            <div class="text-[120px] cloud mb-4">✈️</div>
-            <p class="text-white font-black text-3xl drop-shadow-lg">Ready for takeoff?</p>
-        </div>
-        <div class="absolute top-10 left-10 text-white text-5xl opacity-50 cloud">☁️</div>
-        <div class="absolute bottom-20 right-20 text-white text-6xl opacity-50 cloud" style="animation-delay: 2s;">☁️</div>
-      </div>
-    </div>
-  </div>
-
-  <div id="success-modal" class="hidden fixed inset-0 bg-slate-900/90 flex items-center justify-center z-50 p-6">
-    <div class="bg-white p-12 rounded-[3rem] text-center max-w-sm">
-        <div class="text-7xl mb-4">🏝️</div>
-        <h2 class="text-3xl font-black mb-2">Master Navigator!</h2>
-        <p class="text-slate-500 mb-8">You successfully navigated the web using three different URLs.</p>
-        <button onclick="window.location.href='year2.html'" class="w-full bg-blue-600 text-white py-4 rounded-2xl font-bold">Next Year: The Search Engine</button>
-    </div>
-  </div>
-
-  <script>
-    const missions = [
-        { url: "www.island.com", icon: "🏝️", color: "#7dd3fc", name: "Island Retreat" },
-        { url: "www.mountain.net", icon: "🏔️", color: "#94a3b8", name: "Snowy Peak" },
-        { url: "www.jungle.org", icon: "🌴", color: "#4ade80", name: "Monkey Jungle" }
-    ];
-
-    let currentMission = 0;
-
-    function navigate() {
-        const input = document.getElementById('urlInput').value.toLowerCase().trim();
-        const target = missions[currentMission].url;
-
-        if (input === target) {
-            currentMission++;
-            updateUI();
-            
-            if (currentMission === missions.length) {
-                setTimeout(() => {
-                    document.getElementById('success-modal').classList.remove('hidden');
-                }, 1000);
-            } else {
-                alert(`✅ Target reached! Next destination: ${missions[currentMission].url}`);
-                document.getElementById('urlInput').value = "";
-                document.getElementById('missionTitle').innerHTML = `Fly to: <span class="text-blue-600">${missions[currentMission].url}</span>`;
-            }
-        } else {
-            alert("❌ Incorrect URL! Check your spelling (e.g. www._____.com)");
-        }
-    }
-
-    function updateUI() {
-        const data = missions[currentMission - 1];
-        const viewport = document.getElementById('viewport');
-        const content = document.getElementById('content');
-        
-        // Visual transition
-        viewport.style.backgroundColor = data.color;
-        content.innerHTML = `
-            <div class="text-[120px] animate-bounce mb-4">${data.icon}</div>
-            <p class="text-white font-black text-4xl drop-shadow-lg">${data.name}</p>
-        `;
-        document.getElementById('progress').innerText = `${currentMission} / ${missions.length}`;
-    }
-
-    // Allow Enter key to submit
-    document.getElementById('urlInput').onkeypress = (e) => {
-        if(e.key === 'Enter') navigate();
-    };
-  </script>
-</body>
-</html>
