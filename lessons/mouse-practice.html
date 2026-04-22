@@ -1,1 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mouse Academy Hub | SmartKids</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Provides the separation and shadow effect */
+    .master-envelope {
+      box-shadow: 0 10px 50px rgba(0, 0, 0, 0.1);
+    }
+    .year-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    .locked { filter: grayscale(1); opacity: 0.6; cursor: not-allowed; }
+  </style>
+</head>
+<body class="bg-slate-200 min-h-screen py-10 px-4 font-sans">
 
+  <div class="max-w-5xl mx-auto bg-white rounded-[3rem] overflow-hidden master-envelope border border-white">
+    
+    <header class="py-12 px-8 text-center bg-slate-50 border-b-2 border-dashed border-slate-200">
+        <div class="inline-block bg-amber-500 text-white px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest mb-4 shadow-lg shadow-amber-200">Point & Click</div>
+        <h1 class="text-4xl font-black text-slate-800 tracking-tight">The Mouse Academy</h1>
+        <p class="text-slate-500 mt-2">Master your precision and unlock the Kingdom.</p>
+    </header>
+
+    <main class="p-8 md:p-12">
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            
+            <div id="card-1" class="year-card bg-white p-8 rounded-[2.5rem] border-b-8 border-amber-400 shadow-xl text-center">
+                <div class="text-6xl mb-4" id="icon-1">🎈</div>
+                <h3 class="text-2xl font-black text-slate-800">Year 1</h3>
+                <p class="text-slate-400 text-xs font-bold uppercase mb-6">Balloon Accuracy</p>
+                <button onclick="window.location.href='mouse/year1.html'" 
+                        class="w-full bg-slate-800 text-white py-3 rounded-xl font-bold hover:bg-amber-500 transition-colors">START MISSION</button>
+            </div>
+
+            <div id="card-2" class="year-card bg-slate-50 p-8 rounded-[2.5rem] border-b-8 border-slate-200 shadow-sm text-center locked">
+                <div class="text-6xl mb-4" id="icon-2">🔒</div>
+                <h3 class="text-2xl font-black text-slate-800">Year 2</h3>
+                <p class="text-slate-400 text-xs font-bold uppercase mb-6">Double-Click Master</p>
+                <button id="btn-2" disabled class="w-full bg-slate-300 text-white py-3 rounded-xl font-bold cursor-not-allowed">LOCKED</button>
+            </div>
+
+            <div id="card-3" class="year-card bg-slate-50 p-8 rounded-[2.5rem] border-b-8 border-slate-200 shadow-sm text-center locked">
+                <div class="text-6xl mb-4" id="icon-3">🔒</div>
+                <h3 class="text-2xl font-black text-slate-800">Year 3</h3>
+                <p class="text-slate-400 text-xs font-bold uppercase mb-6">Drag & Drop Pro</p>
+                <button id="btn-3" disabled class="w-full bg-slate-300 text-white py-3 rounded-xl font-bold cursor-not-allowed">LOCKED</button>
+            </div>
+
+        </div>
+
+        <div class="bg-slate-100 rounded-full h-4 w-full overflow-hidden flex border border-slate-200">
+            <div id="progress-bar" class="bg-amber-400 h-full transition-all duration-1000" style="width: 33%"></div>
+        </div>
+        <p class="text-center text-[10px] font-black text-slate-400 uppercase mt-4 tracking-widest">Training Progress</p>
+
+    </main>
+
+    <footer class="bg-slate-50 py-6 text-center border-t border-slate-100">
+        <button onclick="clearProgress()" class="text-slate-300 text-[10px] uppercase font-bold hover:text-rose-500">Reset Training Data</button>
+    </footer>
+
+  </div>
+
+  <script>
+    // --- COOKIE / PROGRESS LOGIC ---
+    function setProgress(val) {
+        const d = new Date();
+        d.setTime(d.getTime() + (24*60*60*1000));
+        document.cookie = "mouse_unlocked=" + val + ";expires=" + d.toUTCString() + ";path=/";
+    }
+
+    function getProgress() {
+        let name = "mouse_unlocked=";
+        let ca = document.cookie.split(';');
+        for(let i=0; i < ca.length; i++) {
+            let c = ca[i].trim();
+            if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+        }
+        return "1";
+    }
+
+    function clearProgress() {
+        setProgress(1);
+        window.location.href = window.location.pathname;
+    }
+
+    function initHub() {
+        const urlParams = new URLSearchParams(window.location.search);
+        let unlocked = urlParams.get('unlocked');
+
+        if (unlocked) {
+            setProgress(unlocked);
+        } else {
+            unlocked = getProgress();
+        }
+
+        const level = parseInt(unlocked);
+
+        // Update UI based on level
+        if (level >= 2) unlockLevel(2, '🔍', 'mouse/year2.html');
+        if (level >= 3) unlockLevel(3, '🎯', 'mouse/year3.html');
+        
+        // Update Progress Bar
+        const bar = document.getElementById('progress-bar');
+        bar.style.width = (level === 1 ? '33%' : level === 2 ? '66%' : '100%');
+    }
+
+    function unlockLevel(id, icon, url) {
+        const card = document.getElementById(`card-${id}`);
+        const btn = document.getElementById(`btn-${id}`);
+        const iconEl = document.getElementById(`icon-${id}`);
+
+        card.classList.remove('locked', 'bg-slate-50', 'border-slate-200');
+        card.classList.add('bg-white', 'border-amber-400', 'shadow-xl', 'hover:-translate-y-2');
+        iconEl.innerText = icon;
+        btn.disabled = false;
+        btn.innerText = "START MISSION";
+        btn.classList.remove('bg-slate-300', 'cursor-not-allowed');
+        btn.classList.add('bg-slate-800', 'hover:bg-amber-500');
+        btn.onclick = () => window.location.href = url;
+    }
+
+    window.onload = initHub;
+  </script>
+</body>
+</html>
