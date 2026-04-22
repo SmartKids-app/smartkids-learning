@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Year 12: Dev Mode | SmartKids</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .syntax-tag { color: #f472b6; } /* Pink */
+    .syntax-attr { color: #fbbf24; } /* Amber */
+    .syntax-string { color: #34d399; } /* Emerald */
+    .syntax-bracket { color: #94a3b8; } /* Slate */
+    
+    .cursor { border-left: 3px solid #60a5fa; animation: blink 0.8s step-end infinite; }
+    @keyframes blink { 50% { border-color: transparent; } }
+    
+    .code-line { font-family: 'Fira Code', monospace; transition: all 0.2s; }
+    .correct { color: #60a5fa; text-shadow: 0 0 10px rgba(96, 165, 250, 0.5); }
+  </style>
+</head>
+<body class="bg-slate-950 min-h-screen flex flex-col items-center justify-center font-mono p-6 overflow-hidden">
+
+  <div id="diy-manual" class="fixed inset-0 bg-slate-900/98 z-[100] flex items-center justify-center p-6 text-center">
+    <div class="bg-slate-800 max-w-lg rounded-[3rem] p-12 shadow-[0_0_100px_rgba(96,165,250,0.3)] border-2 border-blue-500">
+      <div class="text-6xl mb-6">💻</div>
+      <h2 class="text-4xl font-black mb-4 text-white uppercase tracking-tighter">Enter Dev Mode</h2>
+      <div class="space-y-4 mb-8 text-slate-300 text-left">
+        <p>This is the final test. You must type actual code snippets. Accuracy is everything—one missing bracket can crash the system!</p>
+        <ul class="space-y-3 font-medium text-blue-400">
+            <li class="flex gap-3"><span>🔹</span> Use <b>Shift</b> for symbols: < > { } ( )</li>
+            <li class="flex gap-3"><span>🔹</span> Pay attention to indentation (Spaces).</li>
+            <li class="flex gap-3"><span>🔹</span> Keep your eyes on the screen, not the keys.</li>
+        </ul>
+      </div>
+      <button onclick="startGame()" class="w-full bg-blue-600 text-white py-5 rounded-2xl font-black text-2xl hover:bg-blue-500 transition-all shadow-xl">INITIATE SEQUENCE</button>
+    </div>
+  </div>
+
+  <div class="w-full max-w-4xl bg-slate-900 rounded-xl p-10 border border-slate-700 shadow-2xl relative">
+    <div class="flex gap-2 mb-6 border-b border-slate-800 pb-4">
+        <div class="w-3 h-3 rounded-full bg-rose-500"></div>
+        <div class="w-3 h-3 rounded-full bg-amber-500"></div>
+        <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
+        <span class="ml-4 text-slate-500 text-xs font-bold uppercase">Mainframe.js — Expert Level</span>
+    </div>
+
+    <div class="text-xl md:text-2xl leading-relaxed whitespace-pre font-mono">
+        <div id="code-display" class="relative">
+            <span id="code-done" class="correct"></span><span id="code-target" class="text-slate-600"></span><span class="cursor"></span>
+        </div>
+    </div>
+  </div>
+
+  <div id="success-modal" class="hidden fixed inset-0 bg-slate-950 flex items-center justify-center z-50 p-6 text-center">
+    <div class="bg-white p-16 rounded-[4rem] max-w-lg border-b-[12px] border-blue-600">
+        <div class="text-9xl mb-6">🎓</div>
+        <h2 class="text-5xl font-black mb-4 text-slate-900 tracking-tighter">GRADUATED!</h2>
+        <p class="text-slate-500 mb-10 text-xl font-medium">You have mastered the Keyboarding Academy. You are now a 12-Year Expert. The digital world is yours to build.</p>
+        <button onclick="window.location.href='keyboard-practice.html?unlocked=13'" class="w-full bg-blue-600 text-white py-6 rounded-3xl font-black text-2xl shadow-2xl hover:scale-105 transition-all">FINISH & CLAIM DIPLOMA</button>
+    </div>
+  </div>
+
+  <script>
+    const codeSnippets = [
+        "const build = (idea) => {\n  return idea.execute();\n};",
+        "if (typing === 'expert') {\n  unlockGraduation();\n}",
+        "<html>\n  <body>\n    <h1>Hello World</h1>\n  </body>\n</html>"
+    ];
+
+    let snippetIndex = 0;
+    let charIndex = 0;
+    let currentCode = codeSnippets[snippetIndex];
+
+    function startGame() {
+        document.getElementById('diy-manual').remove();
+        updateDisplay();
+        
+        window.addEventListener('keydown', (e) => {
+            if (e.key === "Tab") e.preventDefault();
+            if (e.key.length > 1 && e.key !== "Enter") return;
+
+            const targetKey = currentCode[charIndex];
+            const pressedKey = (e.key === "Enter") ? "\n" : e.key;
+
+            if (pressedKey === targetKey) {
+                charIndex++;
+                if (charIndex >= currentCode.length) {
+                    nextSnippet();
+                }
+                updateDisplay();
+            } else {
+                showError();
+            }
+        });
+    }
+
+    function nextSnippet() {
+        snippetIndex++;
+        if (snippetIndex >= codeSnippets.length) {
+            document.getElementById('success-modal').classList.remove('hidden');
+        } else {
+            charIndex = 0;
+            currentCode = codeSnippets[snippetIndex];
+        }
+    }
+
+    function updateDisplay() {
+        document.getElementById('code-done').innerText = currentCode.substring(0, charIndex);
+        document.getElementById('code-target').innerText = currentCode.substring(charIndex);
+    }
+
+    function showError() {
+        const terminal = document.querySelector('.max-w-4xl');
+        terminal.classList.add('border-rose-500', 'animate-shake');
+        setTimeout(() => terminal.classList.remove('border-rose-500', 'animate-shake'), 200);
+    }
+  </script>
+</body>
+</html>
