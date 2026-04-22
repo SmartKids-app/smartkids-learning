@@ -255,6 +255,19 @@
         // Hide UI elements before print
         window.print();
     }
+
+    // Add this to graduation.html to remember the unlock status
+const urlParams = new URLSearchParams(window.location.search);
+const unlockStatus = urlParams.get('unlocked');
+
+function returnToHub() {
+    // If we have the unlock code, pass it back to the roadmap
+    if (unlockStatus === '13') {
+        window.location.href = '../mouse-practice.html?unlocked=13';
+    } else {
+        window.location.href = '../mouse-practice.html';
+    }
+}
   </script>
 </body>
 </html>
