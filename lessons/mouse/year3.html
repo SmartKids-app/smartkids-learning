@@ -78,8 +78,7 @@
 </button>
     </div>
   </div>
-
-  <script>
+<script>
     let deliveries = 0;
     const totalNeeded = 3;
     const items = [
@@ -98,21 +97,17 @@
         if (deliveries < totalNeeded) {
             cargo.style.display = 'flex';
             cargo.innerHTML = items[deliveries].emoji;
-            // Update color classes
             cargo.className = `package ${items[deliveries].color} rounded-[2rem] shadow-2xl flex items-center justify-center text-6xl border-4 border-white item-appear`;
             
-            // Shift position slightly so they have to "find" it
             const xShift = (Math.random() * 400) - 200;
             cargoContainer.style.transform = `translateX(${xShift}px)`;
             
-            // Scroll back to top to start the next delivery cycle
             window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
             document.getElementById('success-modal').classList.remove('hidden');
         }
     }
 
-    // Drag Logic
     cargo.addEventListener('dragstart', (e) => {
         e.dataTransfer.setData('text/plain', 'cargo');
         cargo.classList.add('opacity-30', 'scale-75');
@@ -122,29 +117,25 @@
         cargo.classList.remove('opacity-30', 'scale-75');
     });
 
-    // Drop Zone Interaction
     dropZone.addEventListener('dragover', (e) => {
         e.preventDefault();
         dropZone.classList.add('over');
     });
 
-    dropZone.addEventListener('dragleave', () => {
-        dropZone.classList.remove('over');
-    });
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('over'));
 
     dropZone.addEventListener('drop', (e) => {
         e.preventDefault();
         dropZone.classList.remove('over');
-        
         deliveries++;
         
-        // Update HUD
         const slot = document.getElementById(`slot-${deliveries}`);
-        slot.classList.replace('bg-slate-200', 'bg-emerald-500');
-        slot.classList.replace('border-slate-300', 'border-emerald-200');
-        slot.classList.add('text-white', 'scale-110');
+        if(slot) {
+            slot.classList.replace('bg-slate-200', 'bg-emerald-500');
+            slot.classList.replace('border-slate-300', 'border-emerald-200');
+            slot.classList.add('text-white', 'scale-110');
+        }
 
-        // Visual Feedback
         truckIcon.innerText = '✅';
         truckLabel.innerText = `DELIVERY ${deliveries} COMPLETE!`;
         cargo.style.display = 'none';
@@ -156,49 +147,17 @@
         }, 1200);
     });
 
-    // SMART AUTO-SCROLL
-    // This allows the user to scroll the page while dragging
     document.addEventListener('dragover', (e) => {
-        const threshold = 150; // Distance from top/bottom to start scroll
+        const threshold = 150;
         if (e.clientY < threshold) {
-            window.scrollBy(0, -15); // Scroll Up
+            window.scrollBy(0, -15);
         } else if (e.clientY > window.innerHeight - threshold) {
-            window.scrollBy(0, 15); // Scroll Down
+            window.scrollBy(0, 15);
         }
     });
 
-    // Initialize first item
-    window.onload = () => {
-        updateCargo();
-    };
-
-    function initHub() {
-    const urlParams = new URLSearchParams(window.location.search);
-    let unlocked = urlParams.get('unlocked');
-
-    if (unlocked === '13') {
-        // 1. Save the final progress
-        setProgress('13');
-        
-        // 2. Visual "Loading" effect so they know something big is happening
-        document.body.innerHTML = `
-            <div class="min-h-screen bg-slate-900 flex flex-col items-center justify-center text-white font-sans">
-                <div class="text-9xl animate-bounce">🎓</div>
-                <h1 class="text-4xl font-black mt-8">GENERATING DIPLOMA...</h1>
-                <p class="text-slate-400 mt-2">Preparing your graduation ceremony!</p>
-            </div>
-        `;
-
-        // 3. Redirect to the summary after a short delay
-        setTimeout(() => {
-            window.location.href = "mouse/summary.html"; 
-        }, 1500);
-        
-        return; // Stop the rest of the script
-    }
-
-    // ... rest of your existing initHub() code for levels 1, 2, and 3 ...
-}
-  </script>
+    window.onload = () => updateCargo();
+</script>
+ 
 </body>
 </html>
