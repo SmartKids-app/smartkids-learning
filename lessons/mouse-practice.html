@@ -101,8 +101,14 @@
         const level = parseInt(unlocked);
 
         // Update UI based on level
-        if (level >= 2) unlockLevel(2, '🔍', 'mouse/year2.html');
-        if (level >= 3) unlockLevel(3, '🎯', 'mouse/year3.html');
+        // In mouse-practice.html
+function initHub() {
+    // ... existing logic to get 'level' ...
+
+    // We use "./" to explicitly say "look in the current folder for the mouse directory"
+    if (level >= 2) unlockLevel(2, '🔍', './mouse/year2.html');
+    if (level >= 3) unlockLevel(3, '🎯', './mouse/year3.html');
+}
         
         // Update Progress Bar
         const bar = document.getElementById('progress-bar');
