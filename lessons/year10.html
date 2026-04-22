@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Year 10: The Flow | SmartKids</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .wave-bg {
+      background: linear-gradient(180deg, #0ea5e9 0%, #0369a1 100%);
+      background-size: 400% 400%;
+      animation: gradientWave 10s ease infinite;
+    }
+    @keyframes gradientWave {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .cursor-blink { border-right: 3px solid #fff; animation: blink 0.8s step-end infinite; }
+    @keyframes blink { 50% { border-color: transparent; } }
+  </style>
+</head>
+<body class="wave-bg min-h-screen flex flex-col items-center justify-center font-sans p-6 overflow-hidden text-white">
+
+  <div id="diy-manual" class="fixed inset-0 bg-slate-900/95 backdrop-blur-md z-[100] flex items-center justify-center p-6">
+    <div class="bg-white max-w-md rounded-[3rem] p-10 shadow-2xl border-4 border-sky-400 text-center">
+      <div class="text-6xl mb-4 text-center">🌊</div>
+      <h2 class="text-3xl font-black mb-4 text-slate-800">Mission: The Flow</h2>
+      <div class="space-y-4 mb-8 text-slate-600 text-left">
+        <p>Expert typing isn't just about speed; it's about <b>rhythm</b>. Don't let your fingers pause!</p>
+        <ul class="space-y-3 font-medium">
+            <li class="flex gap-3 text-sky-600"><span>🏄‍♂️</span> Keep typing to stay on the wave.</li>
+            <li class="flex gap-3 text-sky-600"><span>📉</span> If you stop for more than 2 seconds, the wave resets.</li>
+            <li class="flex gap-3 text-sky-600"><span>✨</span> Type the whole paragraph to reach the shore.</li>
+        </ul>
+      </div>
+      <button onclick="startGame()" class="w-full bg-sky-500 text-white py-4 rounded-2xl font-bold text-xl hover:scale-105 transition-all shadow-lg">Catch the Wave</button>
+    </div>
+  </div>
+
+  <div class="w-full max-w-3xl bg-white/10 backdrop-blur-lg rounded-[2.5rem] p-12 border border-white/20 relative shadow-2xl">
+    <div class="flex justify-between items-center mb-8">
+        <div class="text-xs font-black uppercase tracking-[0.3em]">Momentum Sensor</div>
+        <div id="timer-bar" class="w-32 h-2 bg-sky-900 rounded-full overflow-hidden">
+            <div id="momentum-fill" class="bg-sky-400 h-full w-full transition-all duration-100"></div>
+        </div>
+    </div>
+
+    <div class="relative text-2xl md:text-3xl font-medium leading-relaxed text-sky-100">
+        <span id="text-done" class="text-white font-black"></span><span id="text-target" class="cursor-blink"></span>
+    </div>
+  </div>
+
+  <div id="success-modal" class="hidden fixed inset-0 bg-sky-900/98 flex items-center justify-center z-50 p-6 text-center text-white">
+    <div class="max-w-sm">
+        <div class="text-8xl mb-6">🏝️</div>
+        <h2 class="text-4xl font-black mb-4">Shore Reached!</h2>
+        <p class="text-sky-200 mb-8 text-lg">You maintained your rhythm perfectly. Your fingers are now in sync with your mind.</p>
+        <button onclick="window.location.href='keyboard-practice.html?unlocked=11'" class="w-full bg-white text-sky-600 py-4 rounded-2xl font-black text-xl shadow-xl">Year 11: Navigation</button>
+    </div>
+  </div>
+
+  <script>
+    const passage = "The secret to great typing is never stopping. Even if you go slow, keeping a steady beat is better than rushing and crashing. Feel the keys like water under your board. You are the master of the flow state.";
+    let currentIndex = 0;
+    let momentum = 100;
+    let gameActive = false;
+    let timerInterval;
+
+    function startGame() {
+        document.getElementById('diy-manual').remove();
+        document.getElementById('text-target').innerText = passage;
+        gameActive = true;
+        
+        // Momentum drain logic
+        timerInterval = setInterval(() => {
+            if(gameActive) {
+                momentum -= 2; // Drains every 100ms
+                if(momentum <= 0) resetFlow();
+                document.getElementById('momentum-fill').style.width = momentum + "%";
+            }
+        }, 100);
+
+        window.addEventListener('keydown', (e) => {
+            if(!gameActive || e.key.length > 1) return;
+
+            if(e.key === passage[currentIndex]) {
+                currentIndex++;
+                momentum = Math.min(momentum + 15, 100); // Typing builds momentum
+                updateDisplay();
+                if(currentIndex >= passage.length) winGame();
+            } else {
+                momentum -= 10; // Mistakes hurt momentum
+            }
+        });
+    }
+
+    function updateDisplay() {
+        document.getElementById('text-done').innerText = passage.substring(0, currentIndex);
+        document.getElementById('text-target').innerText = passage.substring(currentIndex);
+    }
+
+    function resetFlow() {
+        currentIndex = 0;
+        momentum = 100;
+        updateDisplay();
+        // Visual shake
+        document.querySelector('.max-w-3xl').classList.add('animate-bounce');
+        setTimeout(() => document.querySelector('.max-w-3xl').classList.remove('animate-bounce'), 500);
+    }
+
+    function winGame() {
+        gameActive = false;
+        clearInterval(timerInterval);
+        document.getElementById('success-modal').classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>
