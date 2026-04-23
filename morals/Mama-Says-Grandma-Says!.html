@@ -84,9 +84,53 @@ body{font-family:Inter,sans-serif;background:#0f172a;color:#e2e8f0}
 </div>
 </main>
 <script>
-let current=1,total=6;
-function render(){document.querySelectorAll('.scene').forEach(s=>s.classList.remove('active'));document.getElementById('scene-'+current).classList.add('active');document.getElementById('bar').style.width=(current/total*100)+'%';prev.disabled=current===1;next.style.visibility=current===total?'hidden':'visible';window.scrollTo({top:0,behavior:'smooth'});} 
-function move(n){let x=current+n;if(x>=1&&x<=total){current=x;render();}}
+let current = 1,
+    total = 6;
+
+function render() {
+  // Hide all scenes
+  document.querySelectorAll('.scene').forEach(scene =>
+    scene.classList.remove('active')
+  );
+
+  // Show current scene
+  document.getElementById('scene-' + current).classList.add('active');
+
+  // Update progress bar
+  document.getElementById('bar').style.width =
+    (current / total) * 100 + '%';
+
+  // Previous button
+  prev.disabled = current === 1;
+
+  // Next button text change on last page
+  if (current === total) {
+    next.innerHTML = "Back To Morals ↺";
+  } else {
+    next.innerHTML = "Next →";
+  }
+
+  // Smooth scroll to top
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+}
+
+function move(n) {
+  // If on last page and click next, go back to first page
+  if (current === total && n === 1) {
+    current = 1;
+  } else {
+    let x = current + n;
+    if (x >= 1 && x <= total) {
+      current = x;
+    }
+  }
+
+  render();
+}
+
 render();
 </script>
 </body>
