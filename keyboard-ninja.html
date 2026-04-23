@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Keyboard Ninja | Kidventor</title>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body{
+margin:0;
+overflow:hidden;
+font-family:Inter,system-ui,sans-serif;
+background:linear-gradient(135deg,#0f172a,#1e293b,#312e81);
+}
+.letter{
+position:absolute;
+width:64px;
+height:64px;
+border-radius:18px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:32px;
+font-weight:900;
+color:#fff;
+background:linear-gradient(135deg,#6366f1,#8b5cf6);
+box-shadow:0 10px 25px rgba(0,0,0,.25);
+user-select:none;
+transition:transform .1s;
+}
+.hit{
+transform:scale(1.25);
+background:linear-gradient(135deg,#10b981,#22c55e);
+}
+.miss{
+background:linear-gradient(135deg,#ef4444,#f97316);
+}
+.panel{
+backdrop-filter:blur(10px);
+background:rgba(255,255,255,.08);
+}
+</style>
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+<div class="fixed top-0 inset-x-0 z-50 px-4 py-4">
+<div class="max-w-6xl mx-auto panel rounded-2xl px-5 py-4 flex flex-wrap gap-4 justify-between text-white">
+
+<div>
+<p class="text-xs uppercase tracking-widest text-indigo-200 font-black">Score</p>
+<p id="score" class="text-2xl font-black">0</p>
+</div>
+
+<div>
+<p class="text-xs uppercase tracking-widest text-indigo-200 font-black">Lives</p>
+<p id="lives" class="text-2xl font-black">❤️❤️❤️</p>
+</div>
+
+<div>
+<p class="text-xs uppercase tracking-widest text-indigo-200 font-black">Level</p>
+<p id="level" class="text-2xl font-black">1</p>
+</div>
+
+<div>
+<p class="text-xs uppercase tracking-widest text-indigo-200 font-black">Time</p>
+<p id="timer" class="text-2xl font-black">60</p>
+</div>
+
+</div>
+</div>
+
+<!-- CENTER -->
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<h1 id="startText" class="text-white text-4xl md:text-6xl font-black opacity-20 text-center px-4">
+PRESS ANY KEY TO START
+</h1>
+</div>
+
+<!-- GAME AREA -->
+<div id="gameArea" class="absolute inset-0 overflow-hidden"></div>
+
+<!-- GAME OVER -->
+<div id="gameOver" class="hidden fixed inset-0 z-50 bg-slate-950/90 flex items-center justify-center p-6">
+<div class="bg-white rounded-[2rem] p-10 max-w-md w-full text-center">
+<h2 class="text-4xl font-black text-slate-900">Game Over</h2>
+<p class="mt-4 text-slate-500">You played like a true ninja.</p>
+
+<div class="mt-8 grid grid-cols-2 gap-4 text-left">
+<div class="bg-slate-50 rounded-2xl p-4">
+<p class="text-xs font-black text-slate-400 uppercase">Final Score</p>
+<p id="finalScore" class="text-3xl font-black">0</p>
+</div>
+
+<div class="bg-slate-50 rounded-2xl p-4">
+<p class="text-xs font-black text-slate-400 uppercase">Stars Won</p>
+<p id="starsWon" class="text-3xl font-black text-amber-500">0</p>
+</div>
+</div>
+
+<button onclick="restartGame()" class="mt-8 w-full py-4 rounded-2xl bg-indigo-600 text-white font-black hover:bg-indigo-700">
+Play Again
+</button>
+</div>
+</div>
+
+<script>
+const gameArea = document.getElementById("gameArea");
+
+let score = 0;
+let lives = 3;
+let level = 1;
+let timeLeft = 60;
+let speed = 1.6;
+let started = false;
+let ended = false;
+
+let activeLetters = [];
+let spawnLoop;
+let timerLoop;
+let animLoop;
+
+/* UI */
+function updateUI(){
+document.getElementById("score").textContent = score;
+document.getElementById("level").textContent = level;
+document.getElementById("timer").textContent = timeLeft;
+
+let hearts = "";
+for(let i=0;i<lives;i++) hearts += "❤️";
+document.getElementById("lives").textContent = hearts || "💀";
+}
+
+/* Start Game */
+function startGame(){
+if(started) return;
+started = true;
+document.getElementById("startText").style.display = "none";
+
+spawnLoop = setInterval(spawnLetter, 900);
+timerLoop = setInterval(() => {
+timeLeft--;
+updateUI();
+
+if(timeLeft <= 0) endGame();
+
+if(score >= level * 100){
+level++;
+speed += 0.25;
+updateUI();
+}
+},1000);
+
+requestAnimationFrame(gameLoop);
+}
+
+/* Spawn Letter */
+function spawnLetter(){
+if(ended) return;
+
+const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const char = chars[Math.floor(Math.random()*chars.length)];
+
+const el = document.createElement("div");
+el.className = "letter";
+el.textContent = char;
+
+const x = Math.random() * (window.innerWidth - 70);
+el.style.left = x + "px";
+el.style.top = "-80px";
+
+gameArea.appendChild(el);
+
+activeLetters.push({
+char,
+el,
+x,
+y:-80
+});
+}
+
+/* Main Loop */
+function gameLoop(){
+if(ended) return;
+
+for(let i=activeLetters.length-1;i>=0;i--){
+const item = activeLetters[i];
+item.y += speed;
+item.el.style.top = item.y + "px";
+
+if(item.y > window.innerHeight){
+item.el.remove();
+activeLetters.splice(i,1);
+loseLife();
+}
+}
+
+animLoop = requestAnimationFrame(gameLoop);
+}
+
+/* Keyboard Hit */
+document.addEventListener("keydown",(e)=>{
+if(!started){
+startGame();
+return;
+}
+
+if(ended) return;
+
+const key = e.key.toUpperCase();
+
+for(let i=0;i<activeLetters.length;i++){
+if(activeLetters[i].char === key){
+
+const hit = activeLetters[i];
+hit.el.classList.add("hit");
+
+setTimeout(()=>hit.el.remove(),80);
+
+activeLetters.splice(i,1);
+
+score += 10;
+updateUI();
+saveStars(2);
+
+return;
+}
+}
+});
+
+/* Lose life */
+function loseLife(){
+lives--;
+updateUI();
+
+if(lives <= 0){
+endGame();
+}
+}
+
+/* Save stars */
+function saveStars(n){
+let stars = Number(localStorage.getItem("kidventorStars")) || 0;
+stars += n;
+localStorage.setItem("kidventorStars", stars);
+}
+
+/* End */
+function endGame(){
+ended = true;
+
+clearInterval(spawnLoop);
+clearInterval(timerLoop);
+cancelAnimationFrame(animLoop);
+
+document.getElementById("finalScore").textContent = score;
+
+const reward = Math.floor(score / 10);
+document.getElementById("starsWon").textContent = reward;
+
+saveStars(reward);
+
+document.getElementById("gameOver").classList.remove("hidden");
+}
+
+/* Restart */
+function restartGame(){
+location.reload();
+}
+
+updateUI();
+</script>
+
+</body>
+</html>
