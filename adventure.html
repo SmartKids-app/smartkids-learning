@@ -3,6 +3,263 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Kidventor Dashboard | Learn • Play • Grow</title>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body{
+font-family:Inter,system-ui,sans-serif;
+background:#f8fafc;
+}
+.glow{
+box-shadow:0 20px 60px rgba(79,70,229,.15);
+}
+.floaty{
+animation:floaty 4s ease-in-out infinite;
+}
+@keyframes floaty{
+0%,100%{transform:translateY(0)}
+50%{transform:translateY(-8px)}
+}
+.progress-fill{
+transition:width .8s ease;
+}
+.card-hover{
+transition:all .35s ease;
+}
+.card-hover:hover{
+transform:translateY(-8px);
+box-shadow:0 25px 60px rgba(0,0,0,.08);
+}
+</style>
+</head>
+
+<body class="text-slate-900">
+
+<!-- HEADER -->
+<header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-slate-100">
+<div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+
+<a href="#" class="flex items-center gap-3">
+<div class="w-11 h-11 rounded-2xl bg-indigo-600 text-white font-black flex items-center justify-center text-xl shadow-lg">K</div>
+<div>
+<p class="font-black text-xl tracking-tight">Kidventor</p>
+<p class="text-[10px] uppercase font-bold tracking-widest text-slate-400">Dashboard</p>
+</div>
+</a>
+
+<nav class="hidden md:flex gap-8 font-bold text-sm">
+<a href="#" class="hover:text-indigo-600">Lessons</a>
+<a href="#" class="hover:text-indigo-600">Adventure</a>
+<a href="#" class="hover:text-indigo-600">Morals</a>
+<a href="#" class="hover:text-indigo-600">Parents</a>
+</nav>
+
+<div class="flex items-center gap-3">
+<div class="px-4 py-2 rounded-xl bg-amber-100 text-amber-700 font-black text-sm">⭐ <span id="stars">140</span></div>
+</div>
+
+</div>
+</header>
+
+<!-- HERO -->
+<section class="px-6 pt-10 pb-6">
+<div class="max-w-7xl mx-auto grid lg:grid-cols-3 gap-8">
+
+<!-- PROFILE -->
+<div class="lg:col-span-2 bg-white rounded-[2rem] p-8 glow border border-slate-100">
+
+<div class="flex flex-col md:flex-row gap-6 md:items-center md:justify-between">
+
+<div class="flex items-center gap-5">
+<div class="w-24 h-24 rounded-[2rem] bg-gradient-to-br from-indigo-500 to-purple-600 text-white text-5xl flex items-center justify-center floaty">
+🧒
+</div>
+
+<div>
+<h1 class="text-3xl font-black">Welcome back, Musa!</h1>
+<p class="text-slate-500 mt-1">Future inventor in training.</p>
+
+<div class="mt-4">
+<p class="text-xs font-black uppercase tracking-widest text-slate-400 mb-2">Level 4 • 280 / 500 XP</p>
+<div class="w-72 h-3 bg-slate-100 rounded-full overflow-hidden">
+<div class="progress-fill h-full bg-indigo-600 rounded-full" style="width:56%"></div>
+</div>
+</div>
+
+</div>
+</div>
+
+<button onclick="dailyReward()" class="mt-4 md:mt-0 px-6 py-4 rounded-2xl bg-indigo-600 text-white font-black hover:bg-indigo-700">
+🎁 Claim Daily Reward
+</button>
+
+</div>
+</div>
+
+<!-- SIDE ADS READY -->
+<div class="bg-white rounded-[2rem] p-6 border border-slate-100 flex flex-col justify-between">
+<div>
+<p class="text-xs font-black uppercase tracking-widest text-slate-400">Sponsored Space</p>
+<div class="mt-5 h-52 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400 font-bold">
+Adsense Ready
+</div>
+</div>
+
+<div class="mt-6 text-sm text-slate-500">
+Safe ads area for parents / education tools.
+</div>
+</div>
+
+</div>
+</section>
+
+<!-- MISSIONS -->
+<section class="px-6 py-6">
+<div class="max-w-7xl mx-auto">
+
+<div class="flex items-end justify-between mb-8">
+<div>
+<h2 class="text-3xl font-black">Today's Missions</h2>
+<p class="text-slate-500">Complete tasks to earn stars & badges.</p>
+</div>
+</div>
+
+<div class="grid md:grid-cols-3 gap-6">
+
+<div class="bg-white rounded-[2rem] p-6 border border-slate-100 card-hover">
+<div class="text-5xl">🖱️</div>
+<h3 class="mt-4 text-xl font-black">Mouse Mastery</h3>
+<p class="mt-2 text-slate-500 text-sm">Hit 20 moving targets in 30 seconds.</p>
+<button class="mt-6 w-full py-3 rounded-xl bg-indigo-600 text-white font-black">Play Now</button>
+</div>
+
+<div class="bg-white rounded-[2rem] p-6 border border-slate-100 card-hover">
+<div class="text-5xl">⌨️</div>
+<h3 class="mt-4 text-xl font-black">Keyboard Pro</h3>
+<p class="mt-2 text-slate-500 text-sm">Type 15 words without mistakes.</p>
+<button class="mt-6 w-full py-3 rounded-xl bg-emerald-600 text-white font-black">Start Mission</button>
+</div>
+
+<div class="bg-white rounded-[2rem] p-6 border border-slate-100 card-hover">
+<div class="text-5xl">📘</div>
+<h3 class="mt-4 text-xl font-black">Moral Story</h3>
+<p class="mt-2 text-slate-500 text-sm">Read a story and answer 3 questions.</p>
+<button class="mt-6 w-full py-3 rounded-xl bg-amber-500 text-white font-black">Begin</button>
+</div>
+
+</div>
+
+</div>
+</section>
+
+<!-- BADGES -->
+<section class="px-6 py-10">
+<div class="max-w-7xl mx-auto">
+
+<h2 class="text-3xl font-black mb-8">Badge Cabinet</h2>
+
+<div class="grid md:grid-cols-4 gap-5">
+
+<div class="bg-white rounded-3xl p-6 text-center border border-slate-100 card-hover">
+<div class="text-5xl">🖱️</div>
+<p class="mt-4 font-black">Mouse Master</p>
+</div>
+
+<div class="bg-white rounded-3xl p-6 text-center border border-slate-100 card-hover">
+<div class="text-5xl">⌨️</div>
+<p class="mt-4 font-black">Keyboard Pro</p>
+</div>
+
+<div class="bg-white rounded-3xl p-6 text-center border border-slate-100 card-hover">
+<div class="text-5xl">🧠</div>
+<p class="mt-4 font-black">Brain Hero</p>
+</div>
+
+<div class="bg-white rounded-3xl p-6 text-center border border-slate-100 card-hover">
+<div class="text-5xl">⭐</div>
+<p class="mt-4 font-black">7 Day Streak</p>
+</div>
+
+</div>
+
+</div>
+</section>
+
+<!-- PARENT CORNER -->
+<section class="px-6 pb-14">
+<div class="max-w-7xl mx-auto">
+
+<div class="bg-gradient-to-r from-slate-900 to-slate-800 rounded-[2rem] p-8 text-white">
+
+<div class="grid md:grid-cols-3 gap-6">
+
+<div>
+<p class="text-xs uppercase tracking-widest text-slate-400 font-black">Learning Time</p>
+<h3 class="text-3xl font-black mt-2">4h 20m</h3>
+</div>
+
+<div>
+<p class="text-xs uppercase tracking-widest text-slate-400 font-black">Skills Improved</p>
+<h3 class="text-3xl font-black mt-2">Typing • Logic • Focus</h3>
+</div>
+
+<div>
+<p class="text-xs uppercase tracking-widest text-slate-400 font-black">Weekly Rank</p>
+<h3 class="text-3xl font-black mt-2">#12</h3>
+</div>
+
+</div>
+
+</div>
+
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer class="py-10 text-center text-sm text-slate-400">
+© 2026 Kidventor Academy • Learn, Play & Grow
+</footer>
+
+<script>
+let stars = Number(localStorage.getItem("kidventorStars")) || 140;
+
+function renderStars(){
+document.getElementById("stars").textContent = stars;
+}
+
+function dailyReward(){
+const today = new Date().toDateString();
+const claimed = localStorage.getItem("dailyRewardDate");
+
+if(claimed === today){
+alert("🎉 Reward already claimed today!");
+return;
+}
+
+stars += 25;
+localStorage.setItem("kidventorStars", stars);
+localStorage.setItem("dailyRewardDate", today);
+renderStars();
+
+alert("⭐ +25 Stars Added!");
+}
+
+renderStars();
+</script>
+
+</body>
+</html>
+
+
+
+
+
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Kidventor Quest | Adventure Zone</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
@@ -329,44 +586,6 @@ function unlockBadge(name){
 }
 </script>
     
-    
-    <!--<script>
-    function openGame(title) {
-        const modal = document.getElementById('gameModal');
-        const frame = document.getElementById('gameFrame');
-        const titleEl = document.getElementById('modalTitle');
-        const loadingEl = document.getElementById('gameLoading');
-        
-        // 1. Set the Title
-        titleEl.innerText = title;
-        
-        // 2. Show the loading spinner
-        loadingEl.classList.remove('hidden');
-
-        // 3. Define the path to your game file
-        // This converts "Keyboard Ninja" to "keyboard-ninja.html"
-        const fileName = title.toLowerCase().replace(/\s+/g, '-') + ".html";
-        frame.src = "games/" + fileName;
-
-        // 4. Hide the loading spinner ONLY when the game has actually loaded
-        frame.onload = function() {
-            loadingEl.classList.add('hidden');
-        };
-        
-        // 5. Open the modal
-        modal.classList.remove('hidden');
-        document.body.style.overflow = 'hidden'; 
-    }
-
-    function closeGame() {
-        const modal = document.getElementById('gameModal');
-        const frame = document.getElementById('gameFrame');
-        
-        modal.classList.add('hidden');
-        frame.src = ""; // This stops the game music/sound immediately
-        document.body.style.overflow = 'auto';
-    }
-</script>
 
 </body>
 </html>
