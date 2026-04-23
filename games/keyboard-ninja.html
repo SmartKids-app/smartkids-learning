@@ -132,6 +132,8 @@
 
 <script>
     const gameArea = document.getElementById("gameArea");
+    const startScreen = document.getElementById("startScreen");
+    
     let score = 0;
     let lives = 3;
     let combo = 0;
@@ -140,24 +142,13 @@
     let ended = false;
     let activeLetters = [];
 
-    // Visual Slash Effect
-    function triggerSlash(x, y) {
-        const slash = document.createElement("div");
-        slash.className = "slash";
-        slash.style.left = x + "px";
-        slash.style.top = y + "px";
-        document.body.appendChild(slash);
-        setTimeout(() => slash.remove(), 300);
-    }
-
     function updateUI() {
         document.getElementById("score").textContent = score;
         document.getElementById("currentStars").textContent = Math.floor(score / 5);
-        
         let hearts = "";
         for(let i=0; i<3; i++) hearts += (i < lives) ? "❤️" : "🖤";
         document.getElementById("lives").textContent = hearts;
-
+        
         const comboContainer = document.getElementById("comboContainer");
         if (combo > 2) {
             comboContainer.classList.remove("hidden");
@@ -175,75 +166,61 @@
         el.className = "letter";
         el.textContent = char;
         
-        // Ensure letters stay within screen bounds
         const x = Math.random() * (window.innerWidth - 100) + 20;
         el.style.left = x + "px";
         el.style.top = "-100px";
         
         gameArea.appendChild(el);
         activeLetters.push({ char, el, x, y: -100 });
-        
-        // Gradual speed increase
         speed += 0.02;
     }
 
     function gameLoop() {
         if (ended) return;
-
         for (let i = activeLetters.length - 1; i >= 0; i--) {
             const item = activeLetters[i];
             item.y += speed;
             item.el.style.top = item.y + "px";
 
-            // If letter falls off screen
             if (item.y > window.innerHeight) {
                 item.el.remove();
                 activeLetters.splice(i, 1);
                 lives--;
                 combo = 0;
                 updateUI();
-                if (lives <= 0) {
-                    endGame();
-                    return;
-                }
+                if (lives <= 0) { endGame(); return; }
             }
         }
         requestAnimationFrame(gameLoop);
     }
 
-    // MAIN INPUT LISTENER
-    document.addEventListener("keydown", (e) => {
-        // Prevent game from starting on modifier keys like Shift/Alt
-        if (e.key.length !== 1 && !started) return;
+    // --- THE FIX: RELIABLE START FUNCTION ---
+    function initiateMission() {
+        if (started) return;
+        started = true;
+        startScreen.classList.add("hidden");
+        updateUI();
+        setInterval(spawnLetter, 900);
+        gameLoop();
+        console.log("Mission Started!");
+    }
 
-        // START LOGIC
+    // Listen for keys
+    document.addEventListener("keydown", (e) => {
         if (!started) {
-            started = true;
-            document.getElementById("startScreen").classList.add("hidden");
-            setInterval(spawnLetter, 900);
-            updateUI(); // Set initial hearts/score
-            gameLoop();
+            initiateMission();
             return;
         }
-
-        if (ended) return;
-
+        
         const key = e.key.toUpperCase();
         let hitFound = false;
 
-        // Check if hit
         for (let i = 0; i < activeLetters.length; i++) {
             if (activeLetters[i].char === key) {
                 const hit = activeLetters[i];
-                triggerSlash(hit.x, hit.y + 35);
                 hit.el.classList.add("hit");
-                
-                // Visual cleanup
-                const targetEl = hit.el;
-                setTimeout(() => targetEl.remove(), 100);
-                
+                setTimeout(() => hit.el.remove(), 100);
                 activeLetters.splice(i, 1);
-                
                 combo++;
                 score += (10 * Math.max(1, Math.floor(combo/2)));
                 updateUI();
@@ -251,13 +228,11 @@
                 break;
             }
         }
-        
-        // Reset combo if player types the wrong letter
-        if (!hitFound) {
-            combo = 0;
-            updateUI();
-        }
+        if (!hitFound) combo = 0;
     });
+
+    // Backup: Start on click if key fails
+    window.addEventListener("mousedown", initiateMission);
 
     function endGame() {
         if (ended) return;
@@ -267,7 +242,6 @@
         const totalStars = Math.floor(score / 5);
         document.getElementById("starsWon").textContent = totalStars;
         
-        // Save stars to local storage
         let savedStars = Number(localStorage.getItem("kidventorStars")) || 0;
         localStorage.setItem("kidventorStars", savedStars + totalStars);
     }
