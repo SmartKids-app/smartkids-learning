@@ -3,6 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Kidventor Academy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .content-container { max-width: 1100px; margin: 0 auto; }
+        .loading { cursor: not-allowed; opacity: 0.7; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+
+<header class="py-6 px-6 bg-white/80 backdrop-blur sticky top-0 z-50 border-b border-slate-100">
+    <div class="content-container flex justify-between items-center">
+        <a href="index.html" class="flex items-center gap-2">
+            <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-black">K</div>
+            <span class="font-black text-xl">Kidventor</span>
+        </a>
+        <a href="index.html" class="text-sm font-bold text-indigo-600">← Return Home</a>
+    </div>
+</header>
+
+<main class="py-20 px-6">
+    <div class="content-container">
+        <div class="grid lg:grid-cols-2 gap-12 items-start">
+            
+            <div class="space-y-8">
+                <div>
+                    <span class="px-4 py-2 rounded-full bg-indigo-100 text-indigo-700 text-[10px] font-black uppercase tracking-widest">Get In Touch</span>
+                    <h1 class="text-5xl font-black mt-6 tracking-tight">Let's start a <br><span class="text-indigo-600">conversation.</span></h1>
+                </div>
+
+                <div class="grid gap-4">
+                    <a href="mailto:edukidsafrica@gmail.com" class="flex items-center gap-6 p-6 bg-white rounded-3xl border border-slate-100 hover:shadow-lg transition-all group">
+                        <div class="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center text-xl group-hover:bg-indigo-600 group-hover:text-white transition-colors">✉️</div>
+                        <div>
+                            <h4 class="font-black text-slate-800">Email Us</h4>
+                            <p class="text-slate-500 text-sm">edukidsafrica@gmail.com</p>
+                        </div>
+                    </a>
+
+                    <a href="https://wa.me/2348100000000" target="_blank" class="flex items-center gap-6 p-6 bg-white rounded-3xl border border-slate-100 hover:shadow-lg transition-all group">
+                        <div class="w-12 h-12 bg-emerald-50 rounded-2xl flex items-center justify-center text-xl group-hover:bg-emerald-500 group-hover:text-white transition-colors">💬</div>
+                        <div>
+                            <h4 class="font-black text-slate-800">WhatsApp Chat</h4>
+                            <p class="text-slate-500 text-sm">Chat with our team directly</p>
+                        </div>
+                    </a>
+
+                    <div class="flex items-center gap-6 p-6 bg-white rounded-3xl border border-slate-100">
+                        <div class="w-12 h-12 bg-amber-50 rounded-2xl flex items-center justify-center text-xl">📍</div>
+                        <div>
+                            <h4 class="font-black text-slate-800">Our Hub</h4>
+                            <p class="text-slate-500 text-sm">GRA Road, Luba, Ijebu-Ode, Ogun State.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-10 rounded-[3rem] shadow-2xl shadow-indigo-100/50 border border-slate-100">
+                <form id="contact-form" action="https://formspree.io/f/meevngdg" method="POST" class="space-y-6">
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-[10px] font-black uppercase text-slate-400 mb-2">Full Name</label>
+                            <input type="text" name="full_name" placeholder="Musa Ade" required class="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:border-indigo-600 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-black uppercase text-slate-400 mb-2">Role</label>
+                            <select name="role" class="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:border-indigo-600 outline-none appearance-none">
+                                <option value="Parent">Parent</option>
+                                <option value="School Owner">School Owner</option>
+                                <option value="Student">Student</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-black uppercase text-slate-400 mb-2">Email Address</label>
+                        <input type="email" name="email" placeholder="email@example.com" required class="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:border-indigo-600 outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-black uppercase text-slate-400 mb-2">Message</label>
+                        <textarea name="message" rows="4" placeholder="Tell us how we can help..." required class="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:border-indigo-600 outline-none"></textarea>
+                    </div>
+
+                    <div id="form-status" class="hidden p-4 rounded-2xl text-sm font-bold text-center"></div>
+
+                    <button type="submit" id="submit-btn" class="w-full py-5 bg-indigo-600 text-white font-black rounded-2xl hover:bg-indigo-700 transition-all transform active:scale-95 shadow-xl shadow-indigo-100">
+                        SEND MESSAGE
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    const form = document.getElementById("contact-form");
+    const status = document.getElementById("form-status");
+    const btn = document.getElementById("submit-btn");
+
+    form.addEventListener("submit", async function(event) {
+        event.preventDefault();
+        
+        btn.innerHTML = "SENDING...";
+        btn.disabled = true;
+        btn.classList.add("loading");
+        
+        const data = new FormData(event.target);
+        
+        fetch(event.target.action, {
+            method: form.method,
+            body: data,
+            headers: { 'Accept': 'application/json' }
+        }).then(response => {
+            if (response.ok) {
+                status.innerHTML = "🎉 Sent! We will contact you soon.";
+                status.className = "p-4 rounded-2xl text-sm font-bold text-center bg-emerald-50 text-emerald-600 block mb-4";
+                form.reset();
+                btn.innerHTML = "MESSAGE SENT";
+                btn.style.backgroundColor = "#10b981"; // Emerald green
+            } else {
+                response.json().then(data => {
+                    if (Object.hasOwn(data, 'errors')) {
+                        status.innerHTML = data["errors"].map(error => error["message"]).join(", ");
+                    } else {
+                        status.innerHTML = "❌ Error sending message. Please try again.";
+                    }
+                    status.className = "p-4 rounded-2xl text-sm font-bold text-center bg-rose-50 text-rose-600 block mb-4";
+                    btn.disabled = false;
+                    btn.innerHTML = "TRY AGAIN";
+                    btn.classList.remove("loading");
+                })
+            }
+        }).catch(error => {
+            status.innerHTML = "❌ Network error. Check your connection.";
+            status.className = "p-4 rounded-2xl text-sm font-bold text-center bg-rose-50 text-rose-600 block mb-4";
+            btn.disabled = false;
+            btn.innerHTML = "RETRY";
+            btn.classList.remove("loading");
+        });
+    });
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CBT Board | Kidventor Academy</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
