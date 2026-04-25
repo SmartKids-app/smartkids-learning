@@ -468,6 +468,59 @@ animation:shine 3s linear infinite;
 </footer>
 
 <script>
+  /** USER DATA & PERSISTENCE LOGIC **/
+  let userData = {
+    name: "Guest Explorer",
+    xp: 0,
+    level: 1,
+    completedLessons: []
+  };
+
+  // 1. Check if user already exists in browser memory
+  function checkIdentity() {
+    const savedData = localStorage.getItem('kidventor_user');
+    const modal = document.getElementById('name-modal');
+
+    if (savedData) {
+      userData = JSON.parse(savedData);
+      updateUI();
+    } else if (modal) {
+      // Show modal only if it exists on the current page
+      modal.classList.remove('hidden');
+    }
+  }
+
+  // 2. Save Name from Modal
+  function saveName() {
+    const nameInput = document.getElementById('knight-name-input');
+    const modal = document.getElementById('name-modal');
+    
+    if (nameInput && nameInput.value.trim() !== "") {
+      userData.name = nameInput.value.trim();
+      userData.xp = 0; 
+      localStorage.setItem('kidventor_user', JSON.stringify(userData));
+      
+      if(modal) modal.classList.add('hidden');
+      updateUI();
+    } else {
+      alert("Please enter a name to begin your adventure!");
+    }
+  }
+
+  // 3. Update all UI elements with User Data
+  function updateUI() {
+    const nameElements = document.querySelectorAll('.user-name');
+    const xpElements = document.querySelectorAll('.total-xp');
+    const levelElements = document.querySelectorAll('.user-level');
+
+    nameElements.forEach(el => el.innerText = userData.name);
+    xpElements.forEach(el => el.innerText = userData.xp.toLocaleString());
+    levelElements.forEach(el => {
+      const levelStr = userData.level.toString().padStart(2, '0');
+      el.innerText = `Level ${levelStr} Explorer`;
+    });
+  }
+
   /** TYPING ANIMATION **/
   const typeText = "Empowering the next generation of global tech leaders.";
   let charIndex = 0;
@@ -482,30 +535,38 @@ animation:shine 3s linear infinite;
   }
 
   /** MOBILE MENU LOGIC **/
-  const menuBtn = document.getElementById("menuBtn");
-  const closeBtn = document.getElementById("closeBtn");
-  const mobileMenu = document.getElementById("mobileMenu");
+  function setupMobileMenu() {
+    const menuBtn = document.getElementById("menuBtn");
+    const closeBtn = document.getElementById("closeBtn");
+    const mobileMenu = document.getElementById("mobileMenu");
 
-  if(menuBtn && mobileMenu) {
-    menuBtn.onclick = () => {
+    if (menuBtn && mobileMenu) {
+      menuBtn.onclick = () => {
         mobileMenu.classList.remove("hidden");
         document.body.style.overflow = 'hidden';
-    };
-    closeBtn.onclick = () => {
-        mobileMenu.classList.add("hidden");
-        document.body.style.overflow = 'auto';
-    };
-
-    document.querySelectorAll("#mobileMenu a").forEach(link => {
-      link.onclick = () => {
+      };
+      
+      if (closeBtn) {
+        closeBtn.onclick = () => {
           mobileMenu.classList.add("hidden");
           document.body.style.overflow = 'auto';
-      };
-    });
+        };
+      }
+
+      document.querySelectorAll("#mobileMenu a").forEach(link => {
+        link.onclick = () => {
+          mobileMenu.classList.add("hidden");
+          document.body.style.overflow = 'auto';
+        };
+      });
+    }
   }
 
-  // Initialize both functions on load
-  window.addEventListener('load', () => {
+  /** INITIALIZATION **/
+  // Using 'DOMContentLoaded' is safer for element manipulation
+  document.addEventListener('DOMContentLoaded', () => {
+    checkIdentity();
+    setupMobileMenu();
     typeWriter();
   });
 </script>
