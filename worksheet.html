@@ -3,399 +3,166 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Algorithm Basics for Kids | Kidventor Academy</title>
-
+<title>Worksheets | Kidventor Academy</title>
+<meta name="description" content="Explore Kidventor Academy worksheets and learning modules for coding, keyboard skills, mouse skills, algorithms, digital literacy, CBT preparation, and student development.">
 <script src="https://cdn.tailwindcss.com"></script>
 
 <style>
-    body {
-        font-family: 'Inter', sans-serif;
-        background: #f8fafc;
-    }
+  body {
+    font-family: Inter, system-ui, sans-serif;
+    background: #f8fafc;
+  }
 
-    .content-container {
-        max-width: 1000px;
-        margin: 0 auto;
-    }
+  .hero-gradient {
+    background: linear-gradient(135deg, #4f46e5 0%, #1e1b4b 100%);
+  }
 
-    .accordion-content {
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.4s ease;
-    }
-
-    .accordion-item.active .accordion-content {
-        max-height: 2000px;
-    }
-
-    .accordion-item.active .chevron {
-        transform: rotate(180deg);
-    }
+  .module-card:hover {
+    transform: translateY(-6px);
+    transition: 0.3s ease;
+  }
 </style>
 </head>
+<body class="text-slate-900">
 
-<body class="text-slate-900 pb-20">
+<!-- NAV -->
+<header class="bg-white border-b border-slate-100 sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
+    <a href="index.html" class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-black text-lg">K</div>
+      <span class="font-black text-xl md:text-2xl tracking-tight">Kidventor Academy</span>
+    </a>
 
-<!-- HEADER -->
-
-<header class="py-6 px-6 bg-white border-b border-slate-100 sticky top-0 z-50">
-    <div class="content-container flex justify-between items-center">
-        <a href="index.html" class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-black text-lg">
-                K
-            </div>
-            <span class="font-black text-2xl tracking-tight">Kidventor Academy</span>
-        </a>
-
-        <div class="text-xs font-black uppercase text-slate-400 tracking-widest">
-            Module 01 • Logic & Algorithms
-        </div>
-    </div>
+    <nav class="hidden md:flex gap-8 text-xs font-black uppercase tracking-widest text-slate-500">
+      <a href="index.html" class="hover:text-indigo-600">Home</a>
+      <a href="blog.html" class="hover:text-indigo-600">Blog</a>
+      <a href="worksheets.html" class="text-indigo-600">Worksheets</a>
+      <a href="contact.html" class="hover:text-indigo-600">Contact</a>
+    </nav>
+  </div>
 </header>
 
 <!-- HERO -->
+<section class="hero-gradient text-white py-24 px-6">
+  <div class="max-w-6xl mx-auto text-center">
+    <span class="inline-block px-5 py-2 rounded-full border border-white/20 bg-white/10 text-xs font-black uppercase tracking-widest">
+      Learning Modules Hub
+    </span>
 
-<section class="py-20 px-6 text-center">
-    <div class="content-container">
-        <div class="inline-block px-5 py-2 bg-indigo-100 text-indigo-700 rounded-full text-xs font-black uppercase tracking-widest mb-6">
-            Computer Science For Kids
-        </div>
+    <h1 class="mt-8 text-4xl md:text-6xl font-black leading-tight tracking-tight">
+      Student Worksheets <br>
+      & Learning Modules 🚀
+    </h1>
 
-        <h1 class="text-4xl md:text-6xl font-black mb-6">
-            Learn Algorithms The Fun Way 🚀
-        </h1>
-
-        <p class="text-lg text-slate-500 max-w-3xl mx-auto leading-relaxed">
-            Algorithms are like recipes for computers!  
-            In this lesson, kids will learn how computers think, follow instructions,
-            solve problems, and fix mistakes using simple real-life examples like
-            making sandwiches, brushing teeth, and getting ready for school.
-        </p>
-    </div>
+    <p class="mt-6 max-w-3xl mx-auto text-lg text-indigo-100 leading-relaxed">
+      This is the main learning hub for all Kidventor Academy lessons. Students can start from beginner computer skills and grow into coding, algorithms, digital literacy, CBT preparation, and leadership development.
+    </p>
+  </div>
 </section>
 
-<!-- ACCORDION LESSONS -->
-
-<section class="px-6">
-<div class="content-container space-y-5">
-
-<!-- TOPIC 1 -->
-
-<div class="accordion-item bg-white rounded-[2rem] border border-slate-200 overflow-hidden shadow-sm">
-    <button onclick="toggleAccordion(this)" class="w-full p-8 flex justify-between items-center text-left hover:bg-slate-50">
-        <div class="flex items-center gap-5">
-            <span class="text-4xl">🤖</span>
-            <div>
-                <h3 class="text-2xl font-black">1. What is an Algorithm?</h3>
-                <p class="text-xs uppercase font-bold text-slate-400 tracking-widest mt-1">
-                    The Basics
-                </p>
-            </div>
-        </div>
-
-        <svg class="chevron w-6 h-6 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"/>
-        </svg>
-    </button>
-
-    <div class="accordion-content px-8 pb-8">
-        <div class="pt-5 border-t border-slate-100 space-y-4 text-slate-600 leading-relaxed">
-
-            <p>
-                An <strong>algorithm</strong> is a step-by-step set of instructions used to solve a problem or complete a task.
-            </p>
-
-            <p>
-                Computers use algorithms every single second. They do not guess like humans.
-                They only follow instructions exactly as they are written.
-            </p>
-
-            <p>
-                For example:
-            </p>
-
-            <ul class="space-y-2 pl-5 list-disc">
-                <li>How to brush your teeth</li>
-                <li>How to tie your shoes</li>
-                <li>How to make noodles</li>
-                <li>How to log into a game</li>
-            </ul>
-
-            <div class="p-5 bg-indigo-50 rounded-2xl border-l-4 border-indigo-500">
-                <strong>Kid Example:</strong><br>
-                If you tell a robot “make me tea,” it will be confused.  
-                But if you say:
-                Boil water → Get cup → Add tea bag → Pour water → Wait → Drink  
-                then the robot understands perfectly.
-            </div>
-
-        </div>
-    </div>
-</div>
-
-<!-- TOPIC 2 -->
-
-<div class="accordion-item bg-white rounded-[2rem] border border-slate-200 overflow-hidden shadow-sm">
-    <button onclick="toggleAccordion(this)" class="w-full p-8 flex justify-between items-center text-left hover:bg-slate-50">
-        <div class="flex items-center gap-5">
-            <span class="text-4xl">🧩</span>
-            <div>
-                <h3 class="text-2xl font-black">2. Decomposition</h3>
-                <p class="text-xs uppercase font-bold text-slate-400 tracking-widest mt-1">
-                    Breaking Big Problems
-                </p>
-            </div>
-        </div>
-
-        <svg class="chevron w-6 h-6 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"/>
-        </svg>
-    </button>
-
-    <div class="accordion-content px-8 pb-8">
-        <div class="pt-5 border-t border-slate-100 space-y-4 text-slate-600">
-
-            <p>
-                <strong>Decomposition</strong> means breaking a big problem into smaller, easier parts.
-            </p>
-
-            <p>
-                Instead of saying “clean your room,” we break it down:
-            </p>
-
-            <ul class="space-y-2">
-                <li>1. Pick up toys</li>
-                <li>2. Arrange books</li>
-                <li>3. Fold clothes</li>
-                <li>4. Sweep the floor</li>
-                <li>5. Make the bed</li>
-            </ul>
-
-            <p>
-                This helps computers and humans work faster and better.
-            </p>
-
-        </div>
-    </div>
-</div>
-
-<!-- TOPIC 3 -->
-
-<div class="accordion-item bg-white rounded-[2rem] border border-slate-200 overflow-hidden shadow-sm">
-    <button onclick="toggleAccordion(this)" class="w-full p-8 flex justify-between items-center text-left hover:bg-slate-50">
-        <div class="flex items-center gap-5">
-            <span class="text-4xl">📋</span>
-            <div>
-                <h3 class="text-2xl font-black">3. Sequencing</h3>
-                <p class="text-xs uppercase font-bold text-slate-400 tracking-widest mt-1">
-                    Correct Order Matters
-                </p>
-            </div>
-        </div>
-
-        <svg class="chevron w-6 h-6 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"/>
-        </svg>
-    </button>
-
-    <div class="accordion-content px-8 pb-8">
-        <div class="pt-5 border-t border-slate-100 space-y-4 text-slate-600">
-
-            <p>
-                <strong>Sequencing</strong> means putting steps in the correct order.
-            </p>
-
-            <p>
-                Example:
-            </p>
-
-            <div class="grid md:grid-cols-2 gap-4">
-                <div class="p-4 rounded-2xl bg-rose-50 border border-rose-100">
-                    <strong>Wrong Order ❌</strong><br><br>
-                    Put on shoes<br>
-                    Put on socks
-                </div>
-
-                <div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-100">
-                    <strong>Correct Order ✅</strong><br><br>
-                    Put on socks<br>
-                    Put on shoes
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-<!-- TOPIC 4 -->
-
-<div class="accordion-item bg-white rounded-[2rem] border border-slate-200 overflow-hidden shadow-sm">
-    <button onclick="toggleAccordion(this)" class="w-full p-8 flex justify-between items-center text-left hover:bg-slate-50">
-        <div class="flex items-center gap-5">
-            <span class="text-4xl">🔁</span>
-            <div>
-                <h3 class="text-2xl font-black">4. Repetition (Loops)</h3>
-                <p class="text-xs uppercase font-bold text-slate-400 tracking-widest mt-1">
-                    Doing Things Again
-                </p>
-            </div>
-        </div>
-
-        <svg class="chevron w-6 h-6 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"/>
-        </svg>
-    </button>
-
-    <div class="accordion-content px-8 pb-8">
-        <div class="pt-5 border-t border-slate-100 space-y-4 text-slate-600">
-
-            <p>
-                A <strong>loop</strong> means repeating something again and again.
-            </p>
-
-            <p>
-                Example:
-            </p>
-
-            <div class="p-5 bg-slate-50 rounded-2xl">
-                Clap your hands 5 times 👏👏👏👏👏
-            </div>
-
-            <p>
-                Instead of writing “clap” five times, computers use loops.
-                This saves time and makes code shorter.
-            </p>
-
-        </div>
-    </div>
-</div>
-
-<!-- TOPIC 5 -->
-
-<div class="accordion-item bg-white rounded-[2rem] border border-slate-200 overflow-hidden shadow-sm">
-    <button onclick="toggleAccordion(this)" class="w-full p-8 flex justify-between items-center text-left hover:bg-slate-50">
-        <div class="flex items-center gap-5">
-            <span class="text-4xl">🐞</span>
-            <div>
-                <h3 class="text-2xl font-black">5. Debugging</h3>
-                <p class="text-xs uppercase font-bold text-slate-400 tracking-widest mt-1">
-                    Finding Mistakes
-                </p>
-            </div>
-        </div>
-
-        <svg class="chevron w-6 h-6 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"/>
-        </svg>
-    </button>
-
-    <div class="accordion-content px-8 pb-8">
-        <div class="pt-5 border-t border-slate-100 space-y-4 text-slate-600">
-
-            <p>
-                A mistake in an algorithm is called a <strong>bug</strong>.
-            </p>
-
-            <p>
-                Fixing the mistake is called <strong>debugging</strong>.
-            </p>
-
-            <p>
-                Example:
-            </p>
-
-            <div class="p-5 bg-yellow-50 rounded-2xl border border-yellow-100">
-                You forgot to add sugar while making tea ☕  
-                That is a bug!
-            </div>
-
-            <p>
-                When you go back and add sugar, you debugged the problem.
-            </p>
-
-        </div>
-    </div>
-</div>
-
-<!-- TOPIC 6 -->
-
-<div class="accordion-item bg-white rounded-[2rem] border border-slate-200 overflow-hidden shadow-sm">
-    <button onclick="toggleAccordion(this)" class="w-full p-8 flex justify-between items-center text-left hover:bg-slate-50">
-        <div class="flex items-center gap-5">
-            <span class="text-4xl">🎯</span>
-            <div>
-                <h3 class="text-2xl font-black">6. Problem Solving</h3>
-                <p class="text-xs uppercase font-bold text-slate-400 tracking-widest mt-1">
-                    Think Like a Programmer
-                </p>
-            </div>
-        </div>
-
-        <svg class="chevron w-6 h-6 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"/>
-        </svg>
-    </button>
-
-    <div class="accordion-content px-8 pb-8">
-        <div class="pt-5 border-t border-slate-100 space-y-4 text-slate-600">
-
-            <p>
-                Programmers solve problems by asking:
-            </p>
-
-            <ul class="space-y-2 pl-5 list-disc">
-                <li>What is the problem?</li>
-                <li>What steps can solve it?</li>
-                <li>Is there a faster way?</li>
-                <li>Did something go wrong?</li>
-            </ul>
-
-            <p>
-                This helps kids become better thinkers both in school and in real life.
-            </p>
-
-        </div>
-    </div>
-</div>
-
-</div>
+<!-- INTRO -->
+<section class="py-16 px-6 bg-white">
+  <div class="max-w-5xl mx-auto text-center">
+    <h2 class="text-3xl md:text-4xl font-black mb-6">Choose a Module to Begin</h2>
+    <p class="text-slate-600 text-lg leading-relaxed">
+      Each topic opens a full lesson page inside your <strong>modules/</strong> folder. These lessons include practical explanations, exercises, classwork, and revision support for students, parents, and schools.
+    </p>
+  </div>
 </section>
 
-<!-- QUIZ CTA -->
+<!-- MODULE GRID -->
+<section class="py-10 px-6">
+  <div class="max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-8">
 
+    <a href="modules/keyboard-skills.html" class="module-card bg-white rounded-[2rem] border border-slate-100 p-8 shadow-sm block">
+      <div class="text-4xl mb-5">⌨️</div>
+      <h3 class="text-2xl font-black mb-3">Keyboard Skills</h3>
+      <p class="text-slate-500">Typing basics, key recognition, finger placement, shortcuts, and beginner keyboard confidence.</p>
+    </a>
+
+    <a href="modules/mouse-skills.html" class="module-card bg-white rounded-[2rem] border border-slate-100 p-8 shadow-sm block">
+      <div class="text-4xl mb-5">🖱️</div>
+      <h3 class="text-2xl font-black mb-3">Mouse Skills</h3>
+      <p class="text-slate-500">Clicking, dragging, scrolling, selecting, and control exercises for students.</p>
+    </a>
+
+    <a href="modules/algorithm-basics.html" class="module-card bg-white rounded-[2rem] border border-slate-100 p-8 shadow-sm block">
+      <div class="text-4xl mb-5">🤖</div>
+      <h3 class="text-2xl font-black mb-3">Algorithm Basics</h3>
+      <p class="text-slate-500">Learn sequencing, loops, decomposition, debugging, and logical thinking.</p>
+    </a>
+
+    <a href="modules/digital-literacy.html" class="module-card bg-white rounded-[2rem] border border-slate-100 p-8 shadow-sm block">
+      <div class="text-4xl mb-5">💻</div>
+      <h3 class="text-2xl font-black mb-3">Digital Literacy</h3>
+      <p class="text-slate-500">Safe technology use, online awareness, and responsible digital learning habits.</p>
+    </a>
+
+    <a href="modules/cbt-preparation.html" class="module-card bg-white rounded-[2rem] border border-slate-100 p-8 shadow-sm block">
+      <div class="text-4xl mb-5">📝</div>
+      <h3 class="text-2xl font-black mb-3">CBT Preparation</h3>
+      <p class="text-slate-500">Computer-based testing practice, exam confidence, and speed improvement.</p>
+    </a>
+
+    <a href="modules/html-for-kids.html" class="module-card bg-white rounded-[2rem] border border-slate-100 p-8 shadow-sm block">
+      <div class="text-4xl mb-5">🌐</div>
+      <h3 class="text-2xl font-black mb-3">Beginner HTML</h3>
+      <p class="text-slate-500">Introduction to websites, tags, structure, and coding for children.</p>
+    </a>
+
+    <a href="modules/internet-safety.html" class="module-card bg-white rounded-[2rem] border border-slate-100 p-8 shadow-sm block">
+      <div class="text-4xl mb-5">🛡️</div>
+      <h3 class="text-2xl font-black mb-3">Internet Safety</h3>
+      <p class="text-slate-500">Protect privacy, avoid scams, and build safe online habits for students.</p>
+    </a>
+
+    <a href="modules/study-habits.html" class="module-card bg-white rounded-[2rem] border border-slate-100 p-8 shadow-sm block">
+      <div class="text-4xl mb-5">📚</div>
+      <h3 class="text-2xl font-black mb-3">Study Habits</h3>
+      <p class="text-slate-500">Time management, focus, revision systems, and smart student routines.</p>
+    </a>
+
+    <a href="modules/leadership-lessons.html" class="module-card bg-white rounded-[2rem] border border-slate-100 p-8 shadow-sm block">
+      <div class="text-4xl mb-5">👑</div>
+      <h3 class="text-2xl font-black mb-3">Leadership Lessons</h3>
+      <p class="text-slate-500">Character building, responsibility, confidence, and student leadership values.</p>
+    </a>
+
+  </div>
+</section>
+
+<!-- CTA -->
 <section class="py-20 px-6">
-    <div class="content-container bg-slate-900 rounded-[3rem] p-12 text-center text-white">
-        <h2 class="text-4xl font-black mb-4">
-            Ready for Your Logic Quiz? 🎓
-        </h2>
-
-        <p class="text-slate-400 max-w-2xl mx-auto mb-10">
-            Test what you've learned and earn your
-            <strong>Algorithm Explorer Badge</strong>!
-        </p>
-
-        <button class="px-10 py-5 bg-indigo-600 rounded-2xl font-black hover:bg-indigo-500 transition">
-            START FINAL QUIZ
-        </button>
-    </div>
+  <div class="max-w-5xl mx-auto bg-slate-900 rounded-[3rem] p-12 text-center text-white">
+    <h2 class="text-4xl font-black mb-4">Learning Starts With One Click</h2>
+    <p class="text-slate-400 max-w-2xl mx-auto mb-8">
+      Open any module and begin your journey from digital beginner to future innovator.
+    </p>
+    <a href="modules/keyboard-skills.html" class="inline-block px-10 py-5 rounded-2xl bg-indigo-600 font-black hover:bg-indigo-500 transition">
+      START FIRST MODULE
+    </a>
+  </div>
 </section>
 
-<!-- SCRIPT -->
+<!-- FOOTER -->
+<footer class="bg-slate-950 text-slate-500 py-16 px-6">
+  <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-8">
+    <div>
+      <div class="flex items-center gap-2 text-white mb-4">
+        <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center font-black">K</div>
+        <span class="font-black text-xl">Kidventor Academy</span>
+      </div>
+      <p class="text-sm text-indigo-400">Building creators, not just consumers of technology.</p>
+    </div>
 
-<script>
-function toggleAccordion(button) {
-    const item = button.parentElement;
-    const isActive = item.classList.contains("active");
-
-    document.querySelectorAll(".accordion-item").forEach(el => {
-        el.classList.remove("active");
-    });
-
-    if (!isActive) {
-        item.classList.add("active");
-    }
-}
-</script>
+    <div class="text-xs font-black uppercase tracking-widest flex gap-6 flex-wrap">
+      <a href="privacy.html" class="hover:text-white">Privacy</a>
+      <a href="terms.html" class="hover:text-white">Terms</a>
+      <a href="faq.html" class="hover:text-white">FAQ</a>
+      <a href="contact.html" class="hover:text-white">Contact</a>
+    </div>
+  </div>
+</footer>
 
 </body>
 </html>
