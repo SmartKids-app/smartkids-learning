@@ -63,7 +63,7 @@
                 <span class="font-black text-xl tracking-tight group-hover:text-indigo-600 transition-colors">Kidventor</span>
             </a>
 
-            <nav class="hidden md:flex items-center gap-4 text-sm font-bold">
+            <nav class="hidden lg:flex items-center gap-4 text-sm font-bold">
                 <a href="#courses" class="nav-link">Courses</a>
                 <a href="#why" class="nav-link">Why</a>
                 <a href="#seo-content" class="nav-link">Learning</a>
@@ -76,13 +76,13 @@
 
     <!-- HERO SECTION (RETAINED + IMPROVED) -->
     <section class="pt-36 pb-24 px-6">
-        <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+        <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             <div>
                 <p class="inline-block px-4 py-2 rounded-full bg-indigo-100 text-indigo-700 text-xs font-black uppercase tracking-widest">
                     Launch Bright Futures
                 </p>
 
-                <h1 class="mt-8 text-5xl md:text-6xl font-black leading-tight tracking-tight">
+                <h1 class="mt-8 text-4xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight">
                     Kids should not only use tech... <span class="text-indigo-600">they should create it.</span>
                 </h1>
 
@@ -90,7 +90,7 @@
                     Kidventor Academy teaches coding, digital literacy, creativity, CBT preparation, computer education, and moral values for tomorrow's leaders.
                 </p>
 
-                <div class="mt-10 flex flex-wrap gap-4">
+                <div class="mt-10 flex flex-col sm:flex-row flex-wrap gap-4">
                     <a href="#courses" class="shine text-white px-8 py-4 rounded-2xl font-black shadow-xl">Start Learning</a>
                     <a href="about.html" class="px-8 py-4 rounded-2xl bg-white border font-black hover:bg-slate-100">Our Mission</a>
                 </div>
@@ -166,11 +166,11 @@
     </section>
 
     <!-- COURSES -->
-    <section id="courses" class="py-24 px-6 bg-white">
+    <section id="courses" class="py-20 md:py-24 px-4 sm:px-6 bg-white">
         <div class="max-w-7xl mx-auto">
             <h2 class="text-4xl font-black mb-12">Popular Learning Paths</h2>
 
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                 <div class="p-8 rounded-3xl border bg-slate-50">
                     <h3 class="text-2xl font-black mb-3">Keyboard Skills Training</h3>
                     <p class="text-slate-500">Students learn proper typing techniques, finger placement, typing speed improvement, and computer keyboard confidence for school and CBT exams.</p>
@@ -190,7 +190,7 @@
     </section>
 
     <!-- FAQ -->
-    <section id="faq" class="py-24 px-6 bg-slate-50">
+    <section id="faq" class="py-20 md:py-24 px-4 sm:px-6 bg-slate-50">
         <div class="max-w-5xl mx-auto">
             <h2 class="text-4xl font-black mb-10">Frequently Asked Questions</h2>
 
@@ -219,6 +219,256 @@
     </section>
 
     <!-- FOOTER -->
+    <footer class="bg-slate-950 text-slate-400 py-16 md:py-20 px-4 sm:px-6">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 border-b border-slate-800 pb-12">
+            <div>
+                <h3 class="text-white text-2xl font-black mb-4">Kidventor Academy</h3>
+                <p>
+                    Empowering children with coding, digital literacy, leadership, and strong moral values for the future.
+                </p>
+            </div>
+
+            <div class="flex flex-wrap gap-6 text-sm font-bold">
+                <a href="about.html">About</a>
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="terms.html">Terms</a>
+                <a href="contact.html">Contact</a>
+                <a href="faq.html">FAQ</a>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto mt-8 text-xs">
+            © 2026 Kidventor Academy • All Rights Reserved
+        </div>
+    </footer>
+
+</body>
+</html>
+
+
+
+
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Coding Classes for Kids | Digital Literacy & Moral Education | Kidventor Academy</title>
+    <meta name="description" content="Kidventor Academy offers coding classes for kids, digital literacy training, CBT preparation, computer education, moral lessons, and leadership development for children and teenagers." />
+    <meta name="keywords" content="coding classes for kids, digital literacy for children, CBT preparation, computer classes for students, coding academy, kids programming, moral education for children" />
+    <meta name="author" content="Kidventor Academy" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        html { scroll-behavior: smooth; }
+
+        @keyframes logo-turn {
+            from { transform: rotateY(0deg); }
+            to { transform: rotateY(360deg); }
+        }
+
+        .logo-container:hover .logo-icon {
+            animation: logo-turn 0.8s ease-in-out;
+        }
+
+        .nav-link {
+            position: relative;
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.75rem;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .nav-link:hover {
+            color: #4f46e5;
+            background: white;
+            border: 1px solid #818cf8;
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
+        }
+
+        .shine {
+            background: linear-gradient(90deg, #4f46e5, #818cf8, #4f46e5);
+            background-size: 200% auto;
+            animation: shine 3s linear infinite;
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+
+    <!-- HEADER --
+    <header class="fixed top-0 inset-x-0 z-50 bg-white/90 backdrop-blur border-b border-slate-100 px-6">
+        <div class="max-w-7xl mx-auto h-20 flex items-center justify-between">
+            <a href="index.html" class="logo-container flex items-center gap-3 group">
+                <div class="logo-icon w-10 h-10 rounded-xl bg-indigo-600 text-white font-black flex items-center justify-center shadow-lg">K</div>
+                <span class="font-black text-xl tracking-tight group-hover:text-indigo-600 transition-colors">Kidventor</span>
+            </a>
+
+            <nav class="hidden md:flex items-center gap-4 text-sm font-bold">
+                <a href="#courses" class="nav-link">Courses</a>
+                <a href="#why" class="nav-link">Why</a>
+                <a href="#seo-content" class="nav-link">Learning</a>
+                <a href="#faq" class="nav-link">FAQ</a>
+                <a href="worksheet.html" class="nav-link">Worksheets</a>
+                <a href="contact.html" class="ml-4 px-6 py-3 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700 transition">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- HERO SECTION (RETAINED + IMPROVED) --
+    <section class="pt-36 pb-24 px-6">
+        <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+            <div>
+                <p class="inline-block px-4 py-2 rounded-full bg-indigo-100 text-indigo-700 text-xs font-black uppercase tracking-widest">
+                    Launch Bright Futures
+                </p>
+
+                <h1 class="mt-8 text-5xl md:text-6xl font-black leading-tight tracking-tight">
+                    Kids should not only use tech... <span class="text-indigo-600">they should create it.</span>
+                </h1>
+
+                <p class="mt-8 text-lg text-slate-600 max-w-xl leading-relaxed">
+                    Kidventor Academy teaches coding, digital literacy, creativity, CBT preparation, computer education, and moral values for tomorrow's leaders.
+                </p>
+
+                <div class="mt-10 flex flex-wrap gap-4">
+                    <a href="#courses" class="shine text-white px-8 py-4 rounded-2xl font-black shadow-xl">Start Learning</a>
+                    <a href="about.html" class="px-8 py-4 rounded-2xl bg-white border font-black hover:bg-slate-100">Our Mission</a>
+                </div>
+            </div>
+
+            <div class="hidden lg:block">
+                <img
+                    src="https://raw.githubusercontent.com/SmartKids-app/smartkids-learning/main/image/side-view-two-siblings-home-together-playing-laptop.jpg"
+                    alt="Students learning coding and digital skills"
+                    class="rounded-[2rem] shadow-2xl border-8 border-white"
+                />
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY --
+    <section id="why" class="py-24 px-6 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="max-w-2xl mb-16">
+                <h2 class="text-4xl font-black">Why Kidventor Academy?</h2>
+                <p class="mt-4 text-slate-500 text-lg">
+                    We combine computer skills, confidence, creativity, and character development.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="card transition duration-500 bg-slate-50 p-8 rounded-3xl border">
+                    <div class="text-4xl mb-6">💻</div>
+                    <h3 class="text-2xl font-black mb-3">Coding Basics</h3>
+                    <p class="text-slate-500">Students learn HTML, websites, logic building, and problem-solving through beginner-friendly coding lessons.</p>
+                </div>
+
+                <div class="card transition duration-500 bg-slate-50 p-8 rounded-3xl border">
+                    <div class="text-4xl mb-6">🧠</div>
+                    <h3 class="text-2xl font-black mb-3">Digital Literacy</h3>
+                    <p class="text-slate-500">Typing skills, CBT preparation, internet safety, and smart digital habits for modern learners.</p>
+                </div>
+
+                <div class="card transition duration-500 bg-slate-50 p-8 rounded-3xl border">
+                    <div class="text-4xl mb-6">⚖️</div>
+                    <h3 class="text-2xl font-black mb-3">Morals & Values</h3>
+                    <p class="text-slate-500">We teach responsibility, leadership, discipline, and strong character alongside technical skills.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEO CONTENT --
+    <section id="seo-content" class="py-24 px-6 bg-slate-50">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-4xl font-black mb-8">
+                Coding Classes for Kids, Digital Skills & Moral Education
+            </h2>
+
+            <div class="space-y-6 text-lg text-slate-600 leading-relaxed">
+                <p>
+                    At Kidventor Academy, we believe children should not only consume technology—they should understand how to create it. Our programs are designed to help children develop coding skills, computer confidence, problem-solving ability, and strong moral values for the future.
+                </p>
+
+                <p>
+                    We teach website development, beginner programming, algorithm thinking, computer appreciation, typing skills, CBT preparation, safe internet habits, digital responsibility, and leadership development. Every lesson is practical, engaging, and built for real growth.
+                </p>
+
+                <p>
+                    Parents and schools trust Kidventor Academy because we combine technology education with character building. Students learn how to think critically, solve problems creatively, and become confident digital leaders.
+                </p>
+
+                <p>
+                    Whether your child is preparing for school success, future tech careers, or stronger digital confidence, Kidventor Academy provides a safe and inspiring learning environment.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- COURSES --
+    <section id="courses" class="py-24 px-6 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-black mb-12">Popular Learning Paths</h2>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="p-8 rounded-3xl border bg-slate-50">
+                    <h3 class="text-2xl font-black mb-3">Keyboard Skills Training</h3>
+                    <p class="text-slate-500">Students learn proper typing techniques, finger placement, typing speed improvement, and computer keyboard confidence for school and CBT exams.</p>
+                </div>
+
+                <div class="p-8 rounded-3xl border bg-slate-50">
+                    <h3 class="text-2xl font-black mb-3">Mouse Control Skills</h3>
+                    <p class="text-slate-500">Children practice clicking, dragging, scrolling, selecting, and navigation skills to build strong computer confidence from beginner level.</p>
+                </div>
+
+                <div class="p-8 rounded-3xl border bg-slate-50">
+                    <h3 class="text-2xl font-black mb-3">Computer Basics & CBT Preparation</h3>
+                    <p class="text-slate-500">Practical lessons on computer operation, typing speed, digital literacy, and CBT exam preparation for students and beginners.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ --
+    <section id="faq" class="py-24 px-6 bg-slate-50">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-4xl font-black mb-10">Frequently Asked Questions</h2>
+
+            <div class="space-y-8">
+                <div>
+                    <h3 class="text-xl font-black">What age is Kidventor Academy for?</h3>
+                    <p class="text-slate-600 mt-2">Our programs are designed for children from ages 6 to 18 depending on the learning level.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-black">Do students need previous coding experience?</h3>
+                    <p class="text-slate-600 mt-2">No. We teach complete beginners and guide students step by step into coding and digital literacy.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-black">Do you work with schools and private students?</h3>
+                    <p class="text-slate-600 mt-2">Yes. We support schools, learning centers, and individual students through structured lessons.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-black">Why combine morals with technology education?</h3>
+                    <p class="text-slate-600 mt-2">Technology without character can be dangerous. We teach both skills and values for responsible leadership.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER --
     <footer class="bg-slate-950 text-slate-400 py-20 px-6">
         <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 border-b border-slate-800 pb-12">
             <div>
