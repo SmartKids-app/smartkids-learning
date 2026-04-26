@@ -87,220 +87,201 @@
 
     </div>
 </main>
-    <!--<main id="game-box" class="w-full max-w-2xl">
-        
-        <div id="loading-screen" class="text-center">
-            <div class="animate-spin text-4xl mb-4">⚙️</div>
-            <p class="font-bold text-slate-400">Syncing Mission Data...</p>
-        </div>
-
-        <div id="start-screen" class="hidden glass-card p-10 rounded-[3rem] shadow-2xl text-center space-y-6">
-            <div class="text-6xl" id="start-emoji">🎯</div>
-            <h1 class="text-4xl font-extrabold text-slate-900" id="start-title">Level Ready</h1>
-            <p class="text-slate-500 font-medium" id="start-desc">Loading mission details...</p>
-            <button onclick="begin()" class="w-full bg-indigo-600 text-white font-black py-5 rounded-3xl hover:bg-indigo-700 transition-all">
-                ENTER ARENA →
-            </button>
-        </div>
-
-        <div id="quiz-content" class="hidden quiz-container">
-            <div class="glass-card p-8 rounded-[3rem] shadow-2xl space-y-6">
-                <div class="flex justify-between items-center">
-                    <span class="text-[10px] font-black text-indigo-400 uppercase">Question <span id="q-number">1</span></span>
-                </div>
-                <h2 id="question-text" class="text-2xl font-extrabold text-slate-800 leading-snug">---</h2>
-                <div id="options-grid" class="grid gap-3"></div>
-            </div>
-        </div>
-
-        <div id="result-screen" class="hidden glass-card p-10 rounded-[3rem] shadow-2xl text-center space-y-6">
-            <div id="result-icon" class="text-7xl">🏆</div>
-            <h2 id="result-title" class="text-4xl font-black italic">Mission End</h2>
-            <p id="result-msg" class="text-slate-600 text-lg">Processing your performance...</p>
-            <div class="bg-slate-50 p-6 rounded-3xl">
-                <span id="final-score" class="text-5xl font-black text-indigo-600">0</span>
-            </div>
-            <div class="flex gap-3">
-                <button onclick="location.href='index.html'" class="flex-1 bg-slate-100 text-slate-600 font-bold py-4 rounded-2xl">LOBBY</button>
-                <button id="next-btn" class="hidden flex-1 bg-indigo-600 text-white font-bold py-4 rounded-2xl">NEXT LEVEL</button>
-            </div>
-        </div>
-
-    </main>-->
-
     <script>
-        // CONFIG & STATE
-        const params = new URLSearchParams(window.location.search);
-        const currentLevelKey = params.get('level') || 'level1';
+    // CONFIG & STATE
+    const params = new URLSearchParams(window.location.search);
+    const currentLevelKey = params.get('level') || 'level1';
+    
+    let questions = [];
+    let currentIndex = 0;
+    let score = 0;
+    let timer;
+    let timeLeft = 30;
+    let failCount = parseInt(localStorage.getItem('fails_' + currentLevelKey)) || 0;
+
+    // 1. FETCH DYNAMIC JSON
+    async function init() {
+        try {
+            // Fetches from the /data/ folder relative to quiz.html
+            const response = await fetch(`data/${currentLevelKey}.json`);
+            const data = await response.json();
+            
+            questions = data.questions;
+            document.getElementById('loading-screen').classList.add('hidden');
+            document.getElementById('start-screen').classList.remove('hidden');
+            
+            // UI Updates
+            document.getElementById('start-title').innerText = data.levelName;
+            document.getElementById('start-desc').innerText = `${questions.length} Questions • Score 5+ to Unlock Next`;
+            document.getElementById('total-q-label').innerText = questions.length;
+            document.getElementById('level-indicator').innerText = data.levelName;
+        } catch (e) {
+            document.getElementById('loading-screen').innerHTML = "<p class='text-red-500'>Error: Level file not found in /data folder.</p>";
+        }
+    }
+
+    // 2. GAME LOGIC
+    function begin() {
+        document.getElementById('start-screen').classList.add('hidden');
+        document.getElementById('quiz-header').classList.remove('hidden');
+        document.getElementById('quiz-content').classList.remove('hidden');
+        showQuestion();
+    }
+
+    function showQuestion() {
+        if (currentIndex >= questions.length) return finish();
+
+        const q = questions[currentIndex];
+        const content = document.getElementById('quiz-content');
         
-        let questions = [];
-        let currentIndex = 0;
-        let score = 0;
-        let timer;
-        let timeLeft = 30;
-        let failCount = parseInt(localStorage.getItem('fails_' + currentLevelKey)) || 0;
+        // CBT Flip Animation: Out
+        content.classList.add('slide-out');
+        
+        setTimeout(() => {
+            document.getElementById('q-number').innerText = currentIndex + 1;
+            document.getElementById('question-text').innerText = q.q;
+            
+            const grid = document.getElementById('options-grid');
+            grid.innerHTML = '';
+            
+            q.a.forEach((opt, i) => {
+                const b = document.createElement('button');
+                b.className = 'option-btn w-full p-5 rounded-2xl font-bold text-left bg-white';
+                b.innerText = opt;
+                b.onclick = () => check(i, b);
+                grid.appendChild(b);
+            });
 
-        // 1. FETCH DYNAMIC JSON
-        async function init() {
-            try {
-                const response = await fetch(`data/${currentLevelKey}.json`);
-                const data = await response.json();
-                
-                questions = data.questions;
-                document.getElementById('loading-screen').classList.add('hidden');
-                document.getElementById('start-screen').classList.remove('hidden');
-                
-                // UI Updates
-                document.getElementById('start-title').innerText = data.levelName;
-                document.getElementById('start-desc').innerText = `${questions.length} Questions • Score 5+ to Unlock Next`;
-                document.getElementById('total-q-label').innerText = questions.length;
-                document.getElementById('level-indicator').innerText = data.levelName;
-            } catch (e) {
-                document.getElementById('loading-screen').innerHTML = "<p class='text-red-500'>Error: Level file not found.</p>";
-            }
+            // CBT Flip Animation: In
+            content.classList.remove('slide-out');
+            content.classList.add('slide-in');
+            setTimeout(() => content.classList.remove('slide-in'), 50);
+            
+            startTimer();
+        }, 400);
+    }
+
+    function check(idx, btn) {
+        clearInterval(timer);
+        const correct = questions[currentIndex].correct;
+        const btns = document.querySelectorAll('.option-btn');
+        btns.forEach(b => b.disabled = true);
+
+        if (idx === correct) {
+            btn.classList.add('correct');
+            score++;
+            document.getElementById('current-score').innerText = score;
+            confetti({ particleCount: 40, spread: 60, origin: { y: 0.8 } });
+        } else {
+            if(btn) btn.classList.add('wrong');
+            btns[correct].classList.add('correct');
         }
 
-        // 2. GAME LOGIC
-        function begin() {
-            document.getElementById('start-screen').classList.add('hidden');
-            document.getElementById('quiz-header').classList.remove('hidden');
-            document.getElementById('quiz-content').classList.remove('hidden');
+        setTimeout(() => {
+            currentIndex++;
             showQuestion();
-        }
+        }, 1200);
+    }
 
-        function showQuestion() {
-            if (currentIndex >= questions.length) return finish();
-
-            const q = questions[currentIndex];
-            const content = document.getElementById('quiz-content');
-            
-            content.classList.add('slide-out');
-            
-            setTimeout(() => {
-                document.getElementById('q-number').innerText = currentIndex + 1;
-                document.getElementById('question-text').innerText = q.q;
-                
-                const grid = document.getElementById('options-grid');
-                grid.innerHTML = '';
-                
-                q.a.forEach((opt, i) => {
-                    const b = document.createElement('button');
-                    b.className = 'option-btn w-full p-5 rounded-2xl font-bold text-left bg-white';
-                    b.innerText = opt;
-                    b.onclick = () => check(i, b);
-                    grid.appendChild(b);
-                });
-
-                content.classList.remove('slide-out');
-                content.classList.add('slide-in');
-                setTimeout(() => content.classList.remove('slide-in'), 50);
-                
-                startTimer();
-            }, 400);
-        }
-
-        function check(idx, btn) {
-            clearInterval(timer);
-            const correct = questions[currentIndex].correct;
-            const btns = document.querySelectorAll('.option-btn');
-            btns.forEach(b => b.disabled = true);
-
-            if (idx === correct) {
-                btn.classList.add('correct');
-                score++;
-                document.getElementById('current-score').innerText = score;
-                confetti({ particleCount: 40, spread: 60, origin: { y: 0.8 } });
-            } else {
-                if(btn) btn.classList.add('wrong');
-                btns[correct].classList.add('correct');
+    function startTimer() {
+        clearInterval(timer);
+        timeLeft = 30;
+        document.getElementById('timer').innerText = "00:30";
+        timer = setInterval(() => {
+            timeLeft--;
+            document.getElementById('timer').innerText = `00:${timeLeft < 10 ? '0' : ''}${timeLeft}`;
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                check(-1, null);
             }
+        }, 1000);
+    }
 
-            setTimeout(() => {
-                currentIndex++;
-                showQuestion();
-            }, 1200);
-        }
+    function finish() {
+        document.getElementById('quiz-header').classList.add('hidden');
+        document.getElementById('quiz-content').classList.add('hidden');
+        document.getElementById('result-screen').classList.remove('hidden');
+        document.getElementById('final-score').innerText = `${score} / ${questions.length}`;
 
-        function startTimer() {
-            clearInterval(timer);
-            timeLeft = 30;
-            document.getElementById('timer').innerText = "00:30";
-            timer = setInterval(() => {
-                timeLeft--;
-                document.getElementById('timer').innerText = `00:${timeLeft < 10 ? '0' : ''}${timeLeft}`;
-                if (timeLeft <= 0) {
-                    clearInterval(timer);
-                    check(-1, null);
-                }
-            }, 1000);
-        }
-
-        function finish() {
-            document.getElementById('quiz-header').classList.add('hidden');
-            document.getElementById('quiz-content').classList.add('hidden');
-            document.getElementById('result-screen').classList.remove('hidden');
-            document.getElementById('final-score').innerText = `${score} / ${questions.length}`;
-
-            if (score >= 5) {
-                // SUCCESS
-                document.getElementById('result-icon').innerText = "🎊";
-                document.getElementById('result-title').innerText = "You Did Well!";
-                document.getElementById('result-msg').innerText = "Challenge mastered. Next level is now open!";
-                
-                // UNLOCK LOGIC
-                localStorage.setItem('unlock_' + currentLevelKey, 'true');
-                localStorage.setItem('fails_' + currentLevelKey, '0');
-                
-                // SHOW NEXT BUTTON
-                const nextBtn = document.getElementById('next-btn');
-                nextBtn.classList.remove('hidden');
-                nextBtn.onclick = () => {
-                    const flow = { level1: 'level2', level2: 'level3', level3: 'advance' };
-                    location.href = `quiz.html?level=${flow[currentLevelKey]}`;
-                };
-            } else {
-                // FAIL
-                failCount++;
-                localStorage.setItem('fails_' + currentLevelKey, failCount);
-                
-                if (failCount >= 5) {
-                    document.getElementById('result-icon').innerText = "⛔";
-                    document.getElementById('result-title').innerText = "Hard Reset";
-                    document.getElementById('result-msg').innerText = "5 failed attempts. Returning to start.";
-                    localStorage.clear(); // Reset all progress
+        if (score >= 5) {
+            // SUCCESS: Score 5 or more marks
+            document.getElementById('result-icon').innerText = "🎊";
+            document.getElementById('result-title').innerText = "You Did Well!";
+            document.getElementById('result-msg').innerText = "Challenge mastered. Next level is now open!";
+            
+            // SAVE PROGRESS: Set the unlock key for this specific level
+            localStorage.setItem('unlock_' + currentLevelKey, 'true');
+            localStorage.setItem('fails_' + currentLevelKey, '0'); // Reset fails on success
+            
+            // SHOW NEXT BUTTON
+            const nextBtn = document.getElementById('next-btn');
+            nextBtn.classList.remove('hidden');
+            nextBtn.onclick = () => {
+                const flow = { level1: 'level2', level2: 'level3', level3: 'advance' };
+                const nextLevel = flow[currentLevelKey];
+                if(nextLevel) {
+                    location.href = `quiz.html?level=${nextLevel}`;
                 } else {
-                    document.getElementById('result-icon').innerText = "⚠️";
-                    document.getElementById('result-title').innerText = "Retry Required";
-                    document.getElementById('result-msg').innerText = `Failed attempts: ${failCount}/5. Try again!`;
+                    location.href = `html-future.html`; // Go to future page if advance is finished
                 }
+            };
+        } else {
+            // FAIL: Score less than 5 marks
+            failCount++;
+            localStorage.setItem('fails_' + currentLevelKey, failCount);
+            
+            if (failCount >= 5) {
+                document.getElementById('result-icon').innerText = "⛔";
+                document.getElementById('result-title').innerText = "Hard Reset";
+                document.getElementById('result-msg').innerText = "5 failed attempts. All progress has been cleared.";
+                localStorage.clear(); // Complete wipe as per request
+            } else {
+                document.getElementById('result-icon').innerText = "⚠️";
+                document.getElementById('result-title').innerText = "Retry Required";
+                document.getElementById('result-msg').innerText = `Scored below 5. Fail count: ${failCount}/5. Try again!`;
             }
         }
+    }
 
-        init();
-    </script>
+    init();
+</script>
     <script>
     function updateLocks() {
-        // We check the keys set in quiz.html upon successful completion (Score >= 5)
         const levels = ['level2', 'level3', 'advance'];
-        const previousLevel = {
+        const requirements = {
             'level2': 'level1',
             'level3': 'level2',
             'advance': 'level3'
         };
 
         levels.forEach(lvl => {
-            const isUnlocked = localStorage.getItem('unlock_' + previousLevel[lvl]);
+            const previousLvl = requirements[lvl];
+            const isUnlocked = localStorage.getItem('unlock_' + previousLvl);
             const card = document.getElementById('link-' + lvl);
             
-            if (isUnlocked === 'true') {
+            if (isUnlocked === 'true' && card) {
+                // Remove greyed out look
                 card.classList.remove('opacity-50', 'pointer-events-none');
-                card.querySelector('.lock-icon').innerText = "🔓";
-                card.querySelector('.mt-auto').innerText = "START CHALLENGE";
-                card.querySelector('.mt-auto').classList.remove('text-slate-400', 'text-white/40');
+                
+                // Update Lock Icon
+                const lock = card.querySelector('.lock-icon');
+                if(lock) lock.innerText = "🔓";
+                
+                // Update Button Text
+                const btn = card.querySelector('.mt-auto');
+                if(btn) {
+                    btn.innerText = "START MISSION";
+                    btn.classList.remove('text-slate-400');
+                    btn.classList.add('text-indigo-600', 'border-indigo-500');
+                }
+                
+                // Activate link
                 card.href = `quiz.html?level=${lvl}`;
             }
         });
     }
+    
+    // Check for unlocks whenever user returns to landing page
     window.onload = updateLocks;
 </script>
 </body>
