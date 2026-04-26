@@ -1,6 +1,283 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Communication Skills | Kidventor Academy</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap');
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: #fcfdff;
+}
+
+@keyframes wave {
+    0%,100% { transform: rotate(0deg); }
+    50% { transform: rotate(15deg); }
+}
+
+.wave {
+    animation: wave 2s infinite;
+}
+
+.card-hover {
+    transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-6px);
+}
+</style>
+</head>
+
+<body class="text-slate-900">
+
+<!-- NAVBAR -->
+
+<nav class="bg-white sticky top-0 z-50 border-b border-slate-100">
+    <div class="max-w-6xl mx-auto px-6 py-5 flex justify-between items-center">
+
+        <a href="index.html" class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-black">
+                K
+            </div>
+            <span class="font-black text-xl">
+                Kidventor Academy
+            </span>
+        </a>
+
+        <div class="hidden md:block text-xs font-black uppercase tracking-widest text-slate-400">
+            Digital Literacy • Communication Skills
+        </div>
+
+    </div>
+</nav>
+
+<!-- HERO -->
+
+<header class="py-20 px-6 text-center">
+    <div class="max-w-4xl mx-auto">
+
+        <div class="text-7xl mb-6 wave inline-block">
+            👋
+        </div>
+
+        <h1 class="text-5xl md:text-6xl font-black mb-6">
+            Communication Skills 💬
+        </h1>
+
+        <p class="text-lg text-slate-500 leading-relaxed max-w-3xl mx-auto">
+            Good communication helps us learn, work, and build strong friendships.
+            Whether online or offline, how we speak shows our character.
+        </p>
+
+    </div>
+</header>
+
+<!-- MAIN -->
+
+<main class="max-w-6xl mx-auto px-6 pb-24 space-y-20">
+
+<!-- GOOD VS BAD MESSAGE -->
+
+<section>
+    <h2 class="text-3xl font-black text-center mb-10">
+        Good Message vs Bad Message
+    </h2>
+
+    <div class="grid md:grid-cols-2 gap-8">
+
+        <div class="bg-red-50 border border-red-100 rounded-[2rem] p-8">
+            <div class="text-4xl mb-4">❌</div>
+            <h3 class="text-2xl font-black mb-4 text-red-700">
+                Bad Message
+            </h3>
+
+            <div class="bg-white p-5 rounded-xl border border-red-100 font-medium">
+                SEND ME THAT FILE NOW!!!
+            </div>
+
+            <p class="text-slate-600 mt-4">
+                This sounds rude, angry, and disrespectful.
+            </p>
+        </div>
+
+        <div class="bg-emerald-50 border border-emerald-100 rounded-[2rem] p-8">
+            <div class="text-4xl mb-4">✅</div>
+            <h3 class="text-2xl font-black mb-4 text-emerald-700">
+                Good Message
+            </h3>
+
+            <div class="bg-white p-5 rounded-xl border border-emerald-100 font-medium">
+                Hello! Please can you send me the file when you are free? Thank you 😊
+            </div>
+
+            <p class="text-slate-600 mt-4">
+                This sounds polite, kind, and professional.
+            </p>
+        </div>
+
+    </div>
+</section>
+
+<!-- EMAIL LESSON -->
+
+<section class="bg-slate-900 rounded-[3rem] p-10 md:p-16 text-white">
+    <h2 class="text-4xl font-black text-center mb-10">
+        Writing a Proper Email 📧
+    </h2>
+
+    <div class="grid md:grid-cols-2 gap-8">
+
+        <div class="bg-white/5 p-6 rounded-2xl border border-white/10">
+            <h3 class="font-black text-xl mb-4">4 Parts of an Email</h3>
+
+            <ul class="space-y-4 text-slate-300">
+                <li><strong>Subject:</strong> Short reason for writing</li>
+                <li><strong>Greeting:</strong> Dear Teacher</li>
+                <li><strong>Body:</strong> Explain clearly</li>
+                <li><strong>Closing:</strong> Thank you + your name</li>
+            </ul>
+        </div>
+
+        <div class="bg-white/5 p-6 rounded-2xl border border-white/10">
+            <h3 class="font-black text-xl mb-4">Example</h3>
+
+            <p class="text-slate-300 text-sm leading-relaxed">
+                Subject: Question About Homework<br><br>
+
+                Dear Teacher,<br><br>
+
+                Please I need help with Question 3 in today’s assignment.<br><br>
+
+                Thank you.<br>
+                John
+            </p>
+        </div>
+
+    </div>
+</section>
+
+<!-- VIDEO CALL RULES -->
+
+<section>
+    <h2 class="text-3xl font-black text-center mb-10">
+        Video Call Rules 🎥
+    </h2>
+
+    <div class="grid md:grid-cols-4 gap-6">
+
+        <div class="bg-white p-8 rounded-[2rem] border border-slate-100 text-center card-hover">
+            <div class="text-4xl mb-4">🔇</div>
+            <h3 class="font-black mb-2">Mute Yourself</h3>
+            <p class="text-sm text-slate-500">
+                Reduce background noise
+            </p>
+        </div>
+
+        <div class="bg-white p-8 rounded-[2rem] border border-slate-100 text-center card-hover">
+            <div class="text-4xl mb-4">👀</div>
+            <h3 class="font-black mb-2">Look at Camera</h3>
+            <p class="text-sm text-slate-500">
+                Show confidence and respect
+            </p>
+        </div>
+
+        <div class="bg-white p-8 rounded-[2rem] border border-slate-100 text-center card-hover">
+            <div class="text-4xl mb-4">✋</div>
+            <h3 class="font-black mb-2">Raise Hand</h3>
+            <p class="text-sm text-slate-500">
+                Wait for your turn to speak
+            </p>
+        </div>
+
+        <div class="bg-white p-8 rounded-[2rem] border border-slate-100 text-center card-hover">
+            <div class="text-4xl mb-4">🪑</div>
+            <h3 class="font-black mb-2">Sit Properly</h3>
+            <p class="text-sm text-slate-500">
+                Good posture improves learning
+            </p>
+        </div>
+
+    </div>
+</section>
+
+<!-- DIGITAL RESPECT -->
+
+<section class="bg-emerald-50 border border-emerald-100 rounded-[3rem] p-10">
+    <h2 class="text-3xl font-black mb-8 text-center">
+        Digital Respect Rules 🤝
+    </h2>
+
+    <div class="grid md:grid-cols-2 gap-6">
+
+        <div class="bg-white p-6 rounded-2xl">
+            ✅ Be kind to others online
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl">
+            ✅ Respect people's opinions
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl">
+            ❌ Never bully people online
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl">
+            ❌ Never spread fake information
+        </div>
+
+    </div>
+</section>
+
+<!-- 3 SECOND RULE -->
+
+<section class="text-center bg-white rounded-[3rem] p-12 border border-slate-100">
+    <h2 class="text-3xl font-black mb-6">
+        The 3-Second Rule ⏳
+    </h2>
+
+    <p class="text-xl italic text-slate-600 max-w-3xl mx-auto">
+        Before you send any message, ask:
+        <strong>Is it Kind?</strong>
+        <strong>Is it True?</strong>
+        <strong>Is it Necessary?</strong>
+    </p>
+</section>
+
+<!-- CTA -->
+
+<div class="text-center">
+    <a href="quiz-communication.html"
+       class="inline-flex items-center gap-3 bg-emerald-600 hover:bg-slate-900 text-white font-black py-6 px-12 rounded-[2rem] transition-all hover:scale-105 shadow-xl">
+        Get Communication Certificate 🎓
+    </a>
+</div>
+
+</main>
+
+<!-- FOOTER -->
+
+<footer class="bg-white border-t border-slate-100 py-10 text-center">
+    <p class="text-xs font-bold uppercase tracking-widest text-slate-400">
+        © 2026 Kidventor Academy • Communication with Purpose
+    </p>
+</footer>
+
+</body>
+</html>
+
+
+
+
+
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Communication Pro | Kidventor Academy</title>
