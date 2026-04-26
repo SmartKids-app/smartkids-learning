@@ -1,0 +1,15 @@
+{
+  "levelName": "Style & Design",
+  "questions": [
+    {
+      "q": "Which CSS property changes the text color?",
+      "a": ["text-style", "color", "font-color"],
+      "correct": 1
+    },
+    {
+      "q": "What does CSS stand for?",
+      "a": ["Creative Style Sheets", "Cascading Style Sheets", "Computer Style Symbols"],
+      "correct": 1
+    }
+  ]
+}
