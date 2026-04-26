@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HTML Basics | Kidventor Academy</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap');
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: #f8fbff;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .float-icon {
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .lesson-card:hover {
+      transform: translateY(-4px);
+      transition: 0.3s ease;
+    }
+  </style>
+</head>
+<body class="text-slate-900">
+
+  <!-- NAVBAR -->
+  <nav class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-sky-100 py-4 px-6">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+      <a href="../index.html" class="flex items-center gap-2">
+        <div class="w-9 h-9 bg-sky-600 rounded-xl flex items-center justify-center text-white font-black">K</div>
+        <span class="font-extrabold uppercase tracking-tight text-sm">Kidventor Academy</span>
+      </a>
+
+      <a href="html-introduction.html" class="bg-sky-100 text-sky-700 px-4 py-2 rounded-xl font-bold text-sm hover:bg-sky-600 hover:text-white transition">
+        ← Back to HTML Hub
+      </a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="py-16 px-6 text-center">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-7xl mb-6 float-icon inline-block">🏗️</div>
+      <h1 class="text-5xl md:text-6xl font-black mb-6 tracking-tight">
+        HTML <span class="text-sky-600">Basics</span>
+      </h1>
+      <p class="text-lg text-slate-500 leading-relaxed max-w-2xl mx-auto">
+        Before websites become beautiful, they need structure. HTML is the skeleton of every webpage.
+        Let’s understand the three main parts every webpage needs.
+      </p>
+    </div>
+  </header>
+
+  <!-- WHAT HTML MEANS -->
+  <main class="max-w-6xl mx-auto px-6 pb-24 space-y-16">
+
+    <section class="bg-white rounded-[2.5rem] p-8 md:p-12 border border-slate-100 shadow-sm">
+      <div class="grid md:grid-cols-2 gap-10 items-center">
+        <div>
+          <h2 class="text-3xl font-black mb-6">What Does HTML Mean? 🧱</h2>
+          <p class="text-slate-600 leading-relaxed mb-6">
+            HTML stands for <strong>Hyper Text Markup Language</strong>. It tells the browser what to show,
+            where to show it, and how different parts of a webpage are arranged.
+          </p>
+
+          <div class="space-y-3">
+            <div class="flex gap-3"><span class="font-black text-sky-600">H</span><span><strong>Hyper</strong> = connected links</span></div>
+            <div class="flex gap-3"><span class="font-black text-sky-600">T</span><span><strong>Text</strong> = words and content</span></div>
+            <div class="flex gap-3"><span class="font-black text-sky-600">M</span><span><strong>Markup</strong> = instructions for the browser</span></div>
+            <div class="flex gap-3"><span class="font-black text-sky-600">L</span><span><strong>Language</strong> = the system used to write it</span></div>
+          </div>
+        </div>
+
+        <div class="bg-sky-50 rounded-[2rem] p-8 border border-sky-100 text-center">
+          <div class="text-6xl mb-4">🏠</div>
+          <h3 class="font-black text-xl mb-2">Think of a House</h3>
+          <p class="text-sm text-slate-500">
+            HTML is the frame of the house before painting (CSS) and electricity (JavaScript).
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 MAIN PARTS -->
+    <section class="bg-slate-900 rounded-[3rem] p-10 md:p-14 text-white">
+      <h2 class="text-3xl font-black text-center mb-10">The 3 Main Parts of a Webpage</h2>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-white/5 p-8 rounded-[2rem] border border-white/10">
+          <div class="text-3xl mb-4">🌍</div>
+          <h3 class="font-black text-xl mb-3">&lt;html&gt;</h3>
+          <p class="text-slate-300 text-sm">
+            This is the full house. It wraps everything on your webpage from start to finish.
+          </p>
+        </div>
+
+        <div class="bg-white/5 p-8 rounded-[2rem] border border-white/10">
+          <div class="text-3xl mb-4">🧠</div>
+          <h3 class="font-black text-xl mb-3">&lt;head&gt;</h3>
+          <p class="text-slate-300 text-sm">
+            This is the brain. It contains settings like title, styles, and important page information.
+          </p>
+        </div>
+
+        <div class="bg-white/5 p-8 rounded-[2rem] border border-white/10">
+          <div class="text-3xl mb-4">👀</div>
+          <h3 class="font-black text-xl mb-3">&lt;body&gt;</h3>
+          <p class="text-slate-300 text-sm">
+            This is what people see — headings, text, images, buttons, and everything visible.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXAMPLE CODE -->
+    <section class="bg-white rounded-[2.5rem] p-8 md:p-12 border border-slate-100 shadow-sm">
+      <h2 class="text-3xl font-black mb-6">Your First Full Structure 💻</h2>
+
+      <div class="bg-slate-900 text-slate-200 rounded-[2rem] p-8 overflow-x-auto text-sm leading-8 font-mono">
+&lt;html&gt;<br>
+&nbsp;&nbsp;&lt;head&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;My First Page&lt;/title&gt;<br>
+&nbsp;&nbsp;&lt;/head&gt;<br><br>
+&nbsp;&nbsp;&lt;body&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;Hello World!&lt;/h1&gt;<br>
+&nbsp;&nbsp;&lt;/body&gt;<br>
+&lt;/html&gt;
+      </div>
+
+      <p class="mt-6 text-slate-500">
+        This is the starting point of almost every website on the internet.
+      </p>
+    </section>
+
+    <!-- MINI CHECK -->
+    <section class="bg-sky-600 rounded-[2.5rem] p-10 text-white text-center">
+      <h2 class="text-3xl font-black mb-4">Quick Check 🧠</h2>
+      <p class="text-sky-100 mb-8">Which part of HTML shows what people can actually see?</p>
+
+      <div class="flex flex-wrap justify-center gap-4">
+        <button onclick="showAnswer('Try again! The head contains settings.')" class="bg-white text-sky-700 font-bold px-6 py-3 rounded-xl">&lt;head&gt;</button>
+        <button onclick="showAnswer('Correct! The body shows visible content.')" class="bg-white text-sky-700 font-bold px-6 py-3 rounded-xl">&lt;body&gt;</button>
+        <button onclick="showAnswer('Not quite. HTML wraps everything.')" class="bg-white text-sky-700 font-bold px-6 py-3 rounded-xl">&lt;html&gt;</button>
+      </div>
+
+      <p id="answerBox" class="mt-8 font-bold text-lg"></p>
+    </section>
+
+    <!-- NAVIGATION -->
+    <section class="flex justify-between items-center pt-4">
+      <a href="html-introduction.html" class="font-bold text-slate-600 hover:text-sky-600">
+        ← Back to Hub
+      </a>
+
+      <a href="html-tags.html" class="bg-sky-600 hover:bg-slate-900 text-white font-black px-6 py-3 rounded-xl transition">
+        Next Lesson →
+      </a>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-white py-12 px-6 text-center border-t border-slate-100">
+    <p class="text-slate-400 text-xs font-bold uppercase tracking-widest">
+      © 2026 Kidventor Academy • HTML Basics
+    </p>
+  </footer>
+
+  <script>
+    function showAnswer(message) {
+      document.getElementById('answerBox').innerText = message;
+    }
+  </script>
+
+</body>
+</html>
