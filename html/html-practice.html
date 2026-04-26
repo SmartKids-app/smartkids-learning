@@ -96,18 +96,18 @@
                         spellcheck="false"></textarea>
                 </div>
 
-                <div class="flex flex-col sm:flex-row gap-3">
-                    <button onclick="checkCode()" class="bg-sky-600 hover:bg-sky-700 text-white font-black py-4 px-8 rounded-2xl transition-all flex-1 shadow-lg shadow-sky-200">
-                        CHECK MISSION ✅
-                    </button>
-                    <button onclick="saveMyCode()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-black py-4 px-8 rounded-2xl transition-all shadow-lg shadow-emerald-200 flex items-center justify-center gap-2">
-                        <span>SAVE MY CODE</span> 💾
-                    </button>
-                </div>
-            </div>
-<div class="flex flex-col sm:flex-row gap-3">
-    <!-- HINT BOX -->
-<div id="hint-box" class="bg-amber-50 border-2 border-amber-200 rounded-[2rem] p-6">
+               <div class="flex flex-col sm:flex-row gap-3">
+    <button onclick="checkCode()" class="bg-sky-600 hover:bg-sky-700 text-white font-black py-4 px-8 rounded-2xl transition-all flex-1 shadow-lg shadow-sky-200">
+        CHECK MISSION ✅
+    </button>
+
+    <button onclick="saveMyCode()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-black py-4 px-8 rounded-2xl transition-all shadow-lg shadow-emerald-200 flex items-center justify-center gap-2">
+        <span>SAVE MY CODE</span> 💾
+    </button>
+</div>
+
+<!-- HINT BOX -->
+<div id="hint-box" class="bg-amber-50 border-2 border-amber-200 rounded-[2rem] p-6 mt-4">
     <div class="flex items-center justify-between mb-3">
         <h3 class="font-black text-amber-900 text-sm uppercase tracking-widest">
             Helpful Hint 💡
@@ -125,6 +125,7 @@
         <strong>&lt;h1&gt;My First Website&lt;/h1&gt;</strong>
     </p>
 </div>
+
             <!-- RIGHT: PREVIEW -->
             <div class="lg:col-span-4 space-y-4">
                 <h2 class="font-black text-xs uppercase tracking-[0.2em] text-slate-400 ml-2">Live Preview</h2>
@@ -150,7 +151,8 @@
             </div>
         </div>
     </main>
-<script>
+
+    <script>
 const htmlInput = document.getElementById('html-input');
 const livePreview = document.getElementById('live-preview');
 const hintText = document.getElementById('hint-text');
@@ -343,67 +345,5 @@ function saveMyCode() {
     a.click();
 }
 </script>
-  <!--  <script>
-        const htmlInput = document.getElementById('html-input');
-        const livePreview = document.getElementById('live-preview');
-        let currentTask = 1;
-
-        htmlInput.addEventListener('input', () => {
-            livePreview.innerHTML = htmlInput.value || '<div class="text-slate-300 text-center mt-20 italic">Start typing code to see the magic!</div>';
-        });
-
-        function insertTag(open, close) {
-            const start = htmlInput.selectionStart;
-            const end = htmlInput.selectionEnd;
-            const text = htmlInput.value;
-            htmlInput.value = text.substring(0, start) + open + close + text.substring(end);
-            htmlInput.dispatchEvent(new Event('input'));
-            htmlInput.focus();
-        }
-
-        function checkCode() {
-            const code = htmlInput.value.toLowerCase();
-            
-            if (currentTask === 1 && code.includes('<h1>') && code.includes('</h1>')) {
-                completeTask(1, 2, "Level 2: Visuals");
-            } else if (currentTask === 2 && code.includes('<img')) {
-                completeTask(2, 3, "Level 3: Navigation");
-            } else if (currentTask === 3 && code.includes('<a') && code.includes('</a>')) {
-                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-                document.getElementById('task3').querySelector('.check-icon').classList.remove('hidden');
-                document.getElementById('status-badge').innerText = "Developer Mastered! 🎉";
-                document.getElementById('status-badge').className = "text-[10px] font-black bg-emerald-500 text-white px-4 py-1.5 rounded-full uppercase tracking-widest";
-            } else {
-                alert("Almost there! Make sure you are using the correct tags for the current mission.");
-            }
-        }
-
-        function completeTask(current, next, statusLabel) {
-            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-            document.getElementById('task' + current).classList.remove('active');
-            document.getElementById('task' + current).querySelector('.check-icon').classList.remove('hidden');
-            
-            const nextCard = document.getElementById('task' + next);
-            nextCard.classList.add('active');
-            nextCard.querySelectorAll('p, span').forEach(el => {
-                el.classList.remove('text-slate-400');
-                if(el.tagName === 'SPAN') el.classList.add('text-sky-600');
-                else el.classList.add('text-slate-700');
-            });
-
-            document.getElementById('status-badge').innerText = statusLabel;
-            currentTask = next;
-        }
-
-        function saveMyCode() {
-            const code = htmlInput.value;
-            if (!code) return alert("Write some code first!");
-            const blob = new Blob([code], { type: "text/html" });
-            const a = document.createElement("a");
-            a.href = URL.createObjectURL(blob);
-            a.download = "kidventor-project.html";
-            a.click();
-        }
-    </script>-->
 </body>
 </html>
