@@ -1,1 +1,230 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Mega Quiz | Kidventor Academy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f1f5f9; overflow-x: hidden; }
+        
+        .quiz-container { transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        .slide-out { transform: translateX(-100vw); opacity: 0; }
+        .slide-in { transform: translateX(100vw); opacity: 0; }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .option-btn {
+            transition: all 0.2s ease;
+            border: 2px solid #e2e8f0;
+        }
+        .option-btn:hover { border-color: #0ea5e9; background: #f0f9ff; transform: scale(1.01); }
+        .option-btn.correct { border-color: #22c55e; background: #f0fdf4; color: #15803d; }
+        .option-btn.wrong { border-color: #ef4444; background: #fef2f2; color: #b91c1c; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4">
+
+    <div id="quiz-header" class="fixed top-0 left-0 w-full bg-white border-b border-slate-200 p-4 z-50 hidden">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <div class="bg-sky-100 text-sky-700 px-4 py-2 rounded-2xl font-bold text-sm">
+                    Score: <span id="current-score">0</span>/25
+                </div>
+                <div class="bg-amber-100 text-amber-700 px-4 py-2 rounded-2xl font-bold text-sm flex items-center gap-2">
+                    ⏱️ <span id="timer">00:30</span>
+                </div>
+            </div>
+            <div class="text-slate-400 font-bold text-xs uppercase tracking-widest">
+                Question <span id="q-number">1</span> of 25
+            </div>
+        </div>
+    </div>
+
+    <main id="game-box" class="w-full max-w-2xl">
+        
+        <div id="start-screen" class="glass-card p-10 rounded-[3rem] shadow-2xl text-center space-y-6 border-b-8 border-sky-600">
+            <div class="text-6xl">🏆</div>
+            <h1 class="text-4xl font-extrabold text-slate-900 leading-tight">Ready for the <br><span class="text-sky-600">HTML Challenge?</span></h1>
+            <p class="text-slate-500 font-medium leading-relaxed">25 Questions • 30 Seconds Per Question<br>Don't fail more than 5 times or you'll restart!</p>
+            <button onclick="startQuiz()" class="w-full bg-slate-900 text-white font-black py-5 rounded-3xl hover:bg-sky-600 transition-all shadow-xl shadow-sky-100">
+                START QUIZ NOW →
+            </button>
+        </div>
+
+        <div id="quiz-content" class="hidden quiz-container">
+            <div id="question-card" class="glass-card p-8 rounded-[3rem] shadow-2xl space-y-6">
+                <h2 id="question-text" class="text-2xl font-extrabold text-slate-800 leading-snug">
+                    Loading question...
+                </h2>
+                <div id="options-grid" class="grid gap-3">
+                    </div>
+            </div>
+        </div>
+
+        <div id="result-screen" class="hidden glass-card p-10 rounded-[3rem] shadow-2xl text-center space-y-6">
+            <div id="result-icon" class="text-7xl">🥳</div>
+            <h2 id="result-title" class="text-4xl font-black">Congratulations!</h2>
+            <p id="result-msg" class="text-slate-600 text-lg">You did well!</p>
+            <div class="bg-slate-50 p-6 rounded-3xl">
+                <span class="block text-slate-400 text-xs font-black uppercase mb-1">Final Score</span>
+                <span id="final-score" class="text-5xl font-black text-sky-600">0/25</span>
+            </div>
+            <button onclick="location.reload()" class="w-full bg-slate-900 text-white font-black py-5 rounded-3xl">
+                PLAY AGAIN
+            </button>
+        </div>
+
+    </main>
+
+    <script>
+        const questions = [
+            { q: "What does HTML stand for?", a: ["Hyper Text Markup Language", "High Tech Modern Language", "Home Tool Markup Language"], correct: 0 },
+            { q: "Which tag is used for the biggest heading?", a: ["<head>", "<h6>", "<h1>"], correct: 2 },
+            { q: "How do we create a line break?", a: ["<br>", "<break>", "<lb>"], correct: 0 },
+            { q: "What is the correct tag for a paragraph?", a: ["<para>", "<p>", "<text>"], correct: 1 },
+            { q: "Which tag is used to add an image?", a: ["<picture>", "<img>", "<src>"], correct: 1 },
+            { q: "What does the 'href' attribute do in an <a> tag?", a: ["Defines the link destination", "Sets the text color", "Adds an image source"], correct: 0 },
+            { q: "Which tag is used for a bulleted list?", a: ["<ol>", "<ul>", "<li>"], correct: 1 },
+            { q: "How do you make text bold in HTML?", a: ["<bold>", "<strong>", "<fat>"], correct: 1 },
+            { q: "Which character is used to indicate an end tag?", a: ["/", "*", "<"], correct: 0 },
+            { q: "What is the correct HTML for adding a background color?", a: ["<body bg='yellow'>", "<body style='background-color:yellow;'>", "<background>yellow</background>"], correct: 1 },
+            // ... Add 15 more questions here to reach 25
+        ];
+
+        // Fill remaining questions for demo purposes
+        for(let i=11; i<=25; i++) {
+            questions.push({
+                q: `HTML Question #${i}: What is the correct way to write an HTML comment?`,
+                a: ["// comment", "", "/* comment */"],
+                correct: 1
+            });
+        }
+
+        let currentQ = 0;
+        let score = 0;
+        let timer;
+        let timeLeft = 30;
+        let failCount = parseInt(localStorage.getItem('kidventor_fails')) || 0;
+
+        function startQuiz() {
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('quiz-header').classList.remove('hidden');
+            document.getElementById('quiz-content').classList.remove('hidden');
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            if (currentQ >= questions.length) {
+                return showResults();
+            }
+
+            const qData = questions[currentQ];
+            const container = document.getElementById('quiz-content');
+            
+            // Flip Animation Out
+            container.classList.add('slide-out');
+            
+            setTimeout(() => {
+                document.getElementById('q-number').innerText = currentQ + 1;
+                document.getElementById('question-text').innerText = qData.q;
+                
+                const grid = document.getElementById('options-grid');
+                grid.innerHTML = '';
+                
+                qData.a.forEach((opt, index) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'option-btn w-full p-5 rounded-2xl font-bold text-left';
+                    btn.innerText = opt;
+                    btn.onclick = () => checkAnswer(index, btn);
+                    grid.appendChild(btn);
+                });
+
+                container.classList.remove('slide-out');
+                container.classList.add('slide-in');
+                
+                setTimeout(() => {
+                    container.classList.remove('slide-in');
+                }, 50);
+
+                resetTimer();
+            }, 400);
+        }
+
+        function checkAnswer(idx, btn) {
+            clearInterval(timer);
+            const correctIdx = questions[currentQ].correct;
+            const allBtns = document.querySelectorAll('.option-btn');
+            
+            allBtns.forEach(b => b.disabled = true);
+
+            if (idx === correctIdx) {
+                btn.classList.add('correct');
+                score++;
+                document.getElementById('current-score').innerText = score;
+                confetti({ particleCount: 30, spread: 50, origin: { y: 0.8 } });
+            } else {
+                btn.classList.add('wrong');
+                allBtns[correctIdx].classList.add('correct');
+            }
+
+            // Next button logic
+            setTimeout(() => {
+                currentQ++;
+                loadQuestion();
+            }, 1500);
+        }
+
+        function resetTimer() {
+            clearInterval(timer);
+            timeLeft = 30;
+            document.getElementById('timer').innerText = "00:30";
+            timer = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer').innerText = `00:${timeLeft < 10 ? '0' : ''}${timeLeft}`;
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    checkAnswer(-1, null); // Force wrong answer on timeout
+                }
+            }, 1000);
+        }
+
+        function showResults() {
+            document.getElementById('quiz-header').classList.add('hidden');
+            document.getElementById('quiz-content').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+            
+            document.getElementById('final-score').innerText = `${score}/25`;
+
+            if (score < 5) {
+                failCount++;
+                localStorage.setItem('kidventor_fails', failCount);
+                
+                if (failCount >= 5) {
+                    document.getElementById('result-icon').innerText = "⚠️";
+                    document.getElementById('result-title').innerText = "Limit Reached!";
+                    document.getElementById('result-msg').innerText = "You scored below 5 marks too many times. System reset!";
+                    localStorage.setItem('kidventor_fails', 0);
+                } else {
+                    document.getElementById('result-icon').innerText = "😟";
+                    document.getElementById('result-title').innerText = "Retry Needed";
+                    document.getElementById('result-msg').innerText = `Failed attempts: ${failCount}/5. You can do better!`;
+                }
+            } else {
+                document.getElementById('result-icon').innerText = "🌟";
+                document.getElementById('result-title').innerText = "You Did Well!";
+                document.getElementById('result-msg').innerText = "You are a real HTML Inventor!";
+                localStorage.setItem('kidventor_fails', 0);
+                confetti({ particleCount: 200, spread: 100 });
+            }
+        }
+    </script>
+</body>
+</html>
