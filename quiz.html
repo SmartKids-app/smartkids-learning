@@ -1,194 +1,333 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ICT Command Center | Kidventor Academy</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@500&display=swap');
-        
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            background: #0f172a; /* Deep Space Blue */
-            color: #f8fafc;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CBT Arena | Kidventor Academy</title>
 
-        .tech-card {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        }
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-        .option-btn {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
-        .option-btn:hover:not(:disabled) {
-            background: rgba(99, 102, 241, 0.2);
-            border-color: #818cf8;
-            transform: translateX(10px);
-        }
+body{
+    font-family:'Plus Jakarta Sans',sans-serif;
+    background:#f8fafc;
+}
 
-        .option-btn.correct { background: #059669; border-color: #34d399; color: white; }
-        .option-btn.wrong { background: #dc2626; border-color: #f87171; color: white; }
+.level-card{
+    transition:0.3s;
+}
 
-        .progress-bar-fill {
-            transition: width 0.5s ease-out;
-            background: linear-gradient(90deg, #6366f1, #a855f7);
-        }
+.level-card:hover{
+    transform:translateY(-6px);
+}
 
-        .scanline {
-            width: 100%;
-            height: 2px;
-            background: rgba(99, 102, 241, 0.2);
-            position: absolute;
-            animation: scan 3s linear infinite;
-        }
+.option-btn{
+    transition:0.2s;
+    border:2px solid #e2e8f0;
+}
 
-        @keyframes scan {
-            0% { top: 0; }
-            100% { top: 100%; }
-        }
-    </style>
+.option-btn:hover:not(:disabled){
+    border-color:#6366f1;
+    background:#eef2ff;
+}
+
+.option-btn.correct{
+    border-color:#22c55e;
+    background:#f0fdf4;
+    color:#15803d;
+}
+
+.option-btn.wrong{
+    border-color:#ef4444;
+    background:#fef2f2;
+    color:#b91c1c;
+}
+</style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-center p-6 overflow-hidden">
 
-    <nav class="fixed top-0 w-full p-6 flex justify-between items-center z-50">
-        <div class="flex items-center gap-4">
-            <div class="h-10 w-10 bg-indigo-600 rounded-lg flex items-center justify-center font-bold shadow-lg shadow-indigo-500/20">K</div>
-            <div>
-                <p class="text-[10px] font-black uppercase tracking-widest text-indigo-400">ICT Division</p>
-                <h2 id="level-indicator" class="text-sm font-bold">Initializing Module...</h2>
+<body class="min-h-screen">
+
+<!-- HEADER -->
+<header class="bg-white border-b border-slate-200 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
+        <h1 class="text-2xl font-black text-slate-900">
+            🏆 CBT Arena
+        </h1>
+
+        <div class="text-xs font-black uppercase tracking-widest text-indigo-600">
+            Kidventor Academy
+        </div>
+    </div>
+</header>
+
+<!-- LEVEL SELECT -->
+<section id="level-screen" class="max-w-7xl mx-auto px-6 py-12">
+
+    <div class="text-center mb-12">
+        <h2 class="text-4xl font-black mb-4">
+            Choose Your Challenge
+        </h2>
+
+        <p class="text-slate-500 max-w-2xl mx-auto">
+            Start from Level 1 and unlock higher missions as you grow.
+            Score 5+ to unlock the next level.
+        </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+        <!-- LEVEL 1 -->
+        <a href="quiz.html?level=level1"
+           class="level-card bg-white p-8 rounded-[2rem] border border-slate-200 text-center shadow-sm">
+
+            <div class="text-5xl mb-5">🌱</div>
+
+            <h3 class="text-xl font-black mb-3">
+                Level 1
+            </h3>
+
+            <p class="text-sm text-slate-500 mb-5">
+                HTML Basics and Structure
+            </p>
+
+            <div class="bg-emerald-100 text-emerald-700 py-3 rounded-xl font-bold text-sm">
+                START
+            </div>
+        </a>
+
+        <!-- LEVEL 2 -->
+        <a id="level2-card"
+           href="#"
+           class="level-card bg-white p-8 rounded-[2rem] border border-slate-200 text-center shadow-sm opacity-50 pointer-events-none">
+
+            <div class="text-5xl mb-5">🎨</div>
+
+            <h3 class="text-xl font-black mb-3">
+                Level 2
+            </h3>
+
+            <p class="text-sm text-slate-500 mb-5">
+                CSS Styling and Design
+            </p>
+
+            <div class="btn-label bg-slate-100 text-slate-500 py-3 rounded-xl font-bold text-sm">
+                LOCKED 🔒
+            </div>
+        </a>
+
+        <!-- LEVEL 3 -->
+        <a id="level3-card"
+           href="#"
+           class="level-card bg-white p-8 rounded-[2rem] border border-slate-200 text-center shadow-sm opacity-50 pointer-events-none">
+
+            <div class="text-5xl mb-5">⚡</div>
+
+            <h3 class="text-xl font-black mb-3">
+                Level 3
+            </h3>
+
+            <p class="text-sm text-slate-500 mb-5">
+                JavaScript Logic
+            </p>
+
+            <div class="btn-label bg-slate-100 text-slate-500 py-3 rounded-xl font-bold text-sm">
+                LOCKED 🔒
+            </div>
+        </a>
+
+        <!-- ADVANCE -->
+        <a id="advance-card"
+           href="#"
+           class="level-card bg-slate-900 text-white p-8 rounded-[2rem] text-center shadow-sm opacity-50 pointer-events-none">
+
+            <div class="text-5xl mb-5">🤖</div>
+
+            <h3 class="text-xl font-black mb-3">
+                Elite Level
+            </h3>
+
+            <p class="text-sm text-slate-300 mb-5">
+                AI + Future Tech
+            </p>
+
+            <div class="btn-label bg-white/10 py-3 rounded-xl font-bold text-sm">
+                LOCKED 🔒
+            </div>
+        </a>
+
+    </div>
+</section>
+
+<!-- QUIZ SCREEN -->
+<section id="quiz-screen" class="hidden max-w-4xl mx-auto px-6 py-12">
+
+    <div class="bg-white rounded-[2rem] border border-slate-200 p-8 shadow-sm">
+
+        <div class="flex justify-between items-center mb-8">
+            <div class="font-bold">
+                Score:
+                <span id="score">0</span>
+            </div>
+
+            <div class="font-bold text-rose-600">
+                ⏱️ <span id="timer">30</span>s
             </div>
         </div>
-        
-        <div class="flex gap-4">
-            <div class="bg-slate-800/50 px-4 py-2 rounded-xl border border-white/5 flex items-center gap-3">
-                <span class="text-xs font-bold text-slate-400">SCORE</span>
-                <span id="current-score" class="font-mono text-indigo-400 font-bold">00</span>
-            </div>
-            <div class="bg-slate-800/50 px-4 py-2 rounded-xl border border-white/5 flex items-center gap-3">
-                <span class="text-xs font-bold text-slate-400">TIME</span>
-                <span id="timer" class="font-mono text-rose-400 font-bold">30s</span>
-            </div>
-        </div>
-    </nav>
 
-    <main class="w-full max-w-3xl relative">
-        <div class="scanline"></div>
+        <h2 id="question" class="text-2xl font-black mb-8">
+            Loading question...
+        </h2>
 
-        <div id="loading-screen" class="text-center py-20">
-            <div class="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500 mb-4"></div>
-            <p class="text-indigo-300 font-bold tracking-widest uppercase text-xs">Accessing Mainframe...</p>
-        </div>
+        <div id="options" class="grid gap-4"></div>
 
-        <div id="start-screen" class="hidden tech-card p-12 rounded-[2.5rem] text-center space-y-8 animate-in fade-in zoom-in duration-500">
-            <div class="mx-auto w-24 h-24 bg-indigo-500/10 rounded-full flex items-center justify-center text-5xl mb-4 shadow-inner">💻</div>
-            <div>
-                <h1 id="start-title" class="text-4xl font-black mb-2 uppercase tracking-tighter">ICT Module</h1>
-                <p id="start-desc" class="text-slate-400">Broadening your technical horizons.</p>
-            </div>
-            <button onclick="begin()" class="group relative w-full overflow-hidden bg-indigo-600 py-5 rounded-2xl font-black uppercase tracking-widest hover:bg-indigo-500 transition-all">
-                <span class="relative z-10">Initialize Mission</span>
-                <div class="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform"></div>
-            </button>
-        </div>
+    </div>
+</section>
 
-        <div id="quiz-content" class="hidden space-y-6">
-            <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
-                <div id="progress-bar" class="progress-bar-fill h-full w-0"></div>
-            </div>
+<script>
+const params = new URLSearchParams(window.location.search);
+const level = params.get("level");
 
-            <div class="tech-card p-10 rounded-[2.5rem] relative overflow-hidden">
-                <div class="flex justify-between items-center mb-8">
-                    <span class="text-[10px] font-black text-indigo-400 uppercase tracking-widest">Question <span id="q-number">01</span></span>
-                    <span class="h-2 w-2 rounded-full bg-indigo-500 animate-ping"></span>
-                </div>
-                
-                <h2 id="question-text" class="text-2xl font-bold mb-10 leading-relaxed text-slate-100">---</h2>
-                
-                <div id="options-grid" class="grid grid-cols-1 gap-4">
-                    </div>
-            </div>
-        </div>
+let questions = [];
+let current = 0;
+let score = 0;
+let timer;
+let timeLeft = 30;
 
-        <div id="result-screen" class="hidden tech-card p-12 rounded-[3.5rem] text-center space-y-8">
-            <div id="result-icon" class="text-7xl">📡</div>
-            <h2 id="result-title" class="text-4xl font-black uppercase tracking-tighter">Analysis Complete</h2>
-            <div class="bg-indigo-600/10 border border-indigo-500/20 py-8 rounded-3xl">
-                <p class="text-slate-400 text-xs uppercase font-bold tracking-widest mb-2">Final Proficiency Score</p>
-                <span id="final-score" class="text-6xl font-black text-white">0%</span>
-            </div>
-            <p id="result-msg" class="text-slate-400"></p>
-            <div class="flex gap-4">
-                <button onclick="location.href='index.html'" class="flex-1 bg-slate-800 py-4 rounded-2xl font-bold hover:bg-slate-700 transition-all">TERMINAL LOBBY</button>
-                <button id="next-btn" class="hidden flex-1 bg-indigo-600 py-4 rounded-2xl font-bold hover:bg-indigo-500 transition-all shadow-lg shadow-indigo-500/20">NEXT MODULE</button>
-            </div>
-        </div>
+function unlockLevels() {
+    if (localStorage.getItem("unlock_level1") === "true") {
+        unlockCard("level2-card", "level2");
+    }
 
-    </main>
+    if (localStorage.getItem("unlock_level2") === "true") {
+        unlockCard("level3-card", "level3");
+    }
 
-    <script>
-function updateLocks() {
-    // 1. Pull Progress from LocalStorage
-    const unlockLevel1 = localStorage.getItem("unlock_level1");
-    const unlockLevel2 = localStorage.getItem("unlock_level2");
-    const unlockLevel3 = localStorage.getItem("unlock_level3");
-
-    // Helper function to safely update card UI
-    const activateLevel = (id, nextLevelKey, bgColor) => {
-        const card = document.getElementById(id);
-        if (card) {
-            card.classList.remove("opacity-50", "pointer-events-none", "locked");
-            card.href = `quiz.html?level=${nextLevelKey}`;
-            
-            // Target the button area safely
-            const btn = card.querySelector(".btn-label") || card.querySelector("div:last-child div:last-child");
-            if (btn) {
-                btn.innerText = "START LEVEL";
-                btn.className = `w-full text-center py-3 rounded-2xl ${bgColor} text-white font-black transition-all hover:scale-105`;
-            }
-            
-            // Remove lock icon if it exists
-            const lockIcon = card.querySelector(".lock-icon");
-            if (lockIcon) lockIcon.innerText = "🔓";
-        }
-    };
-
-    // 2. Apply Unlocks
-    if (unlockLevel1 === "true") activateLevel("link-level2", "level2", "bg-blue-600");
-    if (unlockLevel2 === "true") activateLevel("link-level3", "level3", "bg-amber-500");
-    if (unlockLevel3 === "true") activateLevel("link-advance", "advance", "bg-indigo-500");
-
-    // 3. Update Progress Bar
-    let progressValue = 25;
-    if (unlockLevel1 === "true") progressValue = 50;
-    if (unlockLevel2 === "true") progressValue = 75;
-    if (unlockLevel3 === "true") progressValue = 100;
-
-    const fill = document.getElementById("progress-fill");
-    const label = document.getElementById("progress-label");
-
-    if (fill) fill.style.width = progressValue + "%";
-    
-    if (label) {
-        const labelMap = {
-            25: "1 / 4 Levels",
-            50: "2 / 4 Levels",
-            75: "3 / 4 Levels",
-            100: "All Levels Unlocked!"
-        };
-        label.innerText = labelMap[progressValue];
+    if (localStorage.getItem("unlock_level3") === "true") {
+        unlockCard("advance-card", "advance");
     }
 }
 
-// Run on load
-window.onload = updateLocks;
+function unlockCard(id, levelName) {
+    const card = document.getElementById(id);
+
+    card.classList.remove("opacity-50", "pointer-events-none");
+    card.href = `quiz.html?level=${levelName}`;
+
+    const btn = card.querySelector(".btn-label");
+    btn.innerText = "START";
+}
+
+async function loadQuiz() {
+    if (!level) return;
+
+    document.getElementById("level-screen").classList.add("hidden");
+    document.getElementById("quiz-screen").classList.remove("hidden");
+
+    try {
+        const response = await fetch(`quiz/${level}.json`);
+        const data = await response.json();
+
+        questions = data.questions;
+        showQuestion();
+
+    } catch (err) {
+        document.getElementById("question").innerText =
+            "Quiz file not found. Check your /quiz folder.";
+    }
+}
+
+function showQuestion() {
+    if (current >= questions.length) {
+        finishQuiz();
+        return;
+    }
+
+    const q = questions[current];
+
+    document.getElementById("question").innerText = q.q;
+
+    const options = document.getElementById("options");
+    options.innerHTML = "";
+
+    q.a.forEach((option, index) => {
+        const btn = document.createElement("button");
+        btn.className = "option-btn p-5 rounded-2xl font-bold text-left bg-white";
+        btn.innerText = option;
+        btn.onclick = () => checkAnswer(index, btn);
+        options.appendChild(btn);
+    });
+
+    startTimer();
+}
+
+function checkAnswer(index, btn) {
+    clearInterval(timer);
+
+    const correct = questions[current].correct;
+    const allBtns = document.querySelectorAll(".option-btn");
+
+    allBtns.forEach(b => b.disabled = true);
+
+    if (index === correct) {
+        btn.classList.add("correct");
+        score++;
+        document.getElementById("score").innerText = score;
+
+        confetti({
+            particleCount: 40,
+            spread: 60
+        });
+    } else {
+        btn.classList.add("wrong");
+        allBtns[correct].classList.add("correct");
+    }
+
+    setTimeout(() => {
+        current++;
+        showQuestion();
+    }, 1200);
+}
+
+function startTimer() {
+    clearInterval(timer);
+    timeLeft = 30;
+    document.getElementById("timer").innerText = timeLeft;
+
+    timer = setInterval(() => {
+        timeLeft--;
+        document.getElementById("timer").innerText = timeLeft;
+
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            current++;
+            showQuestion();
+        }
+    }, 1000);
+}
+
+function finishQuiz() {
+    if (score >= 5) {
+        localStorage.setItem(`unlock_${level}`, "true");
+
+        confetti({
+            particleCount: 200,
+            spread: 100
+        });
+
+        alert("🎉 Level Completed! Next level unlocked.");
+    } else {
+        alert("Try again! Score at least 5 to unlock next level.");
+    }
+
+    location.href = "quiz.html";
+}
+
+unlockLevels();
+loadQuiz();
 </script>
+
 </body>
 </html>
