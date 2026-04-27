@@ -1,30 +1,231 @@
 {
-  "levelName": "ICT Discovery",
+  "levelName": "Level 1 - Digital Foundations",
+  "passingScore": 15,
   "questions": [
-    { "q": "Which part of the computer is known as the 'Brain'?", "a": ["Monitor", "CPU", "Keyboard", "RAM"], "correct": 1 },
-    { "q": "What does 'WWW' stand for?", "a": ["World Wide Web", "World Web Wide", "Wild West Web"], "correct": 0 },
-    { "q": "Which of these is an 'Output' device?", "a": ["Mouse", "Microphone", "Printer", "Scanner"], "correct": 2 },
-    { "q": "What is the physical part of a computer called?", "a": ["Software", "Hardware", "Malware"], "correct": 1 },
-    { "q": "Which key on the keyboard is used to create a space between words?", "a": ["Enter", "Shift", "Spacebar"], "correct": 2 },
-    { "q": "What is the name of the 'Main Screen' you see after turning on a PC?", "a": ["The Desk", "The Desktop", "The Window"], "correct": 1 },
-    { "q": "Which of these is a popular Web Browser?", "a": ["Google Chrome", "Microsoft Word", "WhatsApp"], "correct": 0 },
-    { "q": "What do we use to click and select items on a computer screen?", "a": ["Keyboard", "Mouse", "Speaker"], "correct": 1 },
-    { "q": "Which part of the computer shows us pictures and videos?", "a": ["System Unit", "Monitor", "Printer"], "correct": 1 },
-    { "q": "A laptop is a type of _______ computer.", "a": ["Stationary", "Portable", "Huge"], "correct": 1 },
-    { "q": "What is the primary use of a Scanner?", "a": ["To print photos", "To turn paper into digital files", "To play music"], "correct": 1 },
-    { "q": "What does a 'URL' represent?", "a": ["A person's name", "A website address", "A computer brand"], "correct": 1 },
-    { "q": "Which device is used to record your voice into a computer?", "a": ["Speaker", "Microphone", "Headphone"], "correct": 1 },
-    { "q": "What is 'Software'?", "a": ["Tools like hammers", "Programs and instructions", "The computer case"], "correct": 1 },
-    { "q": "Which key allows you to start a new line while typing?", "a": ["Space", "Enter", "Alt"], "correct": 1 },
-    { "q": "What is the 'Internet'?", "a": ["A computer brand", "A global network of computers", "A type of video game"], "correct": 1 },
-    { "q": "Which of these is an example of an Operating System?", "a": ["Windows 11", "Google Search", "YouTube"], "correct": 0 },
-    { "q": "How do we 'save' our work on a computer?", "a": ["Ctrl + P", "Ctrl + S", "Ctrl + Z"], "correct": 1 },
-    { "q": "Which device provides power to a laptop when the battery is low?", "a": ["Mouse", "Charger", "USB Drive"], "correct": 1 },
-    { "q": "What is a 'Password' used for?", "a": ["To play games", "To keep your information safe", "To speed up the internet"], "correct": 1 },
-    { "q": "What do we call a small computer program that can harm your PC?", "a": ["Bug", "Virus", "Ant"], "correct": 1 },
-    { "q": "Which storage device is small enough to carry in your pocket?", "a": ["Hard Drive", "USB Flash Drive", "Monitor"], "correct": 1 },
-    { "q": "What does 'Wi-Fi' allow us to do?", "a": ["Print paper", "Connect to the internet wirelessly", "Clean the computer"], "correct": 1 },
-    { "q": "What is the use of a 'Printer'?", "a": ["To take photos", "To put text and images on paper", "To browse the web"], "correct": 1 },
-    { "q": "ICT stands for Information and ________ Technology.", "a": ["Calculation", "Communication", "Construction"], "correct": 1 }
+    {
+      "q": "What does ICT stand for?",
+      "a": [
+        "Information and Communication Technology",
+        "Internet and Computer Tools",
+        "International Computer Training"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "Which device is known as the brain of the computer?",
+      "a": [
+        "Keyboard",
+        "CPU",
+        "Monitor"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "Which part of the computer is used to type letters?",
+      "a": [
+        "Mouse",
+        "Keyboard",
+        "Printer"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "Which device shows images and videos on the computer?",
+      "a": [
+        "Monitor",
+        "Scanner",
+        "Speaker"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "Which device is used to print documents on paper?",
+      "a": [
+        "Printer",
+        "Projector",
+        "Router"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "Which of these is an input device?",
+      "a": [
+        "Keyboard",
+        "Monitor",
+        "Speaker"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "Which of these is an output device?",
+      "a": [
+        "Mouse",
+        "Monitor",
+        "Keyboard"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "What is the main purpose of a mouse?",
+      "a": [
+        "To print papers",
+        "To move and click items on screen",
+        "To save files"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "Which software is used for typing documents?",
+      "a": [
+        "Microsoft Word",
+        "Paint",
+        "Calculator"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "Which software is used for making presentations?",
+      "a": [
+        "PowerPoint",
+        "WordPad",
+        "Chrome"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "Which key is used to create space between words?",
+      "a": [
+        "Enter key",
+        "Spacebar",
+        "Shift key"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "Which key is used to move to the next line?",
+      "a": [
+        "Backspace",
+        "Enter",
+        "Delete"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "Which key removes letters to the left side?",
+      "a": [
+        "Delete",
+        "Backspace",
+        "Tab"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "What does the internet help us do?",
+      "a": [
+        "Connect and share information",
+        "Wash clothes",
+        "Cook food"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "Which app is commonly used for browsing the internet?",
+      "a": [
+        "Chrome",
+        "PowerPoint",
+        "Excel"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "Which of these is a safe internet habit?",
+      "a": [
+        "Sharing passwords with strangers",
+        "Clicking every link",
+        "Using strong passwords"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "What should you do if a stranger asks for your password online?",
+      "a": [
+        "Tell your teacher or parent",
+        "Give it quickly",
+        "Ignore safety"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "Which icon is commonly used to save a file?",
+      "a": [
+        "Disk icon",
+        "Trash icon",
+        "Music icon"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "Where are deleted files often sent first?",
+      "a": [
+        "Recycle Bin",
+        "Calculator",
+        "Taskbar"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "Which folder is used to store files?",
+      "a": [
+        "Folder",
+        "Speaker",
+        "Cable"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "Which of these helps computers connect to the internet wirelessly?",
+      "a": [
+        "Wi-Fi",
+        "Fan",
+        "Scanner"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "What is the full meaning of USB?",
+      "a": [
+        "Universal Serial Bus",
+        "United System Board",
+        "User Smart Box"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "Which device can store files and move them between computers?",
+      "a": [
+        "Flash Drive",
+        "Monitor",
+        "Mouse Pad"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "Which of these is used for online video meetings?",
+      "a": [
+        "Zoom",
+        "Paint",
+        "Notepad"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "Why is learning ICT important today?",
+      "a": [
+        "Because technology is part of school and work",
+        "Because computers are toys only",
+        "Because ICT is not useful"
+      ],
+      "correct": 0
+    }
   ]
 }
