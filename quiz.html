@@ -121,20 +121,33 @@
             }, 1500);
         }
 
-        // 6. TIMER
-        function startTimer() {
+        // 6. TIMER (Updated to 15 Minutes)
+function startTimer() {
+    clearInterval(timer);
+    
+    // 15 minutes in seconds (15 * 60 = 900)
+    let timeLeft = 900; 
+
+    // Function to format seconds into MM:SS
+    const updateDisplay = (s) => {
+        const mins = Math.floor(s / 60);
+        const secs = s % 60;
+        document.getElementById('timer').innerText = 
+            `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    };
+
+    updateDisplay(timeLeft);
+
+    timer = setInterval(() => {
+        timeLeft--;
+        updateDisplay(timeLeft);
+
+        if (timeLeft <= 0) {
             clearInterval(timer);
-            let timeLeft = 30;
-            document.getElementById('timer').innerText = timeLeft + "s";
-            timer = setInterval(() => {
-                timeLeft--;
-                document.getElementById('timer').innerText = timeLeft + "s";
-                if (timeLeft <= 0) {
-                    clearInterval(timer);
-                    checkAnswer(-1, null);
-                }
-            }, 1000);
+            checkAnswer(-1, null);
         }
+    }, 1000);
+}
 
         function endQuiz() {
             const pass = score >= 5;
