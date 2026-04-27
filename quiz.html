@@ -43,128 +43,157 @@
     </main>
 
     <script>
-        // 1. GET THE LEVEL FROM THE URL
-        const params = new URLSearchParams(window.location.search);
-        const levelKey = params.get('level') || 'level1';
+    // 1. CONFIGURATION
+    const params = new URLSearchParams(window.location.search);
+    const levelKey = params.get('level') || 'level1';
 
-        // 2. STATE VARIABLES
-        let quizData = [];
-        let currentIndex = 0;
-        let score = 0;
-        let timer;
+    let quizData = [];
+    let currentIndex = 0;
+    let score = 0;
+    let timer;
 
-        // 3. THE POPULATOR FUNCTION (Fetch JSON from data folder)
-        async function initQuiz() {
-            try {
-                const response = await fetch(`data/${levelKey}.json`);
-                if (!response.ok) throw new Error("Data not found");
-                
-                const data = await response.json();
-                quizData = data.questions;
-
-                // Update UI Labels
-                document.getElementById('level-name').innerText = data.levelName;
-                document.getElementById('q-total').innerText = quizData.length;
-                
-                // Switch from Loader to Quiz
-                document.getElementById('loader').classList.add('hidden');
-                document.getElementById('quiz-ui').classList.remove('hidden');
-
-                displayQuestion();
-            } catch (err) {
-                document.getElementById('loader').innerHTML = `<p class="text-red-500 font-black">ERROR: data/${levelKey}.json not found!</p>`;
-            }
+    // 2. SHUFFLE ALGORITHM (Fisher-Yates)
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
         }
+        return array;
+    }
 
-        // 4. DISPLAY THE CURRENT QUESTION
-        function displayQuestion() {
-            if (currentIndex >= quizData.length) return endQuiz();
-
-            const q = quizData[currentIndex];
-            document.getElementById('q-current').innerText = currentIndex + 1;
-            document.getElementById('question-text').innerText = q.q;
-
-            const grid = document.getElementById('options-grid');
-            grid.innerHTML = ''; // Clear previous level's data
-
-            q.a.forEach((option, index) => {
-                const btn = document.createElement('button');
-                btn.className = "option-btn w-full p-5 rounded-2xl font-bold text-left bg-slate-50 text-slate-700";
-                btn.innerText = option;
-                btn.onclick = () => checkAnswer(index, btn);
-                grid.appendChild(btn);
-            });
-
-            startTimer();
-        }
-
-        // 5. CHECK THE ANSWER
-        function checkAnswer(selected, btn) {
-            clearInterval(timer);
-            const correct = quizData[currentIndex].correct;
-            const buttons = document.querySelectorAll('.option-btn');
-            buttons.forEach(b => b.disabled = true);
-
-            if (selected === correct) {
-                btn.classList.add('correct');
-                score++;
-                document.getElementById('score-val').innerText = score;
-                confetti({ particleCount: 30, spread: 50, origin: { y: 0.8 } });
-            } else {
-                btn.classList.add('wrong');
-                buttons[correct].classList.add('correct');
-            }
-
-            setTimeout(() => {
-                currentIndex++;
-                displayQuestion();
-            }, 1500);
-        }
-
-        // 6. TIMER (Updated to 15 Minutes)
-function startTimer() {
-    clearInterval(timer);
-    
-    // 15 minutes in seconds (15 * 60 = 900)
-    let timeLeft = 900; 
-
-    // Function to format seconds into MM:SS
-    const updateDisplay = (s) => {
-        const mins = Math.floor(s / 60);
-        const secs = s % 60;
-        document.getElementById('timer').innerText = 
-            `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-    };
-
-    updateDisplay(timeLeft);
-
-    timer = setInterval(() => {
-        timeLeft--;
-        updateDisplay(timeLeft);
-
-        if (timeLeft <= 0) {
-            clearInterval(timer);
-            checkAnswer(-1, null);
-        }
-    }, 1000);
-}
-
-        function endQuiz() {
-            const pass = score >= 5;
-            if(pass) {
-                localStorage.setItem('unlock_' + levelKey, 'true');
-            }
+    // 3. INITIALIZE & FETCH
+    async function initQuiz() {
+        try {
+            const response = await fetch(`data/${levelKey}.json`);
+            if (!response.ok) throw new Error("Data not found");
             
-            document.getElementById('quiz-ui').innerHTML = `
-                <div class="text-center py-10">
-                    <h2 class="text-4xl font-black mb-4">${pass ? 'MISSION COMPLETE! 🏆' : 'RETRY NEEDED ⛔'}</h2>
-                    <p class="text-slate-500 mb-8 leading-relaxed">You scored ${score} out of ${quizData.length}.<br>${pass ? 'The next level is now unlocked in the Arena!' : 'You need at least 5 points to pass.'}</p>
-                    <button onclick="location.href='index.html'" class="bg-sky-600 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-sky-700 transition-all">Return to Arena</button>
-                </div>
-            `;
+            const data = await response.json();
+            
+            // Shuffle the questions as soon as they are loaded
+            quizData = shuffle(data.questions);
+
+            document.getElementById('level-name').innerText = data.levelName;
+            document.getElementById('q-total').innerText = quizData.length;
+            
+            document.getElementById('loader').classList.add('hidden');
+            document.getElementById('quiz-ui').classList.remove('hidden');
+
+            displayQuestion();
+        } catch (err) {
+            document.getElementById('loader').innerHTML = `<p class="text-red-500 font-black">ERROR: data/${levelKey}.json not found!</p>`;
+        }
+    }
+
+    // 4. DISPLAY QUESTION
+    function displayQuestion() {
+        if (currentIndex >= quizData.length) return endQuiz();
+
+        const q = quizData[currentIndex];
+        document.getElementById('q-current').innerText = currentIndex + 1;
+        document.getElementById('question-text').innerText = q.q;
+
+        const grid = document.getElementById('options-grid');
+        grid.innerHTML = ''; 
+
+        q.a.forEach((option, index) => {
+            const btn = document.createElement('button');
+            btn.className = "option-btn w-full p-5 rounded-2xl font-bold text-left bg-slate-50 text-slate-700";
+            btn.innerText = option;
+            btn.onclick = () => checkAnswer(index, btn);
+            grid.appendChild(btn);
+        });
+
+        startTimer();
+    }
+
+    // 5. CHECK ANSWER
+    function checkAnswer(selected, btn) {
+        clearInterval(timer);
+        const correct = quizData[currentIndex].correct;
+        const buttons = document.querySelectorAll('.option-btn');
+        buttons.forEach(b => b.disabled = true);
+
+        if (selected === correct) {
+            btn.classList.add('correct');
+            score++;
+            document.getElementById('score-val').innerText = score;
+            confetti({ particleCount: 30, spread: 50, origin: { y: 0.8 } });
+        } else {
+            if(btn) btn.classList.add('wrong');
+            buttons[correct].classList.add('correct');
         }
 
-        initQuiz();
-    </script>
+        setTimeout(() => {
+            currentIndex++;
+            displayQuestion();
+        }, 1500);
+    }
+
+    // 6. TIMER (15 MINUTES)
+    function startTimer() {
+        clearInterval(timer);
+        let timeLeft = 900; 
+
+        const updateDisplay = (s) => {
+            const mins = Math.floor(s / 60);
+            const secs = s % 60;
+            document.getElementById('timer').innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        };
+
+        updateDisplay(timeLeft);
+        timer = setInterval(() => {
+            timeLeft--;
+            updateDisplay(timeLeft);
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                checkAnswer(-1, null);
+            }
+        }, 1000);
+    }
+
+    // 7. END QUIZ & SCORE LOGIC
+    function endQuiz() {
+        let pass = false;
+        let required = 0;
+
+        // Dynamic Pass Logic based on your request
+        if (levelKey === 'level1') {
+            required = 20;
+            pass = score >= 20;
+        } else if (levelKey === 'level2') {
+            required = 35;
+            pass = score >= 35;
+        } else if (levelKey === 'level3') {
+            required = 45;
+            pass = score >= 45;
+        } else {
+            // Default for Advance or other levels
+            required = Math.floor(quizData.length * 0.9); 
+            pass = score >= required;
+        }
+
+        if(pass) {
+            localStorage.setItem('unlock_' + levelKey, 'true');
+        }
+        
+        document.getElementById('quiz-ui').innerHTML = `
+            <div class="text-center py-10">
+                <h2 class="text-4xl font-black mb-4">${pass ? 'MISSION COMPLETE! 🏆' : 'RETRY NEEDED ⛔'}</h2>
+                <div class="inline-block bg-slate-100 px-6 py-2 rounded-2xl mb-6">
+                    <p class="text-xl font-bold">Score: ${score} / ${quizData.length}</p>
+                </div>
+                <p class="text-slate-500 mb-8 leading-relaxed">
+                    ${pass ? 'Excellent! The next level is now unlocked.' : `You need ${required} points to pass this level.`}
+                </p>
+                <div class="flex gap-4 justify-center">
+                    <button onclick="location.href='index.html'" class="bg-slate-200 text-slate-700 px-8 py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-slate-300 transition-all">Lobby</button>
+                    ${!pass ? `<button onclick="location.reload()" class="bg-sky-600 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-sky-700 transition-all">Try Again</button>` : ''}
+                </div>
+            </div>
+        `;
+    }
+
+    initQuiz();
+</script>
 </body>
 </html>
