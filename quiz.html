@@ -134,8 +134,61 @@
     </main>
 
     <script>
-        // [Existing Logic from quiz.html remains here]
-        // Just make sure to update the element IDs to match the new UI (which I kept mostly identical)
-    </script>
+function updateLocks() {
+    // 1. Pull Progress from LocalStorage
+    const unlockLevel1 = localStorage.getItem("unlock_level1");
+    const unlockLevel2 = localStorage.getItem("unlock_level2");
+    const unlockLevel3 = localStorage.getItem("unlock_level3");
+
+    // Helper function to safely update card UI
+    const activateLevel = (id, nextLevelKey, bgColor) => {
+        const card = document.getElementById(id);
+        if (card) {
+            card.classList.remove("opacity-50", "pointer-events-none", "locked");
+            card.href = `quiz.html?level=${nextLevelKey}`;
+            
+            // Target the button area safely
+            const btn = card.querySelector(".btn-label") || card.querySelector("div:last-child div:last-child");
+            if (btn) {
+                btn.innerText = "START LEVEL";
+                btn.className = `w-full text-center py-3 rounded-2xl ${bgColor} text-white font-black transition-all hover:scale-105`;
+            }
+            
+            // Remove lock icon if it exists
+            const lockIcon = card.querySelector(".lock-icon");
+            if (lockIcon) lockIcon.innerText = "🔓";
+        }
+    };
+
+    // 2. Apply Unlocks
+    if (unlockLevel1 === "true") activateLevel("link-level2", "level2", "bg-blue-600");
+    if (unlockLevel2 === "true") activateLevel("link-level3", "level3", "bg-amber-500");
+    if (unlockLevel3 === "true") activateLevel("link-advance", "advance", "bg-indigo-500");
+
+    // 3. Update Progress Bar
+    let progressValue = 25;
+    if (unlockLevel1 === "true") progressValue = 50;
+    if (unlockLevel2 === "true") progressValue = 75;
+    if (unlockLevel3 === "true") progressValue = 100;
+
+    const fill = document.getElementById("progress-fill");
+    const label = document.getElementById("progress-label");
+
+    if (fill) fill.style.width = progressValue + "%";
+    
+    if (label) {
+        const labelMap = {
+            25: "1 / 4 Levels",
+            50: "2 / 4 Levels",
+            75: "3 / 4 Levels",
+            100: "All Levels Unlocked!"
+        };
+        label.innerText = labelMap[progressValue];
+    }
+}
+
+// Run on load
+window.onload = updateLocks;
+</script>
 </body>
 </html>
