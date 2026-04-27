@@ -1,31 +1,231 @@
 {
-  "levelName": "Web Foundations",
+  "levelName": "Level 1 - Digital Foundations",
   "passingScore": 15,
   "questions": [
-    { "q": "What does HTML stand for?", "a": ["Hyper Text Markup Language", "Home Tool Markup Language", "Hyperlinks and Text Management"], "correct": 0 },
-    { "q": "Which tag is used for the largest heading?", "a": ["<heading>", "<h6>", "<h1>"], "correct": 2 },
-    { "q": "What is the purpose of the <p> tag?", "a": ["To create a paragraph", "To insert a picture", "To print a page"], "correct": 0 },
-    { "q": "Which tag creates a line break?", "a": ["<break>", "<lb>", "<br>"], "correct": 2 },
-    { "q": "Which tag is used to create a hyperlink?", "a": ["<link>", "<a>", "<href>"], "correct": 1 },
-    { "q": "What does the <img> tag do?", "a": ["Improves text", "Inserts an image", "Creates a border"], "correct": 1 },
-    { "q": "Which attribute is used to provide the source for an image?", "a": ["href", "link", "src"], "correct": 2 },
-    { "q": "What is the correct tag for a bulleted (unordered) list?", "a": ["<ul>", "<ol>", "<li>"], "correct": 0 },
-    { "q": "Which tag defines an item inside a list?", "a": ["<item>", "<li>", "<list>"], "correct": 1 },
-    { "q": "Which tag is used to make text bold?", "a": ["<bold>", "<important>", "<strong>"], "correct": 2 },
-    { "q": "Which character is used to indicate an end tag?", "a": ["/", "*", "<"], "correct": 0 },
-    { "q": "Where does the visible content of the webpage go?", "a": ["In the <head>", "In the <body>", "In the <title>"], "correct": 1 },
-    { "q": "Which tag is used to define the title of the page (shown in the browser tab)?", "a": ["<header>", "<title>", "<tab>"], "correct": 1 },
-    { "q": "What is the correct tag for a numbered (ordered) list?", "a": ["<nl>", "<ul>", "<ol>"], "correct": 2 },
-    { "q": "How do you add a comment in HTML?", "a": ["// This is a comment", "<!-- This is a comment -->", "' This is a comment"], "correct": 1 }
-    { "q": "Which tag is used to emphasize text (italics)?", "a": ["<italic>", "<em>", "<i>"], "correct": 1 },
-    { "q": "What does the 'alt' attribute do in an image tag?", "a": ["Changes image size", "Provides text if the image fails to load", "Changes image color"], "correct": 1 },
-    { "q": "Which tag is used to define a table?", "a": ["<grid>", "<table>", "<tab>"], "correct": 1 },
-    { "q": "What tag is used for a table row?", "a": ["<td>", "<th>", "<tr>"], "correct": 2 },
-    { "q": "Which tag is used for a table cell (data)?", "a": ["<td>", "<tr>", "<cell>"], "correct": 0 },
-    { "q": "Which tag is used to group content together (division)?", "a": ["<section>", "<div>", "<group>"], "correct": 1 },
-    { "q": "Is HTML a programming language or a markup language?", "a": ["Programming", "Markup", "Both"], "correct": 1 },
-    { "q": "Which tag is used to create a button?", "a": ["<click>", "<input>", "<button>"], "correct": 2 },
-    { "q": "What is the very first line of an HTML5 document?", "a": ["<html>", "<!DOCTYPE html>", "<head>"], "correct": 1 },
-    { "q": "Which tag contains metadata (info about the page)?", "a": ["<head>", "<body>", "<footer>"], "correct": 0 }
+    {
+      "q": "What does ICT stand for?",
+      "a": [
+        "Information and Communication Technology",
+        "Internet and Computer Tools",
+        "International Computer Training"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "Which device is known as the brain of the computer?",
+      "a": [
+        "Keyboard",
+        "CPU",
+        "Monitor"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "Which part of the computer is used to type letters?",
+      "a": [
+        "Mouse",
+        "Keyboard",
+        "Printer"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "Which device shows images and videos on the computer?",
+      "a": [
+        "Monitor",
+        "Scanner",
+        "Speaker"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "Which device is used to print documents on paper?",
+      "a": [
+        "Printer",
+        "Projector",
+        "Router"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "Which of these is an input device?",
+      "a": [
+        "Keyboard",
+        "Monitor",
+        "Speaker"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "Which of these is an output device?",
+      "a": [
+        "Mouse",
+        "Monitor",
+        "Keyboard"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "What is the main purpose of a mouse?",
+      "a": [
+        "To print papers",
+        "To move and click items on screen",
+        "To save files"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "Which software is used for typing documents?",
+      "a": [
+        "Microsoft Word",
+        "Paint",
+        "Calculator"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "Which software is used for making presentations?",
+      "a": [
+        "PowerPoint",
+        "WordPad",
+        "Chrome"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "Which key is used to create space between words?",
+      "a": [
+        "Enter key",
+        "Spacebar",
+        "Shift key"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "Which key is used to move to the next line?",
+      "a": [
+        "Backspace",
+        "Enter",
+        "Delete"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "Which key removes letters to the left side?",
+      "a": [
+        "Delete",
+        "Backspace",
+        "Tab"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "What does the internet help us do?",
+      "a": [
+        "Connect and share information",
+        "Wash clothes",
+        "Cook food"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "Which app is commonly used for browsing the internet?",
+      "a": [
+        "Chrome",
+        "PowerPoint",
+        "Excel"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "Which of these is a safe internet habit?",
+      "a": [
+        "Sharing passwords with strangers",
+        "Clicking every link",
+        "Using strong passwords"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "What should you do if a stranger asks for your password online?",
+      "a": [
+        "Tell your teacher or parent",
+        "Give it quickly",
+        "Ignore safety"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "Which icon is commonly used to save a file?",
+      "a": [
+        "Disk icon",
+        "Trash icon",
+        "Music icon"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "Where are deleted files often sent first?",
+      "a": [
+        "Recycle Bin",
+        "Calculator",
+        "Taskbar"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "Which folder is used to store files?",
+      "a": [
+        "Folder",
+        "Speaker",
+        "Cable"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "Which of these helps computers connect to the internet wirelessly?",
+      "a": [
+        "Wi-Fi",
+        "Fan",
+        "Scanner"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "What is the full meaning of USB?",
+      "a": [
+        "Universal Serial Bus",
+        "United System Board",
+        "User Smart Box"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "Which device can store files and move them between computers?",
+      "a": [
+        "Flash Drive",
+        "Monitor",
+        "Mouse Pad"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "Which of these is used for online video meetings?",
+      "a": [
+        "Zoom",
+        "Paint",
+        "Notepad"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "Why is learning ICT important today?",
+      "a": [
+        "Because technology is part of school and work",
+        "Because computers are toys only",
+        "Because ICT is not useful"
+      ],
+      "correct": 0
+    }
   ]
 }
