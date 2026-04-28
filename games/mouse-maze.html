@@ -1,199 +1,332 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mouse Maze | Kidventor Quest</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<style>
-    body {
-        font-family: Inter, system-ui, sans-serif;
-        background: linear-gradient(135deg, #ecfdf5, #ffffff);
-        min-height: 100vh;
-        overflow: hidden;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mouse Maze Master | Kidventor Academy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;800&family=JetBrains+Mono:wght@700&display=swap');
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: radial-gradient(circle at center, #1e1b4b, #0f172a);
+            color: white;
+            margin: 0;
+            overflow: hidden;
+            height: 100vh;
+        }
 
-    .target {
-        position: absolute;
-        width: 80px;
-        height: 80px;
-        border-radius: 999px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 2rem;
-        cursor: pointer;
-        transition: all 0.25s ease;
-        user-select: none;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-    }
+        .maze-container {
+            position: relative;
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            overflow: hidden;
+            cursor: crosshair;
+        }
 
-    .target:hover {
-        transform: scale(1.08);
-    }
+        .wall {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.05);
+            transition: background 0.3s;
+        }
 
-    .pulse {
-        animation: pulse 1.5s infinite;
-    }
+        .path {
+            position: absolute;
+            background: #6366f1;
+            opacity: 0.15;
+        }
 
-    @keyframes pulse {
-        0%,100% { transform: scale(1); }
-        50% { transform: scale(1.08); }
-    }
-</style>
+        .start-zone {
+            position: absolute;
+            background: #10b981;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 10px;
+            color: white;
+            border-radius: 8px;
+        }
+
+        .end-zone {
+            position: absolute;
+            background: #f59e0b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 10px;
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
+        }
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.95);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .overlay-box {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 32px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .hud {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .failure-flash {
+            animation: flash 0.3s ease-out;
+        }
+
+        @keyframes flash {
+            0% { background: rgba(239, 68, 68, 0.4); }
+            100% { background: transparent; }
+        }
+    </style>
 </head>
 <body>
 
-<div class="max-w-6xl mx-auto px-6 py-8">
-
-    <div class="bg-white rounded-3xl shadow-xl p-6 border border-emerald-100">
-        <div class="flex flex-col md:flex-row justify-between gap-6 items-center">
+    <nav class="hud sticky top-0 px-8 py-4 flex justify-between items-center z-50">
+        <div class="flex gap-10">
             <div>
-                <p class="text-xs font-black uppercase tracking-[0.3em] text-emerald-600">Kidventor Mission</p>
-                <h1 class="text-4xl font-black mt-2">🖱️ Mouse Maze</h1>
-                <p class="text-slate-500 mt-2">Click the moving target before time runs out and master your mouse skills.</p>
+                <p class="text-[10px] uppercase font-black text-indigo-400 tracking-widest">Level</p>
+                <p id="level-display" class="text-xl font-black italic">1 / 5</p>
             </div>
+            <div>
+                <p class="text-[10px] uppercase font-black text-emerald-400 tracking-widest">Status</p>
+                <p id="status-display" class="text-xl font-black text-slate-400 uppercase">Wait</p>
+            </div>
+        </div>
+        <div class="text-right">
+            <p class="text-[10px] uppercase font-black text-amber-400 tracking-widest">Stars</p>
+            <p class="text-xl font-black text-amber-300">⭐ <span id="stars-display">0</span></p>
+        </div>
+    </nav>
 
-            <div class="flex gap-4 flex-wrap">
-                <div class="bg-emerald-50 px-5 py-3 rounded-2xl border border-emerald-100">
-                    <p class="text-xs font-black text-emerald-700 uppercase">Score</p>
-                    <p id="score" class="text-2xl font-black">0</p>
-                </div>
+    <main class="flex flex-col items-center justify-center h-[calc(100vh-80px)] p-6">
+        <div id="maze" class="maze-container w-[600px] h-[400px]" onmouseleave="handleWallHit()">
+            <!-- Maze elements generated by JS -->
+        </div>
+        <p class="mt-6 text-slate-500 font-bold uppercase tracking-widest text-sm">Don't touch the walls!</p>
+    </main>
 
-                <div class="bg-indigo-50 px-5 py-3 rounded-2xl border border-indigo-100">
-                    <p class="text-xs font-black text-indigo-700 uppercase">Time Left</p>
-                    <p id="timer" class="text-2xl font-black">30s</p>
-                </div>
+    <!-- UI OVERLAYS -->
+    <div id="uiOverlay" class="overlay flex">
+        <div class="overlay-box" id="startContent">
+            <div class="text-6xl mb-6">🖱️</div>
+            <h2 class="text-4xl font-black mb-4 tracking-tighter">MAZE RUNNER</h2>
+            <p class="text-slate-400 mb-8">Move your mouse to the <b>GREEN</b> square to start. Reach the <b>GOLD</b> square to win.</p>
+            <button onclick="hideOverlay()" class="w-full py-4 bg-indigo-600 rounded-2xl font-black text-lg hover:bg-indigo-500 transition-all">INITIALIZE</button>
+        </div>
 
-                <div class="bg-amber-50 px-5 py-3 rounded-2xl border border-amber-100">
-                    <p class="text-xs font-black text-amber-700 uppercase">Level</p>
-                    <p id="level" class="text-2xl font-black">1</p>
-                </div>
+        <div class="overlay-box hidden" id="nextLevelContent">
+            <div class="text-6xl mb-6">🚀</div>
+            <h2 class="text-4xl font-black mb-2 tracking-tighter">LEVEL SYNCED</h2>
+            <p id="levelStats" class="text-indigo-300 font-bold mb-8 uppercase tracking-widest"></p>
+            <button onclick="startNextLevel()" class="w-full py-4 bg-emerald-600 rounded-2xl font-black text-lg hover:bg-emerald-500 transition-all">NEXT NODE</button>
+        </div>
+
+        <div class="overlay-box hidden" id="victoryContent">
+            <div class="text-7xl mb-6">🏆</div>
+            <h2 class="text-4xl font-black mb-2 tracking-tighter">MAZE MASTER</h2>
+            <p class="text-slate-400 mb-8">All nodes stabilized. You have completed the Gauntlet.</p>
+            <div class="flex gap-4">
+                <button onclick="location.reload()" class="flex-1 py-4 bg-white text-slate-900 rounded-2xl font-black">RESTART</button>
             </div>
         </div>
     </div>
 
-    <div id="gameArea" class="relative mt-8 bg-white rounded-[2rem] border border-slate-100 shadow-lg h-[65vh] overflow-hidden">
+    <script>
+        const maze = document.getElementById('maze');
+        let currentLevel = 1;
+        let isPlaying = false;
+        let totalStars = 0;
 
-        <div id="startScreen" class="absolute inset-0 flex flex-col items-center justify-center text-center z-20 bg-white">
-            <div class="text-7xl mb-4">🎯</div>
-            <h2 class="text-3xl font-black">Ready for Mouse Maze?</h2>
-            <p class="text-slate-500 mt-3 max-w-md">Click the target as fast as you can. Every level gets faster and harder!</p>
-            <button onclick="startGame()" class="mt-8 px-8 py-4 rounded-2xl bg-emerald-600 text-white font-black hover:bg-emerald-700 transition-all shadow-xl">
-                START GAME
-            </button>
-        </div>
+        const levels = [
+            { // Level 1: Straight horizontal
+                start: {x: 20, y: 170},
+                end: {x: 530, y: 170},
+                path: [
+                    {x: 20, y: 170, w: 560, h: 60}
+                ]
+            },
+            { // Level 2: L-Shape
+                start: {x: 20, y: 20},
+                end: {x: 530, y: 320},
+                path: [
+                    {x: 20, y: 20, w: 560, h: 60},
+                    {x: 520, y: 20, w: 60, h: 360}
+                ]
+            },
+            { // Level 3: The S-Curve
+                start: {x: 20, y: 20},
+                end: {x: 20, y: 320},
+                path: [
+                    {x: 20, y: 20, w: 560, h: 50},
+                    {x: 530, y: 20, w: 50, h: 180},
+                    {x: 20, y: 150, w: 560, h: 50},
+                    {x: 20, y: 150, w: 50, h: 220}
+                ]
+            },
+            { // Level 4: The Staircase
+                start: {x: 20, y: 330},
+                end: {x: 530, y: 20},
+                path: [
+                    {x: 20, y: 330, w: 100, h: 50},
+                    {x: 100, y: 250, w: 50, h: 130},
+                    {x: 100, y: 250, w: 150, h: 50},
+                    {x: 230, y: 150, w: 50, h: 150},
+                    {x: 230, y: 150, w: 200, h: 50},
+                    {x: 410, y: 20, w: 50, h: 180},
+                    {x: 410, y: 20, w: 170, h: 50}
+                ]
+            },
+            { // Level 5: The Narrow Gauntlet
+                start: {x: 280, y: 340},
+                end: {x: 280, y: 20},
+                path: [
+                    {x: 280, y: 340, w: 40, h: 40},
+                    {x: 100, y: 300, w: 400, h: 40},
+                    {x: 100, y: 200, w: 40, h: 140},
+                    {x: 100, y: 200, w: 400, h: 30},
+                    {x: 460, y: 100, w: 40, h: 130},
+                    {x: 100, y: 100, w: 400, h: 25},
+                    {x: 100, y: 20, w: 25, h: 100},
+                    {x: 100, y: 20, w: 220, h: 30}
+                ]
+            }
+        ];
 
-        <div id="gameOverScreen" class="hidden absolute inset-0 flex flex-col items-center justify-center text-center z-20 bg-white">
-            <div class="text-7xl mb-4">🏆</div>
-            <h2 class="text-3xl font-black">Mission Complete!</h2>
-            <p id="finalScore" class="text-lg text-slate-600 mt-4">Your Score: 0</p>
-            <button onclick="restartGame()" class="mt-8 px-8 py-4 rounded-2xl bg-indigo-600 text-white font-black hover:bg-indigo-700 transition-all shadow-xl">
-                PLAY AGAIN
-            </button>
-        </div>
+        function buildMaze(lvlIdx) {
+            maze.innerHTML = '';
+            const config = levels[lvlIdx];
 
-        <div id="target" class="target pulse bg-emerald-500 text-white hidden">🖱️</div>
+            // 1. Create Safe Path Blocks
+            config.path.forEach(p => {
+                const block = document.createElement('div');
+                block.className = 'path';
+                block.style.left = p.x + 'px';
+                block.style.top = p.y + 'px';
+                block.style.width = p.w + 'px';
+                block.style.height = p.h + 'px';
+                maze.appendChild(block);
+            });
 
-    </div>
-</div>
+            // 2. Create Start
+            const start = document.createElement('div');
+            start.className = 'start-zone';
+            start.style.left = config.start.x + 'px';
+            start.style.top = config.start.y + 'px';
+            start.style.width = '50px';
+            start.style.height = '50px';
+            start.innerText = "START";
+            start.onmouseenter = startPlaying;
+            maze.appendChild(start);
 
-<script>
-let score = 0;
-let timeLeft = 30;
-let level = 1;
-let timerInterval;
-let gameStarted = false;
+            // 3. Create End
+            const end = document.createElement('div');
+            end.className = 'end-zone';
+            end.style.left = config.end.x + 'px';
+            end.style.top = config.end.y + 'px';
+            end.style.width = '50px';
+            end.style.height = '50px';
+            end.innerText = "GOAL";
+            end.onmouseenter = handleWin;
+            maze.appendChild(end);
 
-const target = document.getElementById("target");
-const gameArea = document.getElementById("gameArea");
-const scoreEl = document.getElementById("score");
-const timerEl = document.getElementById("timer");
-const levelEl = document.getElementById("level");
-const startScreen = document.getElementById("startScreen");
-const gameOverScreen = document.getElementById("gameOverScreen");
-const finalScore = document.getElementById("finalScore");
+            // 4. Fill remaining space with invisible wall logic
+            maze.onmousemove = (e) => {
+                if (!isPlaying) return;
+                const rect = maze.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
 
-function startGame() {
-    score = 0;
-    timeLeft = 30;
-    level = 1;
-    gameStarted = true;
+                // Check if mouse is within any path block
+                const inPath = config.path.some(p => 
+                    x >= p.x && x <= p.x + p.w &&
+                    y >= p.y && y <= p.y + p.h
+                );
 
-    updateUI();
+                if (!inPath) handleWallHit();
+            };
 
-    startScreen.classList.add("hidden");
-    gameOverScreen.classList.add("hidden");
-    target.classList.remove("hidden");
-
-    moveTarget();
-
-    timerInterval = setInterval(() => {
-        timeLeft--;
-        updateUI();
-
-        if (timeLeft <= 0) {
-            endGame();
+            document.getElementById('level-display').textContent = `${currentLevel} / 5`;
         }
-    }, 1000);
-}
 
-function restartGame() {
-    startGame();
-}
+        function startPlaying() {
+            if (isPlaying) return;
+            isPlaying = true;
+            document.getElementById('status-display').textContent = "Active";
+            document.getElementById('status-display').className = "text-xl font-black text-emerald-400 uppercase italic";
+        }
 
-function endGame() {
-    clearInterval(timerInterval);
-    gameStarted = false;
-    target.classList.add("hidden");
-    gameOverScreen.classList.remove("hidden");
-    finalScore.textContent = `Your Score: ${score} | Level Reached: ${level}`;
-}
+        function handleWallHit() {
+            if (!isPlaying) return;
+            isPlaying = false;
+            document.body.classList.add('failure-flash');
+            setTimeout(() => document.body.classList.remove('failure-flash'), 300);
+            
+            document.getElementById('status-display').textContent = "Failed";
+            document.getElementById('status-display').className = "text-xl font-black text-red-500 uppercase";
+            // No reset needed, just requires going back to green square
+        }
 
-function updateUI() {
-    scoreEl.textContent = score;
-    timerEl.textContent = timeLeft + "s";
-    levelEl.textContent = level;
-}
+        function handleWin() {
+            if (!isPlaying) return;
+            isPlaying = false;
+            totalStars += 10;
+            document.getElementById('stars-display').textContent = totalStars;
+            
+            if (currentLevel < 5) {
+                showNextLevelOverlay();
+            } else {
+                showVictory();
+            }
+        }
 
-function moveTarget() {
-    if (!gameStarted) return;
+        function showNextLevelOverlay() {
+            document.getElementById('uiOverlay').style.display = 'flex';
+            document.getElementById('startContent').classList.add('hidden');
+            document.getElementById('nextLevelContent').classList.remove('hidden');
+            document.getElementById('levelStats').textContent = `Node ${currentLevel} Stabilized`;
+        }
 
-    const areaRect = gameArea.getBoundingClientRect();
+        function startNextLevel() {
+            currentLevel++;
+            document.getElementById('uiOverlay').style.display = 'none';
+            document.getElementById('nextLevelContent').classList.add('hidden');
+            document.getElementById('status-display').textContent = "Wait";
+            document.getElementById('status-display').className = "text-xl font-black text-slate-400 uppercase";
+            buildMaze(currentLevel - 1);
+        }
 
-    const maxX = areaRect.width - 100;
-    const maxY = areaRect.height - 100;
+        function showVictory() {
+            document.getElementById('uiOverlay').style.display = 'flex';
+            document.getElementById('nextLevelContent').classList.add('hidden');
+            document.getElementById('victoryContent').classList.remove('hidden');
+        }
 
-    const x = Math.random() * maxX;
-    const y = Math.random() * maxY;
+        function hideOverlay() {
+            document.getElementById('uiOverlay').style.display = 'none';
+            buildMaze(0);
+        }
 
-    target.style.left = x + "px";
-    target.style.top = y + "px";
-}
-
-function increaseDifficulty() {
-    if (score >= 5) level = 2;
-    if (score >= 10) level = 3;
-    if (score >= 15) level = 4;
-    if (score >= 20) level = 5;
-
-    updateUI();
-}
-
-target.addEventListener("click", () => {
-    if (!gameStarted) return;
-
-    score++;
-    increaseDifficulty();
-    moveTarget();
-
-    if (score % 3 === 0) {
-        timeLeft += 1;
-    }
-
-    updateUI();
-});
-</script>
-
+    </script>
 </body>
 </html>
