@@ -1,875 +1,262 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Code Match Puzzle | Kidventor</title>
-<script src="https://cdn.tailwindcss.com"></script>
-
-<style>
-body{
-font-family:Inter,system-ui;
-background:linear-gradient(135deg,#0f172a,#1e1b4b);
-color:white;
-overflow:hidden;
-}
-
-.card{
-background:rgba(255,255,255,0.08);
-backdrop-filter:blur(10px);
-border:1px solid rgba(255,255,255,0.1);
-padding:18px;
-border-radius:18px;
-cursor:pointer;
-transition:.2s;
-text-align:center;
-font-weight:900;
-}
-
-.card:hover{transform:scale(1.05)}
-
-.selected{
-background:#6366f1 !important;
-}
-
-.correct{
-background:#10b981 !important;
-}
-
-.wrong{
-background:#ef4444 !important;
-}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:14px;
-}
-
-.center{
-display:flex;
-align-items:center;
-justify-content:center;
-height:100vh;
-flex-direction:column;
-padding:20px;
-}
-
-.hidden{display:none}
-</style>
-</head>
-
-<body>
-
-<!-- HUD -->
-<div class="fixed top-0 left-0 right-0 p-4 flex justify-between text-sm font-black">
-<div>Score: <span id="score">0</span></div>
-<div>Level: <span id="level">1</span></div>
-<div>Stars: ⭐ <span id="stars">0</span></div>
-</div>
-
-<!-- START -->
-<div id="start" class="center">
-<h1 class="text-4xl font-black">CODE MATCH PUZZLE</h1>
-<p class="mt-3 text-indigo-300">Match the correct pairs</p>
-<button onclick="startGame()" class="mt-6 px-8 py-4 bg-indigo-600 rounded-xl font-black">
-START
-</button>
-</div>
-
-<!-- GAME -->
-<div id="game" class="hidden center">
-<div class="grid w-full max-w-xl" id="board"></div>
-</div>
-
-<!-- END -->
-<div id="end" class="hidden center">
-<h1 class="text-4xl font-black">Well Done!</h1>
-<p class="mt-3">Final Score: <span id="final"></span></p>
-<button onclick="location.reload()" class="mt-6 px-8 py-4 bg-indigo-600 rounded-xl font-black">
-Play Again
-</button>
-</div>
-
-<!-- REPLACE YOUR OLD SCRIPT WITH THIS FIXED VERSION -->
-<!-- This fixes BOTH:
-1. Keyboard Ninja not responding
-2. Mouse Maze target not moving / not clickable
--->
-
-<script>
-/* =====================================
-   KIDVENTOR GAME ENGINE — FIXED VERSION
-===================================== */
-
-const GAME_PATH = "games/";
-
-const games = {
-  "Keyboard Ninja": {
-    file: "keyboard-ninja.html",
-    reward: 10
-  },
-  "Mouse Maze": {
-    file: "mouse-maze.html",
-    reward: 15
-  }
-};
-
-const modal = document.getElementById("gameModal");
-const frame = document.getElementById("gameFrame");
-const titleEl = document.getElementById("modalTitle");
-const loadingEl = document.getElementById("gameLoading");
-
-let stars = Number(localStorage.getItem("kidventorStars")) || 140;
-
-function updateStars() {
-  const starText = document.querySelector("#missions .text-xl");
-  if (starText) {
-    starText.textContent = "⭐ " + stars;
-  }
-}
-
-function rewardStars(amount) {
-  stars += amount;
-  localStorage.setItem("kidventorStars", stars);
-  updateStars();
-}
-
-function openGame(gameTitle) {
-  const game = games[gameTitle];
-
-  if (!game) {
-    alert("Game not found");
-    return;
-  }
-
-  modal.classList.remove("hidden");
-  document.body.style.overflow = "hidden";
-
-  titleEl.textContent = gameTitle;
-  loadingEl.classList.remove("hidden");
-
-  frame.style.opacity = "0";
-  frame.src = GAME_PATH + game.file;
-
-  frame.onload = function () {
-    loadingEl.classList.add("hidden");
-    frame.style.opacity = "1";
-    rewardStars(game.reward);
-  };
-
-  /* fallback if iframe file fails */
-  setTimeout(() => {
-    if (!frame.src || frame.style.opacity === "1") return;
-
-    loadingEl.classList.add("hidden");
-    frame.style.opacity = "1";
-
-    frame.srcdoc = `
-      <html>
-      <body style="font-family:Arial;text-align:center;padding:50px;">
-        <h1>🎮 ${gameTitle}</h1>
-        <p>Game initialized successfully.</p>
-        <p>Please confirm your file exists inside /games/ folder.</p>
-      </body>
-      </html>
-    `;
-  }, 2500);
-}
-
-function closeGame() {
-  modal.classList.add("hidden");
-  frame.src = "";
-  frame.srcdoc = "";
-  document.body.style.overflow = "auto";
-}
-
-window.openGame = openGame;
-window.closeGame = closeGame;
-
-updateStars();
-</script>
-<!-- ===================================== -->
-<!-- FIXED keyboard-ninja.html SCRIPT -->
-<!-- ===================================== -->
-
-<script>
-let currentLevel = 1;
-let score = 0;
-
-const keyboardLevels = {
-  1: ["A", "S", "D", "F", "G"],
-  2: ["Enter", "Space", "Backspace"],
-  3: ["Shift", "Caps Lock", "Tab"],
-  4: ["Arrow Up", "Arrow Down", "Delete"],
-  5: ["Ctrl", "Alt", "Esc"]
-};
-
-function startKeyboardGame() {
-  showLevel();
-}
-
-function showLevel() {
-  const keys = keyboardLevels[currentLevel];
-
-  alert(
-    "⌨️ Keyboard Ninja\n\n" +
-    "Level " + currentLevel + "\n\n" +
-    "Find these keys:\n\n" +
-    keys.join("\n")
-  );
-}
-
-function completeLevel() {
-  score += 10;
-
-  if (currentLevel < 5) {
-    currentLevel++;
-    alert("🎉 Great Job! Next Level: " + currentLevel);
-    showLevel();
-  } else {
-    alert("🏆 You completed all 5 Keyboard Levels!");
-  }
-}
-
-window.onload = startKeyboardGame;
-</script>
-
-</body>
-</html>
-
-
-
-
-
-
-<!--<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Keyboard Ninja V2 | Kidventor</title>
-<script src="https://cdn.tailwindcss.com"></script>
-
-<style>
-body{
-margin:0;
-overflow:hidden;
-font-family:Inter,system-ui,sans-serif;
-background:radial-gradient(circle at top,#312e81,#0f172a 60%,#020617);
-}
-
-.letter{
-position:absolute;
-width:72px;
-height:72px;
-border-radius:20px;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:34px;
-font-weight:900;
-color:#fff;
-background:linear-gradient(135deg,#6366f1,#4338ca);
-box-shadow:0 15px 35px rgba(0,0,0,.4);
-user-select:none;
-transition:.15s;
-}
-
-.hit{
-transform:scale(0);
-opacity:0;
-}
-
-.bomb{
-background:linear-gradient(135deg,#ef4444,#991b1b);
-}
-
-.freeze{
-background:linear-gradient(135deg,#06b6d4,#0ea5e9);
-}
-
-.star{
-background:linear-gradient(135deg,#f59e0b,#eab308);
-}
-
-.flash{
-animation:flash .3s linear;
-}
-
-@keyframes flash{
-0%{transform:scale(1)}
-50%{transform:scale(1.25)}
-100%{transform:scale(1)}
-}
-
-.floaty{animation:floaty 3s ease-in-out infinite}
-@keyframes floaty{
-0%,100%{transform:translateY(0)}
-50%{transform:translateY(-12px)}
-}
-
-.panel{
-background:rgba(255,255,255,.08);
-backdrop-filter:blur(10px);
-border:1px solid rgba(255,255,255,.08);
-}
-
-#mobileKeys button{
-font-size:12px;
-font-weight:900;
-padding:8px;
-border-radius:10px;
-background:#fff;
-}
-</style>
-</head>
-
-<body>
-
-<!-- HUD --
-<div class="fixed top-0 left-0 right-0 z-50 p-4">
-<div class="max-w-6xl mx-auto flex justify-between gap-4 items-center">
-
-<div class="flex gap-3">
-<div class="panel px-5 py-3 rounded-2xl text-white">
-<div class="text-[10px] uppercase font-black text-indigo-300">Score</div>
-<div id="score" class="text-2xl font-black">0</div>
-</div>
-
-<div class="panel px-5 py-3 rounded-2xl text-white">
-<div class="text-[10px] uppercase font-black text-amber-300">Stars</div>
-<div id="stars" class="text-2xl font-black">0</div>
-</div>
-</div>
-
-<div class="text-center">
-<div id="level" class="text-white text-xl font-black">LEVEL 1</div>
-<div id="combo" class="text-emerald-300 text-sm font-black"></div>
-</div>
-
-<div class="panel px-5 py-3 rounded-2xl text-white">
-<div class="text-[10px] uppercase font-black text-rose-300">Lives</div>
-<div id="lives" class="text-xl font-black">❤️❤️❤️</div>
-</div>
-
-</div>
-</div>
-
-<!-- Start Screen --
-<div id="startScreen" class="fixed inset-0 z-40 flex items-center justify-center bg-black/70">
-<div class="text-center px-6 floaty">
-<h1 class="text-white text-6xl md:text-7xl font-black">KEYBOARD <span class="text-indigo-500">NINJA</span></h1>
-<p class="mt-4 text-indigo-200 font-bold tracking-[.25em] uppercase">Type Fast • Save The Scroll</p>
-
-<button onclick="startGame()" class="mt-8 px-10 py-5 rounded-2xl bg-indigo-600 text-white font-black text-xl hover:bg-indigo-700">
-START MISSION
-</button>
-</div>
-</div>
-
-<!-- Arena --
-<div id="gameArea" class="fixed inset-0"></div>
-
-<!-- Mobile Keys --
-<div id="mobileKeys" class="fixed bottom-0 left-0 right-0 z-50 bg-black/30 p-2 grid grid-cols-6 gap-1 md:hidden"></div>
-
-<!-- Game Over --
-<div id="gameOver" class="hidden fixed inset-0 z-[100] bg-black/80 flex items-center justify-center p-6">
-<div class="bg-white rounded-[2rem] p-8 max-w-md w-full text-center">
-<div class="text-6xl">🏆</div>
-<h2 class="text-4xl font-black mt-4">Mission Complete</h2>
-
-<div class="mt-8 space-y-3">
-<div class="bg-slate-100 rounded-xl p-4 flex justify-between">
-<span class="font-bold">Final Score</span>
-<span id="finalScore" class="font-black">0</span>
-</div>
-
-<div class="bg-indigo-600 text-white rounded-xl p-4 flex justify-between">
-<span class="font-bold">Stars Won</span>
-<span id="finalStars" class="font-black">0</span>
-</div>
-</div>
-
-<button onclick="location.reload()" class="mt-8 w-full py-4 rounded-xl bg-slate-900 text-white font-black hover:bg-indigo-600">
-PLAY AGAIN
-</button>
-</div>
-</div>
-
-<script>
-const area = document.getElementById("gameArea");
-
-let score=0;
-let stars=0;
-let lives=3;
-let level=1;
-let combo=0;
-let speed=2.2;
-let started=false;
-let ended=false;
-let spawnRate=900;
-let active=[];
-let timer;
-
-function updateHUD(){
-scoreEl.textContent=score;
-starsEl.textContent=stars;
-levelEl.textContent="LEVEL "+level;
-comboEl.textContent=combo>1?"COMBO x"+combo:"";
-
-let hearts="";
-for(let i=0;i<3;i++) hearts += i<lives ? "❤️":"🖤";
-livesEl.textContent=hearts;
-}
-
-const scoreEl=document.getElementById("score");
-const starsEl=document.getElementById("stars");
-const levelEl=document.getElementById("level");
-const comboEl=document.getElementById("combo");
-const livesEl=document.getElementById("lives");
-
-function startGame(){
-if(started)return;
-started=true;
-document.getElementById("startScreen").classList.add("hidden");
-spawnLoop();
-requestAnimationFrame(loop);
-}
-
-function spawnLoop(){
-timer=setInterval(spawnLetter,spawnRate);
-}
-
-function restartSpawner(){
-clearInterval(timer);
-spawnLoop();
-}
-
-function randomLetter(){
-const chars="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-return chars[Math.floor(Math.random()*chars.length)];
-}
-
-function spawnLetter(){
-if(ended)return;
-
-let type="normal";
-let rand=Math.random();
-
-if(rand<0.08) type="bomb";
-else if(rand<0.14) type="freeze";
-else if(rand<0.22) type="star";
-
-const el=document.createElement("div");
-el.className="letter "+type;
-el.textContent= type==="bomb" ? "💣" :
-type==="freeze" ? "❄️" :
-type==="star" ? "⭐" :
-randomLetter();
-
-const x=Math.random()*(window.innerWidth-80);
-el.style.left=x+"px";
-el.style.top="-80px";
-
-area.appendChild(el);
-
-active.push({
-char:el.textContent,
-type,
-el,
-x,
-y:-80
-});
-}
-
-function loop(){
-if(ended)return;
-
-for(let i=active.length-1;i>=0;i--){
-let a=active[i];
-a.y += speed;
-a.el.style.top=a.y+"px";
-
-if(a.y > window.innerHeight){
-a.el.remove();
-active.splice(i,1);
-
-if(a.type==="normal"){
-lives--;
-combo=0;
-if(lives<=0){endGame();return;}
-}
-updateHUD();
-}
-}
-
-requestAnimationFrame(loop);
-}
-
-function hitEffect(el){
-el.classList.add("hit");
-setTimeout(()=>el.remove(),120);
-}
-
-function levelCheck(){
-if(score>=50 && level===1){
-level=2; speed=3; spawnRate=700; restartSpawner();
-}
-if(score>=120 && level===2){
-level=3; speed=4; spawnRate=550; restartSpawner();
-}
-if(score>=220 && level===3){
-level=4; speed=5; spawnRate=450; restartSpawner();
-}
-}
-
-function processKey(key){
-if(!started || ended)return;
-
-key=key.toUpperCase();
-
-for(let i=0;i<active.length;i++){
-let a=active[i];
-
-if(
-(a.type==="normal" && a.char===key) ||
-(a.type!=="normal" && key===" ")
-){
-
-if(a.type==="bomb"){
-combo=0;
-lives--;
-if(lives<=0){endGame();return;}
-}
-
-else if(a.type==="freeze"){
-speed=Math.max(1.5,speed-1);
-setTimeout(()=>speed+=1,4000);
-score+=10;
-stars+=2;
-combo++;
-}
-
-else if(a.type==="star"){
-score+=20;
-stars+=5;
-combo++;
-}
-
-else{
-combo++;
-score += 10*combo;
-stars += 1;
-}
-
-hitEffect(a.el);
-active.splice(i,1);
-
-levelCheck();
-updateHUD();
-return;
-}
-}
-
-combo=0;
-updateHUD();
-}
-
-document.addEventListener("keydown",(e)=>{
-if(!started){startGame();return;}
-processKey(e.key===" " ? " " : e.key);
-});
-
-function endGame(){
-ended=true;
-clearInterval(timer);
-
-document.getElementById("finalScore").textContent=score;
-document.getElementById("finalStars").textContent=stars;
-document.getElementById("gameOver").classList.remove("hidden");
-
-let saved=Number(localStorage.getItem("kidventorStars"))||0;
-localStorage.setItem("kidventorStars",saved+stars);
-}
-
-/* mobile keyboard */
-const keys="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-const mobile=document.getElementById("mobileKeys");
-
-keys.split("").forEach(k=>{
-let b=document.createElement("button");
-b.textContent=k;
-b.onclick=()=>processKey(k);
-mobile.appendChild(b);
-});
-
-let space=document.createElement("button");
-space.textContent="⭐";
-space.className="col-span-6 bg-indigo-600 text-white";
-space.onclick=()=>processKey(" ");
-mobile.appendChild(space);
-
-updateHUD();
-</script>
-
-</body>
-</html>
-
-
-
-
-
-
-<!--<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Keyboard Ninja Pro | Kidventor</title>
-<script src="https://cdn.tailwindcss.com"></script>
-
-<style>
-    body {
-        margin: 0;
-        overflow: hidden;
-        font-family: 'Inter', system-ui, sans-serif;
-        background: radial-gradient(circle at center, #1e1b4b, #0f172a);
-    }
-
-    /* Upgraded Letter Style */
-    .letter {
-        position: absolute;
-        width: 70px;
-        height: 70px;
-        border-radius: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 36px;
-        font-weight: 900;
-        color: #fff;
-        background: linear-gradient(135deg, #6366f1, #4338ca);
-        box-shadow: 0 15px 35px rgba(0,0,0,0.4), inset 0 -4px 0 rgba(0,0,0,0.2);
-        user-select: none;
-        border: 2px solid rgba(255,255,255,0.1);
-    }
-
-    /* Slash Effect */
-    .slash {
-        position: absolute;
-        height: 4px;
-        background: white;
-        border-radius: 2px;
-        transform: rotate(-45deg);
-        pointer-events: none;
-        animation: slashAnim 0.3s ease-out forwards;
-    }
-
-    @keyframes slashAnim {
-        0% { width: 0; opacity: 1; }
-        100% { width: 150px; opacity: 0; }
-    }
-
-    .hit {
-        transform: scale(0);
-        opacity: 0;
-        transition: all 0.2s ease-out;
-    }
-
-    .panel {
-        backdrop-filter: blur(12px);
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    /* Floating Animation for Start Text */
-    .floating { animation: float 3s ease-in-out infinite; }
-    @keyframes float {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-20px); }
-    }
-</style>
-</head>
-
-<body>
-
-<div class="fixed top-0 inset-x-0 z-50 px-6 py-6">
-    <div class="content-container max-w-5xl mx-auto flex justify-between items-center">
-        <div class="flex gap-4">
-            <div class="panel px-6 py-3 rounded-2xl text-white">
-                <p class="text-[10px] uppercase font-black tracking-widest text-indigo-300">Score</p>
-                <p id="score" class="text-3xl font-black">0</p>
-            </div>
-            <div class="panel px-6 py-3 rounded-2xl text-white">
-                <p class="text-[10px] uppercase font-black tracking-widest text-emerald-300">Stars</p>
-                <p id="currentStars" class="text-3xl font-black text-amber-400">0</p>
-            </div>
-        </div>
-
-        <div id="comboContainer" class="hidden text-center">
-            <p id="comboText" class="text-4xl font-black text-white italic italic">X2</p>
-            <p class="text-[10px] font-black text-indigo-400 uppercase">Combo</p>
-        </div>
-
-        <div class="flex gap-4">
-            <div class="panel px-6 py-3 rounded-2xl text-white text-right">
-                <p class="text-[10px] uppercase font-black tracking-widest text-rose-300">Lives</p>
-                <p id="lives" class="text-2xl font-black">❤️❤️❤️</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="startScreen" class="absolute inset-0 flex flex-col items-center justify-center z-40 bg-slate-950/40">
-    <div class="floating text-center">
-        <h1 class="text-white text-7xl font-black tracking-tighter mb-4">KEYBOARD <span class="text-indigo-500">NINJA</span></h1>
-        <p class="text-indigo-200 font-bold tracking-[0.3em] animate-pulse uppercase">Press any key to begin mission</p>
-    </div>
-</div>
-
-<div id="gameArea" class="absolute inset-0"></div>
-
-<div id="gameOver" class="hidden fixed inset-0 z-[100] bg-slate-950/95 flex items-center justify-center p-6">
-    <div class="bg-white rounded-[3rem] p-12 max-w-md w-full text-center shadow-2xl">
-        <div class="text-6xl mb-6">🏆</div>
-        <h2 class="text-4xl font-black text-slate-900 leading-none">Mission Complete</h2>
-        <p class="mt-2 text-slate-400 font-medium">You protected the digital scroll!</p>
-
-        <div class="mt-8 space-y-3">
-            <div class="bg-slate-50 flex justify-between items-center p-5 rounded-2xl">
-                <span class="font-black text-slate-400 uppercase text-xs">Total Score</span>
-                <span id="finalScore" class="text-2xl font-black">0</span>
-            </div>
-            <div class="bg-indigo-600 flex justify-between items-center p-5 rounded-2xl text-white">
-                <span class="font-black opacity-80 uppercase text-xs">Stars Earned</span>
-                <span id="starsWon" class="text-2xl font-black">0</span>
-            </div>
-        </div>
-
-        <button onclick="location.reload()" class="mt-8 w-full py-5 rounded-[1.5rem] bg-slate-900 text-white font-black hover:bg-indigo-600 transition-all transform hover:scale-105">
-            RETRY MISSION
-        </button>
-    </div>
-</div>
-
-<script>
-    const gameArea = document.getElementById("gameArea");
-    const startScreen = document.getElementById("startScreen");
-    
-    let score = 0;
-    let lives = 3;
-    let combo = 0;
-    let speed = 2.0;
-    let started = false;
-    let ended = false;
-    let activeLetters = [];
-
-    function updateUI() {
-        document.getElementById("score").textContent = score;
-        document.getElementById("currentStars").textContent = Math.floor(score / 5);
-        let hearts = "";
-        for(let i=0; i<3; i++) hearts += (i < lives) ? "❤️" : "🖤";
-        document.getElementById("lives").textContent = hearts;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Code Match Master | Kidventor Academy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;800&family=JetBrains+Mono:wght@700&display=swap');
         
-        const comboContainer = document.getElementById("comboContainer");
-        if (combo > 2) {
-            comboContainer.classList.remove("hidden");
-            document.getElementById("comboText").textContent = `X${Math.floor(combo/2)}`;
-        } else {
-            comboContainer.classList.add("hidden");
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: radial-gradient(circle at center, #1e1b4b, #0f172a);
+            color: white;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
         }
-    }
 
-    function spawnLetter() {
-        if (ended || !started) return;
-        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        const char = chars[Math.floor(Math.random() * chars.length)];
-        const el = document.createElement("div");
-        el.className = "letter";
-        el.textContent = char;
-        
-        const x = Math.random() * (window.innerWidth - 100) + 20;
-        el.style.left = x + "px";
-        el.style.top = "-100px";
-        
-        gameArea.appendChild(el);
-        activeLetters.push({ char, el, x, y: -100 });
-        speed += 0.02;
-    }
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 24px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            aspect-ratio: 1 / 1;
+            font-weight: 800;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
 
-    function gameLoop() {
-        if (ended) return;
-        for (let i = activeLetters.length - 1; i >= 0; i--) {
-            const item = activeLetters[i];
-            item.y += speed;
-            item.el.style.top = item.y + "px";
+        .card:hover { transform: scale(1.05); background: rgba(255, 255, 255, 0.1); }
+        .selected { background: #6366f1 !important; border-color: #818cf8; transform: scale(0.95); }
+        .correct { background: #10b981 !important; border-color: #34d399; animation: success 0.5s ease; }
+        .wrong { background: #ef4444 !important; border-color: #f87171; animation: shake 0.4s ease; }
 
-            if (item.y > window.innerHeight) {
-                item.el.remove();
-                activeLetters.splice(i, 1);
-                lives--;
-                combo = 0;
-                updateUI();
-                if (lives <= 0) { endGame(); return; }
+        @keyframes success {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .hud-panel {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .code-font { font-family: 'JetBrains Mono', monospace; }
+    </style>
+</head>
+<body>
+
+    <!-- HUD -->
+    <nav class="hud-panel sticky top-0 z-50 px-6 py-4">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <div class="flex gap-6">
+                <div>
+                    <p class="text-[10px] font-black text-indigo-400 uppercase tracking-widest">Score</p>
+                    <p id="score" class="text-xl font-black">0</p>
+                </div>
+                <div>
+                    <p class="text-[10px] font-black text-emerald-400 uppercase tracking-widest">Level</p>
+                    <p id="level-display" class="text-xl font-black">1/10</p>
+                </div>
+            </div>
+            <div class="text-right">
+                <p class="text-[10px] font-black text-amber-400 uppercase tracking-widest">Rewards</p>
+                <p class="text-xl font-black">⭐ <span id="stars">0</span></p>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow flex items-center justify-center p-6">
+        <!-- START SCREEN -->
+        <div id="start-screen" class="text-center max-w-md">
+            <div class="w-20 h-20 bg-indigo-600 rounded-3xl mx-auto mb-6 flex items-center justify-center text-4xl">🧩</div>
+            <h1 class="text-5xl font-black tracking-tighter mb-4">CODE MATCH</h1>
+            <p class="text-slate-400 font-medium mb-8">Connect the logic blocks. Complete all 10 levels to become a Master Inventor.</p>
+            <button onclick="initGame()" class="w-full py-5 bg-indigo-600 hover:bg-indigo-500 rounded-2xl font-black text-lg transition-all shadow-xl shadow-indigo-500/20">
+                INITIALIZE CORE
+            </button>
+        </div>
+
+        <!-- GAME BOARD -->
+        <div id="game-container" class="hidden w-full max-w-2xl">
+            <div id="board" class="grid gap-4"></div>
+        </div>
+
+        <!-- VICTORY SCREEN -->
+        <div id="end-screen" class="hidden text-center">
+            <div class="text-7xl mb-6">🏆</div>
+            <h1 class="text-5xl font-black mb-2">MISSION COMPLETE</h1>
+            <p class="text-indigo-300 font-bold uppercase tracking-widest mb-8">All Circuits Synchronized</p>
+            <div class="bg-white/5 p-6 rounded-3xl border border-white/10 mb-8">
+                <p class="text-sm text-slate-400 uppercase font-black">Final Performance</p>
+                <p id="final-stats" class="text-2xl font-black mt-2"></p>
+            </div>
+            <button onclick="location.reload()" class="px-12 py-5 bg-white text-slate-900 rounded-2xl font-black hover:bg-indigo-100 transition-all">
+                RESTART ARCHIVE
+            </button>
+        </div>
+    </main>
+
+    <script>
+        // DATA SET FOR 10 LEVELS
+        const matchLibrary = [
+            { a: "<html>", b: "</html>" },
+            { a: "<body>", b: "</body>" },
+            { a: "if (true)", b: "then run" },
+            { a: "const", b: "variable" },
+            { a: "style", b: "css" },
+            { a: "console", b: ".log()" },
+            { a: "function", b: "() => {}" },
+            { a: "array", b: "[ 0, 1 ]" },
+            { a: "boolean", b: "true/false" },
+            { a: "string", b: '"hello"' },
+            { a: "<img />", b: "src='...'" },
+            { a: "loop", b: "for each" },
+            { a: "click", b: "event" },
+            { a: "bug", b: "debug" },
+            { a: "robot", b: "logic" },
+            { a: "input", b: "output" }
+        ];
+
+        let level = 1;
+        let score = 0;
+        let stars = 0;
+        let selectedCards = [];
+        let canClick = true;
+
+        function initGame() {
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('game-container').classList.remove('hidden');
+            loadLevel();
+        }
+
+        function loadLevel() {
+            const board = document.getElementById('board');
+            board.innerHTML = '';
+            selectedCards = [];
+            
+            // Level Logic: Start with 3 pairs, add 1 pair every level
+            const pairCount = Math.min(3 + (level - 1), 8); 
+            
+            // Set Grid Columns based on pair count
+            board.style.gridTemplateColumns = pairCount > 6 ? 'repeat(4, 1fr)' : 'repeat(3, 1fr)';
+            if (pairCount <= 3) board.style.gridTemplateColumns = 'repeat(2, 1fr)';
+
+            // Pick random pairs from library
+            let shuffledLib = [...matchLibrary].sort(() => 0.5 - Math.random());
+            let selectedPairs = shuffledLib.slice(0, pairCount);
+
+            // Create card objects
+            let deck = [];
+            selectedPairs.forEach((pair, index) => {
+                deck.push({ text: pair.a, pairID: index });
+                deck.push({ text: pair.b, pairID: index });
+            });
+
+            // Shuffle deck
+            deck.sort(() => 0.5 - Math.random());
+
+            deck.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card code-font';
+                card.textContent = item.text;
+                card.dataset.id = item.pairID;
+                card.onclick = () => handleCardClick(card);
+                board.appendChild(card);
+            });
+
+            document.getElementById('level-display').textContent = `${level}/10`;
+        }
+
+        function handleCardClick(card) {
+            if (!canClick || card.classList.contains('selected') || card.classList.contains('correct')) return;
+
+            card.classList.add('selected');
+            selectedCards.push(card);
+
+            if (selectedCards.length === 2) {
+                checkMatch();
             }
         }
-        requestAnimationFrame(gameLoop);
-    }
 
-    // --- THE FIX: RELIABLE START FUNCTION ---
-    function initiateMission() {
-        if (started) return;
-        started = true;
-        startScreen.classList.add("hidden");
-        updateUI();
-        setInterval(spawnLetter, 900);
-        gameLoop();
-        console.log("Mission Started!");
-    }
+        function checkMatch() {
+            canClick = false;
+            const [c1, c2] = selectedCards;
 
-    // Listen for keys
-    document.addEventListener("keydown", (e) => {
-        if (!started) {
-            initiateMission();
-            return;
-        }
-        
-        const key = e.key.toUpperCase();
-        let hitFound = false;
-
-        for (let i = 0; i < activeLetters.length; i++) {
-            if (activeLetters[i].char === key) {
-                const hit = activeLetters[i];
-                hit.el.classList.add("hit");
-                setTimeout(() => hit.el.remove(), 100);
-                activeLetters.splice(i, 1);
-                combo++;
-                score += (10 * Math.max(1, Math.floor(combo/2)));
-                updateUI();
-                hitFound = true;
-                break;
+            if (c1.dataset.id === c2.dataset.id) {
+                // MATCH
+                setTimeout(() => {
+                    c1.className = 'card correct code-font';
+                    c2.className = 'card correct code-font';
+                    score += 20;
+                    stars += 5;
+                    updateHUD();
+                    selectedCards = [];
+                    canClick = true;
+                    checkWin();
+                }, 300);
+            } else {
+                // FAIL
+                setTimeout(() => {
+                    c1.classList.add('wrong');
+                    c2.classList.add('wrong');
+                    setTimeout(() => {
+                        c1.className = 'card code-font';
+                        c2.className = 'card code-font';
+                        selectedCards = [];
+                        canClick = true;
+                    }, 400);
+                }, 300);
             }
         }
-        if (!hitFound) combo = 0;
-    });
 
-    // Backup: Start on click if key fails
-    window.addEventListener("mousedown", initiateMission);
+        function checkWin() {
+            const remaining = document.querySelectorAll('.card:not(.correct)');
+            if (remaining.length === 0) {
+                if (level < 10) {
+                    level++;
+                    setTimeout(() => {
+                        alert(`Level ${level-1} Synchronized! Loading next node...`);
+                        loadLevel();
+                    }, 500);
+                } else {
+                    showEnd();
+                }
+            }
+        }
 
-    function endGame() {
-        if (ended) return;
-        ended = true;
-        document.getElementById("gameOver").classList.remove("hidden");
-        document.getElementById("finalScore").textContent = score;
-        const totalStars = Math.floor(score / 5);
-        document.getElementById("starsWon").textContent = totalStars;
-        
-        let savedStars = Number(localStorage.getItem("kidventorStars")) || 0;
-        localStorage.setItem("kidventorStars", savedStars + totalStars);
-    }
-</script>
+        function updateHUD() {
+            document.getElementById('score').textContent = score;
+            document.getElementById('stars').textContent = stars;
+        }
 
+        function showEnd() {
+            document.getElementById('game-container').classList.add('hidden');
+            document.getElementById('end-screen').classList.remove('hidden');
+            document.getElementById('final-stats').textContent = `SCORE: ${score} | ⭐ ${stars}`;
+            
+            // Save to local storage for Kidventor economy
+            let saved = Number(localStorage.getItem("kidventorStars")) || 0;
+            localStorage.setItem("kidventorStars", saved + stars);
+        }
+    </script>
 </body>
 </html>
