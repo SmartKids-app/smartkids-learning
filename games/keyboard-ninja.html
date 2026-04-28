@@ -1,262 +1,285 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>Code Match Master | Kidventor Academy</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;800&family=JetBrains+Mono:wght@700&display=swap');
-        
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: radial-gradient(circle at center, #1e1b4b, #0f172a);
-            color: white;
-            min-height: 100vh;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Code Match Master | Kidventor Academy</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;800&family=JetBrains+Mono:wght@700&display=swap');
 
-        .card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 24px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            aspect-ratio: 1 / 1;
-            font-weight: 800;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: radial-gradient(circle at center, #1e1b4b, #0f172a);
+    color: white;
+    min-height: 100vh;
+    margin: 0;
+}
 
-        .card:hover { transform: scale(1.05); background: rgba(255, 255, 255, 0.1); }
-        .selected { background: #6366f1 !important; border-color: #818cf8; transform: scale(0.95); }
-        .correct { background: #10b981 !important; border-color: #34d399; animation: success 0.5s ease; }
-        .wrong { background: #ef4444 !important; border-color: #f87171; animation: shake 0.4s ease; }
+.card {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,255,255,0.1);
+    padding: 18px;
+    border-radius: 22px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 110px;
+    font-weight: 800;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+}
 
-        @keyframes success {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
+.card:hover { transform: scale(1.04); }
+.selected { background: #6366f1 !important; }
+.correct { background: #10b981 !important; }
+.wrong { background: #ef4444 !important; }
+.code-font { font-family: 'JetBrains Mono', monospace; }
 
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
+.hud-panel {
+    background: rgba(0,0,0,0.3);
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
 
-        .hud-panel {
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15,23,42,0.92);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    padding: 20px;
+}
 
-        .code-font { font-family: 'JetBrains Mono', monospace; }
-    </style>
+.overlay-box {
+    max-width: 500px;
+    width: 100%;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 28px;
+    padding: 32px;
+    text-align: center;
+    backdrop-filter: blur(18px);
+}
+</style>
 </head>
 <body>
 
-    <!-- HUD -->
-    <nav class="hud-panel sticky top-0 z-50 px-6 py-4">
-        <div class="max-w-4xl mx-auto flex justify-between items-center">
-            <div class="flex gap-6">
-                <div>
-                    <p class="text-[10px] font-black text-indigo-400 uppercase tracking-widest">Score</p>
-                    <p id="score" class="text-xl font-black">0</p>
-                </div>
-                <div>
-                    <p class="text-[10px] font-black text-emerald-400 uppercase tracking-widest">Level</p>
-                    <p id="level-display" class="text-xl font-black">1/10</p>
-                </div>
+<nav class="hud-panel sticky top-0 z-50 px-6 py-4">
+    <div class="max-w-5xl mx-auto flex justify-between items-center">
+        <div class="flex gap-8">
+            <div>
+                <p class="text-[10px] uppercase font-black text-indigo-300">Score</p>
+                <p id="score" class="text-xl font-black">0</p>
             </div>
-            <div class="text-right">
-                <p class="text-[10px] font-black text-amber-400 uppercase tracking-widest">Rewards</p>
-                <p class="text-xl font-black">⭐ <span id="stars">0</span></p>
+            <div>
+                <p class="text-[10px] uppercase font-black text-emerald-300">Level</p>
+                <p id="level-display" class="text-xl font-black">1/20</p>
             </div>
         </div>
-    </nav>
-
-    <main class="flex-grow flex items-center justify-center p-6">
-        <!-- START SCREEN -->
-        <div id="start-screen" class="text-center max-w-md">
-            <div class="w-20 h-20 bg-indigo-600 rounded-3xl mx-auto mb-6 flex items-center justify-center text-4xl">🧩</div>
-            <h1 class="text-5xl font-black tracking-tighter mb-4">CODE MATCH</h1>
-            <p class="text-slate-400 font-medium mb-8">Connect the logic blocks. Complete all 10 levels to become a Master Inventor.</p>
-            <button onclick="initGame()" class="w-full py-5 bg-indigo-600 hover:bg-indigo-500 rounded-2xl font-black text-lg transition-all shadow-xl shadow-indigo-500/20">
-                INITIALIZE CORE
-            </button>
+        <div>
+            <p class="text-[10px] uppercase font-black text-amber-300">Rewards</p>
+            <p class="text-xl font-black">⭐ <span id="stars">0</span></p>
         </div>
+    </div>
+</nav>
 
-        <!-- GAME BOARD -->
-        <div id="game-container" class="hidden w-full max-w-2xl">
-            <div id="board" class="grid gap-4"></div>
-        </div>
+<main class="max-w-5xl mx-auto p-6">
 
-        <!-- VICTORY SCREEN -->
-        <div id="end-screen" class="hidden text-center">
-            <div class="text-7xl mb-6">🏆</div>
-            <h1 class="text-5xl font-black mb-2">MISSION COMPLETE</h1>
-            <p class="text-indigo-300 font-bold uppercase tracking-widest mb-8">All Circuits Synchronized</p>
-            <div class="bg-white/5 p-6 rounded-3xl border border-white/10 mb-8">
-                <p class="text-sm text-slate-400 uppercase font-black">Final Performance</p>
-                <p id="final-stats" class="text-2xl font-black mt-2"></p>
-            </div>
-            <button onclick="location.reload()" class="px-12 py-5 bg-white text-slate-900 rounded-2xl font-black hover:bg-indigo-100 transition-all">
-                RESTART ARCHIVE
-            </button>
-        </div>
-    </main>
+<div id="start-screen" class="text-center max-w-xl mx-auto pt-10">
+    <div class="text-6xl mb-6">🧩</div>
+    <h1 class="text-5xl font-black mb-4">CODE MATCH MASTER</h1>
+    <p class="text-slate-300 mb-8">No browser popups. Smooth overlay system. Complete all 20 levels to become a Master Inventor.</p>
+    <button onclick="initGame()" class="w-full py-5 rounded-2xl bg-indigo-600 font-black hover:bg-indigo-500">
+        INITIALIZE CORE
+    </button>
+</div>
 
-    <script>
-        // DATA SET FOR 10 LEVELS
-        const matchLibrary = [
-            { a: "<html>", b: "</html>" },
-            { a: "<body>", b: "</body>" },
-            { a: "if (true)", b: "then run" },
-            { a: "const", b: "variable" },
-            { a: "style", b: "css" },
-            { a: "console", b: ".log()" },
-            { a: "function", b: "() => {}" },
-            { a: "array", b: "[ 0, 1 ]" },
-            { a: "boolean", b: "true/false" },
-            { a: "string", b: '"hello"' },
-            { a: "<img />", b: "src='...'" },
-            { a: "loop", b: "for each" },
-            { a: "click", b: "event" },
-            { a: "bug", b: "debug" },
-            { a: "robot", b: "logic" },
-            { a: "input", b: "output" }
-        ];
+<div id="game-container" class="hidden">
+    <div id="board" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
+</div>
 
-        let level = 1;
-        let score = 0;
-        let stars = 0;
-        let selectedCards = [];
-        let canClick = true;
+<div id="end-screen" class="hidden text-center pt-10">
+    <div class="text-7xl mb-4">🏆</div>
+    <h2 class="text-5xl font-black">MISSION COMPLETE</h2>
+    <p id="final-stats" class="mt-6 text-2xl font-black"></p>
+    <button onclick="location.reload()" class="mt-8 px-10 py-4 rounded-2xl bg-white text-slate-900 font-black">
+        RESTART
+    </button>
+</div>
 
-        function initGame() {
-            document.getElementById('start-screen').classList.add('hidden');
-            document.getElementById('game-container').classList.remove('hidden');
-            loadLevel();
-        }
+</main>
 
-        function loadLevel() {
-            const board = document.getElementById('board');
-            board.innerHTML = '';
+<!-- OVERLAY instead of browser popup -->
+<div id="messageOverlay" class="overlay">
+    <div class="overlay-box">
+        <div id="overlayEmoji" class="text-5xl mb-4">🚀</div>
+        <h3 id="overlayTitle" class="text-3xl font-black mb-3">Level Complete</h3>
+        <p id="overlayText" class="text-slate-200 mb-6"></p>
+        <button onclick="closeOverlay()" class="px-8 py-4 rounded-2xl bg-indigo-600 font-black w-full">
+            CONTINUE
+        </button>
+    </div>
+</div>
+
+<script>
+const matchLibrary = [
+{ a:'<html>', b:'</html>' },
+{ a:'<body>', b:'</body>' },
+{ a:'const', b:'variable' },
+{ a:'function', b:'() => {}' },
+{ a:'console', b:'.log()' },
+{ a:'array', b:'[1,2]' },
+{ a:'boolean', b:'true/false' },
+{ a:'string', b:'"hello"' },
+{ a:'event', b:'click' },
+{ a:'loop', b:'for each' },
+{ a:'bug', b:'debug' },
+{ a:'robot', b:'logic' },
+{ a:'input', b:'output' },
+{ a:'css', b:'style' },
+{ a:'image', b:'src' },
+{ a:'button', b:'submit' },
+{ a:'database', b:'storage' },
+{ a:'cloud', b:'server' },
+{ a:'AI', b:'smart logic' },
+{ a:'security', b:'password' },
+{ a:'keyboard', b:'typing' },
+{ a:'mouse', b:'clicking' },
+{ a:'screen', b:'display' },
+{ a:'wifi', b:'internet' }
+];
+
+let level = 1;
+let score = 0;
+let stars = 0;
+let selectedCards = [];
+let canClick = true;
+
+function initGame() {
+    document.getElementById('start-screen').classList.add('hidden');
+    document.getElementById('game-container').classList.remove('hidden');
+    loadLevel();
+}
+
+function loadLevel() {
+    const board = document.getElementById('board');
+    board.innerHTML = '';
+    selectedCards = [];
+
+    // stacked buttons visible at once
+    const pairCount = Math.min(4 + Math.floor((level - 1) / 2), 10);
+
+    let selectedPairs = [...matchLibrary]
+        .sort(() => 0.5 - Math.random())
+        .slice(0, pairCount);
+
+    let deck = [];
+    selectedPairs.forEach((pair, index) => {
+        deck.push({ text: pair.a, id: index });
+        deck.push({ text: pair.b, id: index });
+    });
+
+    deck.sort(() => 0.5 - Math.random());
+
+    deck.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'card code-font';
+        card.textContent = item.text;
+        card.dataset.id = item.id;
+        card.onclick = () => handleCardClick(card);
+        board.appendChild(card);
+    });
+
+    document.getElementById('level-display').textContent = `${level}/20`;
+}
+
+function handleCardClick(card) {
+    if (!canClick || card.classList.contains('selected') || card.classList.contains('correct')) return;
+
+    card.classList.add('selected');
+    selectedCards.push(card);
+
+    if (selectedCards.length === 2) checkMatch();
+}
+
+function checkMatch() {
+    canClick = false;
+    const [a, b] = selectedCards;
+
+    if (a.dataset.id === b.dataset.id) {
+        setTimeout(() => {
+            a.className = 'card correct code-font';
+            b.className = 'card correct code-font';
+            score += 20;
+            stars += 5;
+            updateHUD();
             selectedCards = [];
-            
-            // Level Logic: Start with 3 pairs, add 1 pair every level
-            const pairCount = Math.min(3 + (level - 1), 8); 
-            
-            // Set Grid Columns based on pair count
-            board.style.gridTemplateColumns = pairCount > 6 ? 'repeat(4, 1fr)' : 'repeat(3, 1fr)';
-            if (pairCount <= 3) board.style.gridTemplateColumns = 'repeat(2, 1fr)';
+            canClick = true;
+            checkWin();
+        }, 250);
+    } else {
+        setTimeout(() => {
+            a.classList.add('wrong');
+            b.classList.add('wrong');
+            setTimeout(() => {
+                a.className = 'card code-font';
+                b.className = 'card code-font';
+                selectedCards = [];
+                canClick = true;
+            }, 400);
+        }, 250);
+    }
+}
 
-            // Pick random pairs from library
-            let shuffledLib = [...matchLibrary].sort(() => 0.5 - Math.random());
-            let selectedPairs = shuffledLib.slice(0, pairCount);
-
-            // Create card objects
-            let deck = [];
-            selectedPairs.forEach((pair, index) => {
-                deck.push({ text: pair.a, pairID: index });
-                deck.push({ text: pair.b, pairID: index });
-            });
-
-            // Shuffle deck
-            deck.sort(() => 0.5 - Math.random());
-
-            deck.forEach(item => {
-                const card = document.createElement('div');
-                card.className = 'card code-font';
-                card.textContent = item.text;
-                card.dataset.id = item.pairID;
-                card.onclick = () => handleCardClick(card);
-                board.appendChild(card);
-            });
-
-            document.getElementById('level-display').textContent = `${level}/10`;
+function checkWin() {
+    const remaining = document.querySelectorAll('.card:not(.correct)');
+    if (remaining.length === 0) {
+        if (level < 20) {
+            showOverlay(
+                '🎉',
+                `Level ${level} Complete`,
+                `Great job! Preparing Level ${level + 1}...`
+            );
+            level++;
+        } else {
+            showEnd();
         }
+    }
+}
 
-        function handleCardClick(card) {
-            if (!canClick || card.classList.contains('selected') || card.classList.contains('correct')) return;
+function showOverlay(emoji, title, text) {
+    document.getElementById('overlayEmoji').textContent = emoji;
+    document.getElementById('overlayTitle').textContent = title;
+    document.getElementById('overlayText').textContent = text;
+    document.getElementById('messageOverlay').style.display = 'flex';
+}
 
-            card.classList.add('selected');
-            selectedCards.push(card);
+function closeOverlay() {
+    document.getElementById('messageOverlay').style.display = 'none';
+    loadLevel();
+}
 
-            if (selectedCards.length === 2) {
-                checkMatch();
-            }
-        }
+function updateHUD() {
+    document.getElementById('score').textContent = score;
+    document.getElementById('stars').textContent = stars;
+}
 
-        function checkMatch() {
-            canClick = false;
-            const [c1, c2] = selectedCards;
+function showEnd() {
+    document.getElementById('game-container').classList.add('hidden');
+    document.getElementById('end-screen').classList.remove('hidden');
+    document.getElementById('final-stats').textContent = `SCORE: ${score} | ⭐ ${stars}`;
 
-            if (c1.dataset.id === c2.dataset.id) {
-                // MATCH
-                setTimeout(() => {
-                    c1.className = 'card correct code-font';
-                    c2.className = 'card correct code-font';
-                    score += 20;
-                    stars += 5;
-                    updateHUD();
-                    selectedCards = [];
-                    canClick = true;
-                    checkWin();
-                }, 300);
-            } else {
-                // FAIL
-                setTimeout(() => {
-                    c1.classList.add('wrong');
-                    c2.classList.add('wrong');
-                    setTimeout(() => {
-                        c1.className = 'card code-font';
-                        c2.className = 'card code-font';
-                        selectedCards = [];
-                        canClick = true;
-                    }, 400);
-                }, 300);
-            }
-        }
+    let saved = Number(localStorage.getItem('kidventorStars')) || 0;
+    localStorage.setItem('kidventorStars', saved + stars);
+}
+</script>
 
-        function checkWin() {
-            const remaining = document.querySelectorAll('.card:not(.correct)');
-            if (remaining.length === 0) {
-                if (level < 10) {
-                    level++;
-                    setTimeout(() => {
-                        alert(`Level ${level-1} Synchronized! Loading next node...`);
-                        loadLevel();
-                    }, 500);
-                } else {
-                    showEnd();
-                }
-            }
-        }
-
-        function updateHUD() {
-            document.getElementById('score').textContent = score;
-            document.getElementById('stars').textContent = stars;
-        }
-
-        function showEnd() {
-            document.getElementById('game-container').classList.add('hidden');
-            document.getElementById('end-screen').classList.remove('hidden');
-            document.getElementById('final-stats').textContent = `SCORE: ${score} | ⭐ ${stars}`;
-            
-            // Save to local storage for Kidventor economy
-            let saved = Number(localStorage.getItem("kidventorStars")) || 0;
-            localStorage.setItem("kidventorStars", saved + stars);
-        }
-    </script>
 </body>
 </html>
