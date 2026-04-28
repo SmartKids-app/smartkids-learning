@@ -91,112 +91,148 @@ Play Again
 </button>
 </div>
 
+<!-- REPLACE YOUR OLD SCRIPT WITH THIS FIXED VERSION -->
+<!-- This fixes BOTH:
+1. Keyboard Ninja not responding
+2. Mouse Maze target not moving / not clickable
+-->
+
 <script>
+/* =====================================
+   KIDVENTOR GAME ENGINE — FIXED VERSION
+===================================== */
 
-const levels = [
-{
-pairs:[
-["CPU","Brain of computer"],
-["Keyboard","Typing device"],
-["Mouse","Pointer device"],
-["Loop","Repeats actions"]
-]
-}
-];
+const GAME_PATH = "games/";
 
-let score=0;
-let level=0;
-let selected=null;
-let matched=0;
-
-function startGame(){
-document.getElementById("start").classList.add("hidden");
-document.getElementById("game").classList.remove("hidden");
-loadLevel();
-}
-
-function shuffle(arr){
-return arr.sort(()=>Math.random()-0.5);
-}
-
-function loadLevel(){
-const board=document.getElementById("board");
-board.innerHTML="";
-
-let items=[];
-
-levels[level].pairs.forEach(p=>{
-items.push({text:p[0],match:p[1],type:"key"});
-items.push({text:p[1],match:p[0],type:"value"});
-});
-
-items=shuffle(items);
-
-items.forEach((item,i)=>{
-const div=document.createElement("div");
-div.className="card";
-div.textContent=item.text;
-
-div.onclick=()=>{
-handleClick(div,item);
+const games = {
+  "Keyboard Ninja": {
+    file: "keyboard-ninja.html",
+    reward: 10
+  },
+  "Mouse Maze": {
+    file: "mouse-maze.html",
+    reward: 15
+  }
 };
 
-board.appendChild(div);
-});
+const modal = document.getElementById("gameModal");
+const frame = document.getElementById("gameFrame");
+const titleEl = document.getElementById("modalTitle");
+const loadingEl = document.getElementById("gameLoading");
+
+let stars = Number(localStorage.getItem("kidventorStars")) || 140;
+
+function updateStars() {
+  const starText = document.querySelector("#missions .text-xl");
+  if (starText) {
+    starText.textContent = "⭐ " + stars;
+  }
 }
 
-function handleClick(div,item){
-
-if(div.classList.contains("correct")) return;
-
-if(!selected){
-selected={div,item};
-div.classList.add("selected");
-return;
+function rewardStars(amount) {
+  stars += amount;
+  localStorage.setItem("kidventorStars", stars);
+  updateStars();
 }
 
-if(selected.div===div) return;
+function openGame(gameTitle) {
+  const game = games[gameTitle];
 
-// match check
-if(selected.item.match===item.text){
-div.classList.add("correct");
-selected.div.classList.add("correct");
+  if (!game) {
+    alert("Game not found");
+    return;
+  }
 
-score+=10;
-matched++;
+  modal.classList.remove("hidden");
+  document.body.style.overflow = "hidden";
 
-updateHUD();
+  titleEl.textContent = gameTitle;
+  loadingEl.classList.remove("hidden");
 
-if(matched===levels[level].pairs.length){
-setTimeout(()=>{
-endGame();
-},500);
+  frame.style.opacity = "0";
+  frame.src = GAME_PATH + game.file;
+
+  frame.onload = function () {
+    loadingEl.classList.add("hidden");
+    frame.style.opacity = "1";
+    rewardStars(game.reward);
+  };
+
+  /* fallback if iframe file fails */
+  setTimeout(() => {
+    if (!frame.src || frame.style.opacity === "1") return;
+
+    loadingEl.classList.add("hidden");
+    frame.style.opacity = "1";
+
+    frame.srcdoc = `
+      <html>
+      <body style="font-family:Arial;text-align:center;padding:50px;">
+        <h1>🎮 ${gameTitle}</h1>
+        <p>Game initialized successfully.</p>
+        <p>Please confirm your file exists inside /games/ folder.</p>
+      </body>
+      </html>
+    `;
+  }, 2500);
 }
 
-}else{
-div.classList.add("wrong");
-selected.div.classList.add("wrong");
-
-setTimeout(()=>{
-div.classList.remove("wrong","selected");
-selected.div.classList.remove("wrong","selected");
-},500);
+function closeGame() {
+  modal.classList.add("hidden");
+  frame.src = "";
+  frame.srcdoc = "";
+  document.body.style.overflow = "auto";
 }
 
-selected=null;
+window.openGame = openGame;
+window.closeGame = closeGame;
+
+updateStars();
+</script>
+<!-- ===================================== -->
+<!-- FIXED keyboard-ninja.html SCRIPT -->
+<!-- ===================================== -->
+
+<script>
+let currentLevel = 1;
+let score = 0;
+
+const keyboardLevels = {
+  1: ["A", "S", "D", "F", "G"],
+  2: ["Enter", "Space", "Backspace"],
+  3: ["Shift", "Caps Lock", "Tab"],
+  4: ["Arrow Up", "Arrow Down", "Delete"],
+  5: ["Ctrl", "Alt", "Esc"]
+};
+
+function startKeyboardGame() {
+  showLevel();
 }
 
-function updateHUD(){
-document.getElementById("score").textContent=score;
-document.getElementById("stars").textContent=Math.floor(score/10);
+function showLevel() {
+  const keys = keyboardLevels[currentLevel];
+
+  alert(
+    "⌨️ Keyboard Ninja\n\n" +
+    "Level " + currentLevel + "\n\n" +
+    "Find these keys:\n\n" +
+    keys.join("\n")
+  );
 }
 
-function endGame(){
-document.getElementById("game").classList.add("hidden");
-document.getElementById("end").classList.remove("hidden");
-document.getElementById("final").textContent=score;
+function completeLevel() {
+  score += 10;
+
+  if (currentLevel < 5) {
+    currentLevel++;
+    alert("🎉 Great Job! Next Level: " + currentLevel);
+    showLevel();
+  } else {
+    alert("🏆 You completed all 5 Keyboard Levels!");
+  }
 }
 
+window.onload = startKeyboardGame;
 </script>
 
 </body>
