@@ -64,8 +64,50 @@
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900 overflow-x-hidden">
+<header class="fixed top-0 inset-x-0 z-50 bg-white/90 backdrop-blur border-b border-slate-100 px-4 md:px-6">
+    <div class="max-w-7xl mx-auto h-20 flex items-center justify-between">
+        <!-- SEO Tip: Ensure your logo alt text or title is descriptive -->
+        <a href="index.html" class="logo-container flex items-center gap-3 group" title="Kidventor Home">
+            <div class="logo-icon w-10 h-10 rounded-xl bg-indigo-600 text-white font-black flex items-center justify-center shadow-lg">K</div>
+            <span class="font-black text-xl tracking-tight group-hover:text-indigo-600 transition-colors">Kidventor</span>
+        </a>
 
-    <header class="fixed top-0 inset-x-0 z-50 bg-white/90 backdrop-blur border-b border-slate-100 px-4 md:px-6">
+        <!-- Desktop Navigation -->
+        <nav class="hidden lg:flex items-center gap-2 text-sm font-bold">
+            <a href="lessons.html" class="nav-link px-3 py-2 hover:text-indigo-600">Lessons</a>
+            <a href="adventure.html" class="nav-link px-3 py-2 hover:text-indigo-600">Adventure</a>
+            <a href="morals.html" class="nav-link px-3 py-2 hover:text-indigo-600">Morals</a>
+            <a href="faq.html" class="nav-link px-3 py-2 hover:text-indigo-600">FAQ</a>
+            <a href="worksheet.html" class="nav-link px-3 py-2 hover:text-indigo-600">Worksheets</a>
+            <a href="contact.html" class="ml-4 px-6 py-3 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700 transition shadow-lg shadow-indigo-100">Contact</a>
+        </nav>
+
+        <!-- Mobile Toggle with Aria-Label for Accessibility/SEO -->
+        <button id="menu-toggle" class="lg:hidden p-2 text-slate-600" aria-label="Open primary menu">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+            </svg>
+        </button>
+    </div>
+</header>
+
+<!-- Mobile Menu Overlay -->
+<div id="mobile-menu" class="fixed inset-0 bg-white z-[60] lg:hidden hidden flex-col p-8 transition-transform">
+    <div class="flex justify-between items-center mb-12">
+        <span class="font-black text-xl text-indigo-600">Navigation</span>
+        <button id="menu-close" class="text-4xl text-slate-400" aria-label="Close menu">&times;</button>
+    </div>
+    <!-- Note: Links now match Desktop for consistency -->
+    <nav class="flex flex-col gap-6 text-2xl font-black text-slate-800">
+        <a href="lessons.html" class="mobile-nav-link">Lessons</a>
+        <a href="adventure.html" class="mobile-nav-link">Adventure</a>
+        <a href="morals.html" class="mobile-nav-link">Morals</a>
+        <a href="faq.html" class="mobile-nav-link">FAQ</a>
+        <a href="worksheet.html" class="mobile-nav-link">Worksheets</a>
+        <a href="contact.html" class="mt-4 text-center py-4 rounded-2xl bg-indigo-600 text-white text-lg">Contact Us</a>
+    </nav>
+</div>
+    <!--<header class="fixed top-0 inset-x-0 z-50 bg-white/90 backdrop-blur border-b border-slate-100 px-4 md:px-6">
         <div class="max-w-7xl mx-auto h-20 flex items-center justify-between">
             <a href="index.html" class="logo-container flex items-center gap-3 group">
                 <div class="logo-icon w-10 h-10 rounded-xl bg-indigo-600 text-white font-black flex items-center justify-center shadow-lg">K</div>
@@ -100,7 +142,7 @@
             <a href="worksheet.html" class="mobile-nav-link">Worksheets</a>
             <a href="contact.html" class="mt-4 text-center py-4 rounded-2xl bg-indigo-600 text-white text-lg">Contact Us</a>
         </nav>
-    </div>
+    </div>-->
 
     <section class="pt-32 pb-16 md:pt-44 md:pb-24 px-4 md:px-6">
         <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
