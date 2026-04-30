@@ -25,17 +25,17 @@
 </head>
 <body class="text-slate-900">
 
-<!-- NAV -->
+
 <!-- Premium Transparent Modern Nav -->
 <nav 
     id="main-nav"
-    class="sticky top-0 z-[100] w-full border-b border-white/10 bg-transparent px-4 sm:px-6 py-4 transition-all duration-500"
+    class="sticky top-0 z-[100] w-full border-b border-transparent px-4 sm:px-6 py-4 transition-all duration-500"
 >
     <div class="max-w-7xl mx-auto flex justify-between items-center">
 
-        <!-- Logo -->
+        <!-- Logo: Black to Deep Blue -->
         <a href="index.html" class="flex items-center gap-3 group relative">
-            <div class="absolute -inset-2 bg-indigo-500/30 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div class="absolute -inset-2 bg-blue-600/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
             <img 
                 src="https://raw.githubusercontent.com/SmartKids-app/kidventor/main/image/Logo_kiventor.png" 
@@ -43,96 +43,64 @@
                 class="w-10 h-10 object-contain rounded-xl relative z-10 group-hover:scale-110 transition-transform duration-500"
             >
 
-            <span class="font-black text-xl tracking-tighter text-white relative z-10 drop-shadow-md">
-                KID<span class="text-indigo-400">VENTOR</span>
+            <span class="font-black text-xl tracking-tighter text-slate-950 group-hover:text-blue-800 transition-colors duration-300 relative z-10">
+                KID<span class="text-blue-700 group-hover:text-blue-900">VENTOR</span>
             </span>
         </a>
 
-        <!-- Desktop Navigation -->
+        <!-- Desktop Navigation: Darker text for visibility -->
         <div class="hidden md:flex items-center gap-8">
-
-            <div class="flex gap-8 text-[10px] font-black uppercase tracking-[0.25em] text-slate-200">
-                <a href="index.html" class="hover:text-white transition-all relative group">
+            <div class="flex gap-8 text-[11px] font-black uppercase tracking-[0.2em] text-slate-700">
+                <a href="index.html" class="hover:text-blue-700 transition-all relative group">
                     Home
-                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-indigo-400 transition-all duration-300 group-hover:w-full"></span>
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
                 </a>
-
-                <a href="about.html" class="hover:text-white transition-all relative group">
-                    About
-                </a>
-
-                <a href="contact.html" class="hover:text-white transition-all relative group">
-                    Contact
-                </a>
-
-                <a href="faq.html" class="hover:text-white transition-all relative group">
-                    FAQ
-                </a>
+                <a href="about.html" class="hover:text-blue-700 transition-all relative group">About</a>
+                <a href="contact.html" class="hover:text-blue-700 transition-all relative group">Contact</a>
+                <a href="faq.html" class="hover:text-blue-700 transition-all relative group">FAQ</a>
             </div>
 
-            <!-- CTA -->
+            <!-- CTA: Darker and bolder -->
             <a 
                 href="lessons.html"
-                class="ml-4 px-6 py-2.5 bg-white/95 text-slate-950 text-[10px] font-black uppercase tracking-widest rounded-full hover:bg-indigo-500 hover:text-white hover:shadow-[0_0_20px_rgba(99,102,241,0.45)] transition-all duration-300 shadow-lg"
+                class="ml-4 px-6 py-2.5 bg-slate-950 text-white text-[10px] font-black uppercase tracking-widest rounded-full hover:bg-blue-700 hover:shadow-[0_10px_20px_rgba(29,78,216,0.3)] transition-all duration-300 shadow-md"
             >
                 Start Learning
             </a>
         </div>
 
-        <!-- Mobile Toggle -->
+        <!-- Mobile Toggle: Dark lines -->
         <button 
             id="mobile-menu-btn"
             class="md:hidden relative w-10 h-10 flex flex-col justify-center items-center z-[120]"
         >
             <span 
                 id="line1"
-                class="w-6 h-0.5 bg-white mb-1.5 transition-all duration-300 origin-center"
+                class="w-6 h-0.5 bg-slate-950 mb-1.5 transition-all duration-300 origin-center"
             ></span>
-
             <span 
                 id="line2"
-                class="w-6 h-0.5 bg-white transition-all duration-300 origin-center"
+                class="w-6 h-0.5 bg-slate-950 transition-all duration-300 origin-center"
             ></span>
         </button>
     </div>
 
-    <!-- Enhanced Mobile Menu -->
+    <!-- Mobile Menu -->
     <div 
         id="mobile-menu"
-        class="fixed inset-0 bg-slate-950/92 backdrop-blur-2xl z-[110] flex flex-col px-8 pt-28 pb-10 opacity-0 pointer-events-none -translate-y-6 scale-[0.98] transition-all duration-500"
+        class="fixed inset-0 bg-slate-950 z-[110] flex flex-col px-8 pt-28 pb-10 opacity-0 pointer-events-none -translate-y-6 transition-all duration-500"
     >
-        <!-- Glow background -->
-        <div class="absolute top-20 right-0 w-72 h-72 bg-indigo-500/20 blur-[120px] rounded-full"></div>
-
         <div class="relative z-10 flex flex-col gap-8">
-
-            <a href="index.html" 
-               class="mobile-link text-4xl sm:text-5xl font-black tracking-tight text-white opacity-0 -translate-x-8 transition-all">
-                HOME
-            </a>
-
-            <a href="about.html" 
-               class="mobile-link text-4xl sm:text-5xl font-black tracking-tight text-white opacity-0 -translate-x-8 transition-all">
-                ABOUT
-            </a>
-
-            <a href="contact.html" 
-               class="mobile-link text-4xl sm:text-5xl font-black tracking-tight text-white opacity-0 -translate-x-8 transition-all">
-                CONTACT
-            </a>
-
-            <a href="faq.html" 
-               class="mobile-link text-4xl sm:text-5xl font-black tracking-tight text-white opacity-0 -translate-x-8 transition-all">
-                FAQ
-            </a>
-
-            <a 
-                href="lessons.html"
-                class="mobile-link mt-4 inline-block w-fit px-8 py-4 bg-indigo-600 text-white rounded-full font-black uppercase tracking-widest text-xs opacity-0 -translate-x-8 transition-all hover:bg-indigo-500"
-            >
-                Start Learning
-            </a>
+            <a href="index.html" class="mobile-link text-4xl font-black tracking-tight text-white opacity-0 -translate-x-8 transition-all">HOME</a>
+            <a href="about.html" class="mobile-link text-4xl font-black tracking-tight text-white opacity-0 -translate-x-8 transition-all">ABOUT</a>
+            <a href="contact.html" class="mobile-link text-4xl font-black tracking-tight text-white opacity-0 -translate-x-8 transition-all">CONTACT</a>
+            <a href="faq.html" class="mobile-link text-4xl font-black tracking-tight text-white opacity-0 -translate-x-8 transition-all">FAQ</a>
+            <a href="lessons.html" class="mobile-link mt-4 inline-block w-fit px-8 py-4 bg-blue-600 text-white rounded-full font-black uppercase tracking-widest text-xs opacity-0 -translate-x-8 transition-all">Start Learning</a>
         </div>
+    </div>
+</nav>
+
+
 
         <!-- Footer Support -->
         <div class="relative z-10 mt-auto pt-10 border-t border-white/10">
@@ -271,95 +239,54 @@
   </div>
 </footer>
 <script>
-const btn = document.getElementById("mobile-menu-btn");
-const menu = document.getElementById("mobile-menu");
-const nav = document.getElementById("main-nav");
-const links = document.querySelectorAll(".mobile-link");
-const line1 = document.getElementById("line1");
-const line2 = document.getElementById("line2");
+    // Scroll Effect Logic
+    const mainNav = document.getElementById('main-nav');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 20) {
+            mainNav.classList.add('bg-white/80', 'backdrop-blur-md', 'shadow-sm', 'border-slate-100');
+            mainNav.classList.remove('bg-transparent', 'border-transparent');
+        } else {
+            mainNav.classList.remove('bg-white/80', 'backdrop-blur-md', 'shadow-sm', 'border-slate-100');
+            mainNav.classList.add('bg-transparent', 'border-transparent');
+        }
+    });
 
-let isOpen = false;
+    // Mobile Menu Toggle Logic
+    const btn = document.getElementById("mobile-menu-btn");
+    const menu = document.getElementById("mobile-menu");
+    const links = document.querySelectorAll(".mobile-link");
+    const line1 = document.getElementById("line1");
+    const line2 = document.getElementById("line2");
+    let isOpen = false;
 
-btn.addEventListener("click", () => {
-    isOpen = !isOpen;
-
-    if (isOpen) {
-        /* Show Menu */
-        menu.classList.remove(
-            "opacity-0",
-            "pointer-events-none",
-            "-translate-y-6",
-            "scale-[0.98]"
-        );
-
-        menu.classList.add(
-            "opacity-100",
-            "pointer-events-auto",
-            "translate-y-0",
-            "scale-100"
-        );
-
-        /* Icon → X */
-        line1.style.transform = "translateY(4px) rotate(45deg)";
-        line2.style.transform = "translateY(-4px) rotate(-45deg)";
-
-        /* Staggered Links */
-        links.forEach((link, i) => {
-            link.style.opacity = "0";
-            link.style.transform = "translateX(-30px)";
-
-            setTimeout(() => {
-                link.style.opacity = "1";
-                link.style.transform = "translateX(0)";
-            }, 120 * i);
-        });
-
-    } else {
-        /* Hide Menu */
-        menu.classList.add(
-            "opacity-0",
-            "pointer-events-none",
-            "-translate-y-6",
-            "scale-[0.98]"
-        );
-
-        menu.classList.remove(
-            "opacity-100",
-            "pointer-events-auto",
-            "translate-y-0",
-            "scale-100"
-        );
-
-        /* Reset Icon */
-        line1.style.transform = "none";
-        line2.style.transform = "none";
-
-        /* Reset Links */
-        links.forEach(link => {
-            link.style.opacity = "0";
-            link.style.transform = "translateX(-30px)";
-        });
-    }
-});
-
-/* Scroll Glass Effect */
-window.addEventListener("scroll", () => {
-    if (window.scrollY > 40) {
-        nav.classList.add(
-            "bg-slate-950/35",
-            "backdrop-blur-xl",
-            "shadow-[0_10px_40px_rgba(0,0,0,0.15)]",
-            "border-white/15"
-        );
-    } else {
-        nav.classList.remove(
-            "bg-slate-950/35",
-            "backdrop-blur-xl",
-            "shadow-[0_10px_40px_rgba(0,0,0,0.15)]",
-            "border-white/15"
-        );
-    }
-});
+    btn.addEventListener("click", () => {
+        isOpen = !isOpen;
+        if (isOpen) {
+            menu.classList.remove("opacity-0", "pointer-events-none", "-translate-y-6");
+            menu.classList.add("opacity-100", "pointer-events-auto", "translate-y-0");
+            line1.classList.add("rotate-45", "translate-y-2");
+            line1.style.backgroundColor = "white";
+            line2.classList.add("-rotate-45", "-translate-y-0");
+            line2.style.backgroundColor = "white";
+            links.forEach((link, i) => {
+                setTimeout(() => {
+                    link.classList.remove("opacity-0", "-translate-x-8");
+                    link.classList.add("opacity-100", "translate-x-0");
+                }, 100 * i);
+            });
+        } else {
+            menu.classList.add("opacity-0", "pointer-events-none", "-translate-y-6");
+            menu.classList.remove("opacity-100", "pointer-events-auto", "translate-y-0");
+            line1.classList.remove("rotate-45", "translate-y-2");
+            line1.style.backgroundColor = "";
+            line2.classList.remove("-rotate-45", "-translate-y-0");
+            line2.style.backgroundColor = "";
+            links.forEach(link => {
+                link.classList.add("opacity-0", "-translate-x-8");
+                link.classList.remove("opacity-100", "translate-x-0");
+            });
+        }
+    });
 </script>
 </body>
 </html>
