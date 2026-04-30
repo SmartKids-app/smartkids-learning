@@ -41,29 +41,92 @@ body {
 <body class="text-slate-900">
 
 <!-- NAVBAR -->
-<nav class="bg-white border-b border-slate-100 sticky top-0 z-50 py-4 px-6">
+<nav class="bg-white border-b border-slate-100 sticky top-0 z-50 py-4 px-4 sm:px-6 shadow-sm">
     <div class="max-w-6xl mx-auto flex justify-between items-center">
 
-        <a href="worksheet.html" class="flex items-center gap-3">
-            <div class="w-9 h-9 bg-rose-600 rounded-xl flex items-center justify-center text-white font-black">
-                K
-            </div>
-            <span class="font-extrabold tracking-tight uppercase text-sm">
+        <!-- Logo -->
+        <a href="worksheet.html" class="flex items-center gap-3 group">
+            <img 
+                src="https://raw.githubusercontent.com/SmartKids-app/kidventor/main/image/Logo_kiventor.png" 
+                alt="Kidventor Logo"
+                class="w-12 h-12 object-contain rounded-xl shadow-md"
+            >
+            <span class="font-extrabold tracking-tight uppercase text-sm text-slate-800 group-hover:text-rose-600 transition-colors">
                 Kidventor Academy
             </span>
         </a>
 
+        <!-- Desktop Right Section -->
         <div class="hidden md:flex items-center gap-3">
             <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">
                 CBT Exam Mode
             </span>
+
             <div class="w-12 h-6 bg-slate-100 rounded-full p-1">
                 <div class="w-4 h-4 bg-rose-500 rounded-full"></div>
             </div>
         </div>
 
+        <!-- Mobile Menu Button -->
+        <button 
+            id="mobile-menu-btn"
+            class="md:hidden flex items-center justify-center w-11 h-11 rounded-xl bg-slate-100 hover:bg-slate-200 transition duration-300"
+        >
+            <svg 
+                id="menu-icon"
+                xmlns="http://www.w3.org/2000/svg" 
+                class="w-6 h-6 text-slate-700 transition duration-300"
+                fill="none" 
+                viewBox="0 0 24 24" 
+                stroke="currentColor"
+            >
+                <path 
+                    stroke-linecap="round" 
+                    stroke-linejoin="round" 
+                    stroke-width="2" 
+                    d="M4 6h16M4 12h16M4 18h16"
+                />
+            </svg>
+        </button>
+    </div>
+
+    <!-- Animated Mobile Dropdown -->
+    <div 
+        id="mobile-menu" 
+        class="md:hidden overflow-hidden max-h-0 opacity-0 transition-all duration-500 ease-in-out"
+    >
+        <div class="pt-4 pb-2 border-t border-slate-100 mt-4 space-y-4">
+
+            <a href="worksheet.html" 
+               class="block font-bold text-slate-700 hover:text-rose-600 transition">
+                Worksheets Home
+            </a>
+
+            <a href="index.html" 
+               class="block font-bold text-slate-700 hover:text-rose-600 transition">
+                Main Website
+            </a>
+
+            <div class="pt-2 border-t border-slate-100">
+                <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                    CBT Exam Mode
+                </span>
+
+                <div class="flex items-center gap-3 mt-3">
+                    <div class="w-12 h-6 bg-slate-100 rounded-full p-1">
+                        <div class="w-4 h-4 bg-rose-500 rounded-full"></div>
+                    </div>
+                    <span class="text-sm font-semibold text-rose-600">
+                        Active
+                    </span>
+                </div>
+            </div>
+
+        </div>
     </div>
 </nav>
+
+
 
 <!-- HERO -->
 <header class="py-20 px-6 text-center">
@@ -383,6 +446,34 @@ body {
         © 2026 Kidventor Academy • CBT Mastery Module
     </p>
 </footer>
+<script>
+const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+const mobileMenu = document.getElementById("mobile-menu");
+const menuIcon = document.getElementById("menu-icon");
 
+let isOpen = false;
+
+mobileMenuBtn.addEventListener("click", () => {
+    isOpen = !isOpen;
+
+    if (isOpen) {
+        mobileMenu.classList.remove("max-h-0", "opacity-0");
+        mobileMenu.classList.add("max-h-[500px]", "opacity-100");
+
+        menuIcon.innerHTML = `
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+            d="M6 18L18 6M6 6l12 12" />
+        `;
+    } else {
+        mobileMenu.classList.remove("max-h-[500px]", "opacity-100");
+        mobileMenu.classList.add("max-h-0", "opacity-0");
+
+        menuIcon.innerHTML = `
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+            d="M4 6h16M4 12h16M4 18h16" />
+        `;
+    }
+});
+</script>
 </body>
 </html>
