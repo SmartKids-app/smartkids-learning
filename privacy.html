@@ -31,82 +31,68 @@
 <body class="bg-slate-50 text-slate-800 font-sans antialiased">
 
     <!-- NAV -->
-    <nav class="glass-nav border-b py-4 px-4 sm:px-6 sticky top-0 z-50 shadow-sm">
-    <div class="max-w-5xl mx-auto flex justify-between items-center">
+   <!-- Enhanced Glass Nav -->
+<nav class="sticky top-0 z-[100] w-full border-b border-white/10 bg-slate-950/60 backdrop-blur-xl px-6 py-4">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
 
-        <!-- Logo -->
-        <a href="index.html" class="flex items-center gap-3 group">
+        <!-- Logo with Glow Effect -->
+        <a href="index.html" class="flex items-center gap-3 group relative">
+            <div class="absolute -inset-2 bg-indigo-500/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <img 
                 src="https://raw.githubusercontent.com/SmartKids-app/kidventor/main/image/Logo_kiventor.png" 
-                alt="Kidventor Logo"
-                class="w-11 h-11 object-contain rounded-xl shadow-md"
+                alt="Kidventor"
+                class="w-10 h-10 object-contain rounded-xl relative z-10 group-hover:scale-110 transition-transform duration-500"
             >
-            <span class="font-black text-lg tracking-tight uppercase text-slate-800 group-hover:text-indigo-600 transition-colors">
-                Kidventor
+            <span class="font-black text-xl tracking-tighter text-white relative z-10">
+                KID<span class="text-indigo-500">VENTOR</span>
             </span>
         </a>
 
-        <!-- Desktop Navigation -->
-        <div class="hidden md:flex gap-6 text-xs font-black uppercase tracking-widest text-slate-500">
-            <a href="index.html" class="hover:text-indigo-600 transition">Home</a>
-            <a href="about.html" class="hover:text-indigo-600 transition">About</a>
-            <a href="contact.html" class="hover:text-indigo-600 transition">Contact</a>
-            <a href="faq.html" class="hover:text-indigo-600 transition">FAQ</a>
+        <!-- Desktop Navigation: Ultra-Thin & Spaced -->
+        <div class="hidden md:flex items-center gap-8">
+            <div class="flex gap-8 text-[10px] font-black uppercase tracking-[0.25em] text-slate-400">
+                <a href="index.html" class="hover:text-white transition-all relative group">
+                    Home
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-indigo-500 transition-all group-hover:w-full"></span>
+                </a>
+                <a href="about.html" class="hover:text-white transition-all relative group">About</a>
+                <a href="contact.html" class="hover:text-white transition-all relative group">Contact</a>
+                <a href="faq.html" class="hover:text-white transition-all relative group">FAQ</a>
+            </div>
+            
+            <!-- CTA Button -->
+            <a href="lessons.html" class="ml-4 px-5 py-2.5 bg-indigo-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full hover:bg-indigo-500 hover:shadow-[0_0_20px_rgba(79,70,229,0.4)] transition-all">
+                Start Learning
+            </a>
         </div>
 
-        <!-- Mobile Menu Button -->
-        <button 
-            id="mobile-menu-btn"
-            class="md:hidden flex items-center justify-center w-10 h-10 rounded-xl bg-slate-100 hover:bg-slate-200 transition duration-300"
-        >
-            <svg 
-                id="menu-icon"
-                xmlns="http://www.w3.org/2000/svg"
-                class="w-5 h-5 text-slate-700 transition duration-300"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-            >
-                <path 
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M4 6h16M4 12h16M4 18h16"
-                />
-            </svg>
+        <!-- Mobile Toggle with Hamburger-to-X Animation -->
+        <button id="mobile-menu-btn" class="md:hidden relative w-10 h-10 flex flex-col justify-center items-center group">
+            <span id="line1" class="w-6 h-0.5 bg-slate-300 mb-1.5 transition-all duration-300 origin-center"></span>
+            <span id="line2" class="w-6 h-0.5 bg-slate-300 transition-all duration-300 origin-center"></span>
         </button>
     </div>
 
-    <!-- Animated Mobile Dropdown -->
+    <!-- Mobile Menu: Full Screen Blur Overlay -->
     <div 
-        id="mobile-menu"
-        class="md:hidden overflow-hidden max-h-0 opacity-0 transition-all duration-500 ease-in-out"
+        id="mobile-menu" 
+        class="fixed inset-0 top-[73px] bg-slate-950/95 backdrop-blur-2xl z-[-1] flex flex-col p-8 gap-6 opacity-0 pointer-events-none translate-y-[-10px] transition-all duration-500"
     >
-        <div class="pt-4 pb-4 border-t border-slate-100 mt-4 space-y-4">
-
-            <a href="index.html" 
-               class="block font-bold text-slate-700 hover:text-indigo-600 transition">
-                Home
-            </a>
-
-            <a href="about.html" 
-               class="block font-bold text-slate-700 hover:text-indigo-600 transition">
-                About
-            </a>
-
-            <a href="contact.html" 
-               class="block font-bold text-slate-700 hover:text-indigo-600 transition">
-                Contact
-            </a>
-
-            <a href="faq.html" 
-               class="block font-bold text-slate-700 hover:text-indigo-600 transition">
-                FAQ
-            </a>
-
+        <div class="flex flex-col gap-8 mt-10">
+            <a href="index.html" class="mobile-link text-4xl font-black tracking-tighter text-white opacity-0 translate-x-[-20px] transition-all">HOME</a>
+            <a href="about.html" class="mobile-link text-4xl font-black tracking-tighter text-white opacity-0 translate-x-[-20px] transition-all">ABOUT</a>
+            <a href="contact.html" class="mobile-link text-4xl font-black tracking-tighter text-white opacity-0 translate-x-[-20px] transition-all">CONTACT</a>
+            <a href="faq.html" class="mobile-link text-4xl font-black tracking-tighter text-white opacity-0 translate-x-[-20px] transition-all">FAQ</a>
+        </div>
+        
+        <div class="mt-auto pb-10 border-t border-white/10 pt-10">
+            <p class="text-xs font-black text-slate-500 uppercase tracking-widest mb-4">Support</p>
+            <p class="text-indigo-400 font-bold">hello@kidventor.com.ng</p>
         </div>
     </div>
 </nav>
+
+
 
 
 
@@ -251,31 +237,47 @@
         </div>
     </footer>
 <script>
-const mobileMenuBtn = document.getElementById("mobile-menu-btn");
-const mobileMenu = document.getElementById("mobile-menu");
-const menuIcon = document.getElementById("menu-icon");
+const btn = document.getElementById("mobile-menu-btn");
+const menu = document.getElementById("mobile-menu");
+const links = document.querySelectorAll(".mobile-link");
+const line1 = document.getElementById("line1");
+const line2 = document.getElementById("line2");
 
 let isOpen = false;
 
-mobileMenuBtn.addEventListener("click", () => {
+btn.addEventListener("click", () => {
     isOpen = !isOpen;
 
     if (isOpen) {
-        mobileMenu.classList.remove("max-h-0", "opacity-0");
-        mobileMenu.classList.add("max-h-[500px]", "opacity-100");
+        // Show Menu
+        menu.classList.remove("opacity-0", "pointer-events-none", "translate-y-[-10px]");
+        menu.classList.add("opacity-100", "pointer-events-auto", "translate-y-0");
+        
+        // Animate Icon to "X"
+        line1.style.transform = "translateY(4px) rotate(45deg)";
+        line2.style.transform = "translateY(-4px) rotate(-45deg)";
 
-        menuIcon.innerHTML = `
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M6 18L18 6M6 6l12 12" />
-        `;
+        // Staggered Link Animation
+        links.forEach((link, i) => {
+            setTimeout(() => {
+                link.style.opacity = "1";
+                link.style.transform = "translateX(0)";
+            }, 100 * i);
+        });
     } else {
-        mobileMenu.classList.remove("max-h-[500px]", "opacity-100");
-        mobileMenu.classList.add("max-h-0", "opacity-0");
+        // Hide Menu
+        menu.classList.add("opacity-0", "pointer-events-none", "translate-y-[-10px]");
+        menu.classList.remove("opacity-100", "pointer-events-auto", "translate-y-0");
+        
+        // Reset Icon
+        line1.style.transform = "none";
+        line2.style.transform = "none";
 
-        menuIcon.innerHTML = `
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M4 6h16M4 12h16M4 18h16" />
-        `;
+        // Reset Links
+        links.forEach(link => {
+            link.style.opacity = "0";
+            link.style.transform = "translateX(-20px)";
+        });
     }
 });
 </script>
