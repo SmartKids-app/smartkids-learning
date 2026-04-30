@@ -30,109 +30,63 @@
 
 <body class="bg-slate-50 text-slate-800 font-sans antialiased">
 
-   <!-- Enhanced Glass Nav -->
-<nav class="sticky top-0 z-[100] w-full border-b border-white/20 bg-white/10 backdrop-blur-xl px-6 py-4 shadow-[0_8px_32px_rgba(255,255,255,0.08)]">
+  <!-- Fully Transparent Modern Nav -->
+<nav class="sticky top-0 z-[100] w-full border-b border-white/5 bg-transparent px-6 py-4 transition-colors duration-300" id="main-nav">
     <div class="max-w-7xl mx-auto flex justify-between items-center">
 
         <!-- Logo with Glow Effect -->
         <a href="index.html" class="flex items-center gap-3 group relative">
-            <div class="absolute -inset-2 bg-indigo-500/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
-
+            <div class="absolute -inset-2 bg-indigo-500/30 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <img 
                 src="https://raw.githubusercontent.com/SmartKids-app/kidventor/main/image/Logo_kiventor.png" 
                 alt="Kidventor"
                 class="w-10 h-10 object-contain rounded-xl relative z-10 group-hover:scale-110 transition-transform duration-500"
             >
-
-            <span class="font-black text-xl tracking-tighter text-white relative z-10 drop-shadow-md">
-                KID<span class="text-indigo-400">VENTOR</span>
+            <span class="font-black text-xl tracking-tighter text-white relative z-10">
+                KID<span class="text-indigo-500">VENTOR</span>
             </span>
         </a>
 
         <!-- Desktop Navigation -->
         <div class="hidden md:flex items-center gap-8">
-            <div class="flex gap-8 text-[10px] font-black uppercase tracking-[0.25em] text-white/80">
+            <div class="flex gap-8 text-[10px] font-black uppercase tracking-[0.25em] text-slate-300">
                 <a href="index.html" class="hover:text-white transition-all relative group">
                     Home
-                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-indigo-400 transition-all group-hover:w-full"></span>
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-indigo-500 transition-all group-hover:w-full"></span>
                 </a>
-
-                <a href="about.html" class="hover:text-white transition-all relative group">
-                    About
-                </a>
-
-                <a href="contact.html" class="hover:text-white transition-all relative group">
-                    Contact
-                </a>
-
-                <a href="faq.html" class="hover:text-white transition-all relative group">
-                    FAQ
-                </a>
+                <a href="about.html" class="hover:text-white transition-all relative group">About</a>
+                <a href="contact.html" class="hover:text-white transition-all relative group">Contact</a>
+                <a href="faq.html" class="hover:text-white transition-all relative group">FAQ</a>
             </div>
-
+            
             <!-- CTA Button -->
-            <a href="lessons.html" 
-               class="ml-4 px-5 py-2.5 bg-indigo-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full hover:bg-indigo-500 hover:shadow-[0_0_20px_rgba(79,70,229,0.4)] transition-all">
+            <a href="lessons.html" class="ml-4 px-6 py-2.5 bg-white text-slate-950 text-[10px] font-black uppercase tracking-widest rounded-full hover:bg-indigo-500 hover:text-white transition-all shadow-lg">
                 Start Learning
             </a>
         </div>
 
         <!-- Mobile Toggle -->
-        <button 
-            id="mobile-menu-btn" 
-            class="md:hidden relative w-10 h-10 flex flex-col justify-center items-center group"
-        >
-            <span 
-                id="line1" 
-                class="w-6 h-0.5 bg-white mb-1.5 transition-all duration-300 origin-center"
-            ></span>
-
-            <span 
-                id="line2" 
-                class="w-6 h-0.5 bg-white transition-all duration-300 origin-center"
-            ></span>
+        <button id="mobile-menu-btn" class="md:hidden relative w-10 h-10 flex flex-col justify-center items-center group z-[110]">
+            <span id="line1" class="w-6 h-0.5 bg-white mb-1.5 transition-all duration-300 origin-center"></span>
+            <span id="line2" class="w-6 h-0.5 bg-white transition-all duration-300 origin-center"></span>
         </button>
     </div>
 
-    <!-- Improved Mobile Menu -->
+    <!-- Mobile Menu Overlay -->
     <div 
         id="mobile-menu" 
-        class="fixed inset-0 top-[73px] bg-white/15 backdrop-blur-2xl border-t border-white/20 z-[-1] flex flex-col p-8 gap-6 opacity-0 pointer-events-none -translate-y-4 scale-95 transition-all duration-500"
+        class="fixed inset-0 bg-slate-950/98 backdrop-blur-2xl z-[105] flex flex-col p-10 gap-8 opacity-0 pointer-events-none translate-y-[-20px] transition-all duration-500"
     >
-        <div class="flex flex-col gap-8 mt-10">
-
-            <a href="index.html" 
-               class="mobile-link text-4xl font-black tracking-tighter text-white opacity-0 -translate-x-5 transition-all">
-                HOME
-            </a>
-
-            <a href="about.html" 
-               class="mobile-link text-4xl font-black tracking-tighter text-white opacity-0 -translate-x-5 transition-all">
-                ABOUT
-            </a>
-
-            <a href="contact.html" 
-               class="mobile-link text-4xl font-black tracking-tighter text-white opacity-0 -translate-x-5 transition-all">
-                CONTACT
-            </a>
-
-            <a href="faq.html" 
-               class="mobile-link text-4xl font-black tracking-tighter text-white opacity-0 -translate-x-5 transition-all">
-                FAQ
-            </a>
-        </div>
-
-        <div class="mt-auto pb-10 border-t border-white/20 pt-10">
-            <p class="text-xs font-black text-white/60 uppercase tracking-widest mb-4">
-                Support
-            </p>
-
-            <p class="text-indigo-300 font-bold">
-                hello@kidventor.com.ng
-            </p>
+        <div class="flex flex-col gap-10 mt-20">
+            <a href="index.html" class="mobile-link text-5xl font-black tracking-tighter text-white opacity-0 translate-x-[-30px] transition-all">HOME</a>
+            <a href="about.html" class="mobile-link text-5xl font-black tracking-tighter text-white opacity-0 translate-x-[-30px] transition-all">ABOUT</a>
+            <a href="contact.html" class="mobile-link text-5xl font-black tracking-tighter text-white opacity-0 translate-x-[-30px] transition-all">CONTACT</a>
+            <a href="faq.html" class="mobile-link text-5xl font-black tracking-tighter text-white opacity-0 translate-x-[-30px] transition-all">FAQ</a>
         </div>
     </div>
 </nav>
+
+
 <!-- HERO -->
     <header class="max-w-5xl mx-auto pt-16 md:pt-20 px-4 sm:px-6">
         <div class="flex flex-wrap items-center gap-3 mb-4">
@@ -276,6 +230,7 @@
 <script>
 const btn = document.getElementById("mobile-menu-btn");
 const menu = document.getElementById("mobile-menu");
+const nav = document.getElementById("main-nav");
 const links = document.querySelectorAll(".mobile-link");
 const line1 = document.getElementById("line1");
 const line2 = document.getElementById("line2");
@@ -286,61 +241,38 @@ btn.addEventListener("click", () => {
     isOpen = !isOpen;
 
     if (isOpen) {
-        /* Show Menu */
-        menu.classList.remove(
-            "opacity-0",
-            "pointer-events-none",
-            "-translate-y-4",
-            "scale-95"
-        );
-
-        menu.classList.add(
-            "opacity-100",
-            "pointer-events-auto",
-            "translate-y-0",
-            "scale-100"
-        );
-
-        /* Animate Hamburger → X */
+        menu.classList.remove("opacity-0", "pointer-events-none", "translate-y-[-20px]");
+        menu.classList.add("opacity-100", "pointer-events-auto", "translate-y-0");
+        
         line1.style.transform = "translateY(4px) rotate(45deg)";
         line2.style.transform = "translateY(-4px) rotate(-45deg)";
 
-        /* Staggered Links */
         links.forEach((link, i) => {
-            link.style.opacity = "0";
-            link.style.transform = "translateX(-20px)";
-
             setTimeout(() => {
                 link.style.opacity = "1";
                 link.style.transform = "translateX(0)";
-            }, 120 * i);
+            }, 100 * i);
         });
-
     } else {
-        /* Hide Menu */
-        menu.classList.add(
-            "opacity-0",
-            "pointer-events-none",
-            "-translate-y-4",
-            "scale-95"
-        );
-
-        menu.classList.remove(
-            "opacity-100",
-            "pointer-events-auto",
-            "translate-y-0",
-            "scale-100"
-        );
-
-        /* Reset Icon */
+        menu.classList.add("opacity-0", "pointer-events-none", "translate-y-[-20px]");
+        menu.classList.remove("opacity-100", "pointer-events-auto", "translate-y-0");
+        
         line1.style.transform = "none";
         line2.style.transform = "none";
 
-        /* Reset Links */
         links.forEach(link => {
             link.style.opacity = "0";
-            link.style.transform = "translateX(-20px)";
+            link.style.transform = "translateX(-30px)";
         });
+    }
+});
+
+// Optional: Add a subtle border or glass effect when user scrolls
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+        nav.classList.add('bg-slate-950/20', 'backdrop-blur-md', 'border-white/10');
+    } else {
+        nav.classList.remove('bg-slate-950/20', 'backdrop-blur-md', 'border-white/10');
     }
 });
 </script>
