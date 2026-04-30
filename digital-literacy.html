@@ -10,18 +10,99 @@
 <body class="bg-slate-50 text-slate-800 font-sans">
 
   <!-- Header -->
-  <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
-    <div class="max-w-6xl mx-auto px-6 py-5 flex justify-between items-center">
-      <a href="index.html" class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center font-black text-lg">K</div>
-        <span class="text-2xl font-black tracking-tight">Kidventor Academy</span>
-      </a>
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
 
-      <span class="text-xs font-black uppercase tracking-widest text-slate-400">
-        Topic • Digital Literacy
-      </span>
+        <!-- Logo -->
+        <a href="index.html" class="flex items-center gap-3 group">
+            <img 
+                src="https://raw.githubusercontent.com/SmartKids-app/kidventor/main/image/Logo_kiventor.png" 
+                alt="Kidventor Logo"
+                class="w-12 h-12 object-contain rounded-xl shadow-md"
+            >
+            <span class="text-xl sm:text-2xl font-black tracking-tight text-slate-800 group-hover:text-blue-600 transition-colors">
+                Kidventor Academy
+            </span>
+        </a>
+
+        <!-- Desktop Right Section -->
+        <div class="hidden md:flex items-center gap-8">
+
+            <!-- Navigation -->
+            <nav class="flex items-center gap-6 text-sm font-bold text-slate-600">
+                <a href="index.html" class="hover:text-blue-600 transition">Home</a>
+                <a href="lessons.html" class="hover:text-blue-600 transition">Lessons</a>
+                <a href="worksheet.html" class="hover:text-blue-600 transition">Worksheets</a>
+                <a href="about.html" class="hover:text-blue-600 transition">About</a>
+            </nav>
+
+            <!-- Topic Label -->
+            <span class="text-xs font-black uppercase tracking-widest text-slate-400">
+                Topic • Digital Literacy
+            </span>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button 
+            id="mobile-menu-btn"
+            class="md:hidden flex items-center justify-center w-11 h-11 rounded-xl bg-slate-100 hover:bg-slate-200 transition duration-300"
+        >
+            <svg 
+                id="menu-icon"
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-6 h-6 text-slate-700 transition duration-300"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+            >
+                <path 
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 6h16M4 12h16M4 18h16"
+                />
+            </svg>
+        </button>
     </div>
-  </header>
+
+    <!-- Animated Mobile Dropdown -->
+    <div 
+        id="mobile-menu"
+        class="md:hidden overflow-hidden max-h-0 opacity-0 transition-all duration-500 ease-in-out"
+    >
+        <div class="px-4 sm:px-6 pt-4 pb-4 border-t border-slate-100 space-y-4">
+
+            <a href="index.html" 
+               class="block font-bold text-slate-700 hover:text-blue-600 transition">
+                Home
+            </a>
+
+            <a href="lessons.html" 
+               class="block font-bold text-slate-700 hover:text-blue-600 transition">
+                Lessons
+            </a>
+
+            <a href="worksheet.html" 
+               class="block font-bold text-slate-700 hover:text-blue-600 transition">
+                Worksheets
+            </a>
+
+            <a href="about.html" 
+               class="block font-bold text-slate-700 hover:text-blue-600 transition">
+                About
+            </a>
+
+            <div class="pt-3 border-t border-slate-100">
+                <span class="text-xs font-black uppercase tracking-widest text-slate-400">
+                    Topic • Digital Literacy
+                </span>
+            </div>
+
+        </div>
+    </div>
+</header>
+
+
 
   <!-- Hero -->
   <section class="py-20 px-6 text-center">
@@ -164,6 +245,34 @@
     </section>
 
   </main>
+<script>
+const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+const mobileMenu = document.getElementById("mobile-menu");
+const menuIcon = document.getElementById("menu-icon");
 
+let isOpen = false;
+
+mobileMenuBtn.addEventListener("click", () => {
+    isOpen = !isOpen;
+
+    if (isOpen) {
+        mobileMenu.classList.remove("max-h-0", "opacity-0");
+        mobileMenu.classList.add("max-h-[500px]", "opacity-100");
+
+        menuIcon.innerHTML = `
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M6 18L18 6M6 6l12 12" />
+        `;
+    } else {
+        mobileMenu.classList.remove("max-h-[500px]", "opacity-100");
+        mobileMenu.classList.add("max-h-0", "opacity-0");
+
+        menuIcon.innerHTML = `
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16" />
+        `;
+    }
+});
+</script>
 </body>
 </html>
