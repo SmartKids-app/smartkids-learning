@@ -42,7 +42,86 @@
             <div id="timer" class="font-mono font-bold text-rose-500 bg-rose-50 px-4 py-1 rounded-lg italic">30s</div>
         </div>
     </main>
-<div id="copyright-overlay" class="fixed inset-0 z-[110] flex items-center justify-center bg-sky-900/95 backdrop-blur-xl p-4 hidden">
+<div id="copyright-overlay" class="fixed inset-0 z-[110] flex items-center justify-center bg-slate-900/80 backdrop-blur-md p-4 hidden">
+    
+    <div class="relative bg-white w-full max-w-2xl rounded-[2.5rem] shadow-2xl overflow-hidden border border-slate-200">
+
+        <!-- Top Gradient Header -->
+        <div class="bg-gradient-to-r from-sky-600 via-indigo-600 to-purple-600 px-8 py-8 text-center text-white">
+            <div class="text-5xl mb-3">🤝</div>
+            <h2 class="text-3xl md:text-4xl font-black mb-2">
+                Our Digital Honor Code
+            </h2>
+            <p class="text-white/90 font-medium max-w-xl mx-auto">
+                Welcome, Young Inventor! Before we begin, let’s agree on how we protect our learning space and respect our creative community.
+            </p>
+        </div>
+
+        <!-- Content -->
+        <div class="p-8 md:p-10">
+
+            <div class="space-y-5 mb-8">
+
+                <!-- Card 1 -->
+                <div class="flex items-start gap-4 p-5 bg-emerald-50 rounded-3xl border border-emerald-100">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-100 flex items-center justify-center text-2xl shrink-0">
+                        🌱
+                    </div>
+                    <div>
+                        <h3 class="font-black text-emerald-900 mb-1">
+                            Learn & Grow
+                        </h3>
+                        <p class="text-sm text-emerald-800 leading-relaxed">
+                            Use this platform to explore, practice, and improve your skills. These lessons are designed for your personal learning journey.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="flex items-start gap-4 p-5 bg-amber-50 rounded-3xl border border-amber-100">
+                    <div class="w-12 h-12 rounded-2xl bg-amber-100 flex items-center justify-center text-2xl shrink-0">
+                        🚫
+                    </div>
+                    <div>
+                        <h3 class="font-black text-amber-900 mb-1">
+                            Keep It Exclusive
+                        </h3>
+                        <p class="text-sm text-amber-800 leading-relaxed">
+                            Please do not copy, resell, or redistribute our lessons. They are specially created for the Kidventor family.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="flex items-start gap-4 p-5 bg-rose-50 rounded-3xl border border-rose-100">
+                    <div class="w-12 h-12 rounded-2xl bg-rose-100 flex items-center justify-center text-2xl shrink-0">
+                        🛡️
+                    </div>
+                    <div>
+                        <h3 class="font-black text-rose-900 mb-1">
+                            Respect the Platform
+                        </h3>
+                        <p class="text-sm text-rose-800 leading-relaxed">
+                            Protect the system and follow the rules. Fair use and good behavior are part of becoming a true inventor.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Button -->
+            <button 
+                onclick="acceptHonorCode()" 
+                class="w-full bg-slate-900 text-white py-5 rounded-2xl font-black uppercase tracking-wider hover:bg-black transition-all duration-300 shadow-xl hover:scale-[1.02]"
+            >
+                I Agree & I'm Ready!
+            </button>
+
+        </div>
+    </div>
+</div>
+    
+    <!--<div id="copyright-overlay" class="fixed inset-0 z-[110] flex items-center justify-center bg-sky-900/95 backdrop-blur-xl p-4 hidden">
     <div class="bg-white w-full max-w-lg p-10 rounded-[3rem] shadow-2xl text-center border-4 border-sky-100">
         <div class="text-6xl mb-6">🤝</div>
         <h2 class="text-3xl font-black text-slate-800 mb-2">Our Digital Honor Code</h2>
@@ -69,7 +148,7 @@
             I Agree & I'm Ready!
         </button>
     </div>
-</div>
+</div>-->
     <script>
     // 1. CONFIGURATION
     const params = new URLSearchParams(window.location.search);
