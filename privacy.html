@@ -30,73 +30,110 @@
 
 <body class="bg-slate-50 text-slate-800 font-sans antialiased">
 
-    <!-- NAV -->
    <!-- Enhanced Glass Nav -->
-<nav class="sticky top-0 z-[100] w-full border-b border-white/10 bg-slate-950/60 backdrop-blur-xl px-6 py-4">
+<nav class="sticky top-0 z-[100] w-full border-b border-white/20 bg-white/10 backdrop-blur-xl px-6 py-4 shadow-[0_8px_32px_rgba(255,255,255,0.08)]">
     <div class="max-w-7xl mx-auto flex justify-between items-center">
 
         <!-- Logo with Glow Effect -->
         <a href="index.html" class="flex items-center gap-3 group relative">
             <div class="absolute -inset-2 bg-indigo-500/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+
             <img 
                 src="https://raw.githubusercontent.com/SmartKids-app/kidventor/main/image/Logo_kiventor.png" 
                 alt="Kidventor"
                 class="w-10 h-10 object-contain rounded-xl relative z-10 group-hover:scale-110 transition-transform duration-500"
             >
-            <span class="font-black text-xl tracking-tighter text-white relative z-10">
-                KID<span class="text-indigo-500">VENTOR</span>
+
+            <span class="font-black text-xl tracking-tighter text-white relative z-10 drop-shadow-md">
+                KID<span class="text-indigo-400">VENTOR</span>
             </span>
         </a>
 
-        <!-- Desktop Navigation: Ultra-Thin & Spaced -->
+        <!-- Desktop Navigation -->
         <div class="hidden md:flex items-center gap-8">
-            <div class="flex gap-8 text-[10px] font-black uppercase tracking-[0.25em] text-slate-400">
+            <div class="flex gap-8 text-[10px] font-black uppercase tracking-[0.25em] text-white/80">
                 <a href="index.html" class="hover:text-white transition-all relative group">
                     Home
-                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-indigo-500 transition-all group-hover:w-full"></span>
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-indigo-400 transition-all group-hover:w-full"></span>
                 </a>
-                <a href="about.html" class="hover:text-white transition-all relative group">About</a>
-                <a href="contact.html" class="hover:text-white transition-all relative group">Contact</a>
-                <a href="faq.html" class="hover:text-white transition-all relative group">FAQ</a>
+
+                <a href="about.html" class="hover:text-white transition-all relative group">
+                    About
+                </a>
+
+                <a href="contact.html" class="hover:text-white transition-all relative group">
+                    Contact
+                </a>
+
+                <a href="faq.html" class="hover:text-white transition-all relative group">
+                    FAQ
+                </a>
             </div>
-            
+
             <!-- CTA Button -->
-            <a href="lessons.html" class="ml-4 px-5 py-2.5 bg-indigo-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full hover:bg-indigo-500 hover:shadow-[0_0_20px_rgba(79,70,229,0.4)] transition-all">
+            <a href="lessons.html" 
+               class="ml-4 px-5 py-2.5 bg-indigo-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full hover:bg-indigo-500 hover:shadow-[0_0_20px_rgba(79,70,229,0.4)] transition-all">
                 Start Learning
             </a>
         </div>
 
-        <!-- Mobile Toggle with Hamburger-to-X Animation -->
-        <button id="mobile-menu-btn" class="md:hidden relative w-10 h-10 flex flex-col justify-center items-center group">
-            <span id="line1" class="w-6 h-0.5 bg-slate-300 mb-1.5 transition-all duration-300 origin-center"></span>
-            <span id="line2" class="w-6 h-0.5 bg-slate-300 transition-all duration-300 origin-center"></span>
+        <!-- Mobile Toggle -->
+        <button 
+            id="mobile-menu-btn" 
+            class="md:hidden relative w-10 h-10 flex flex-col justify-center items-center group"
+        >
+            <span 
+                id="line1" 
+                class="w-6 h-0.5 bg-white mb-1.5 transition-all duration-300 origin-center"
+            ></span>
+
+            <span 
+                id="line2" 
+                class="w-6 h-0.5 bg-white transition-all duration-300 origin-center"
+            ></span>
         </button>
     </div>
 
-    <!-- Mobile Menu: Full Screen Blur Overlay -->
+    <!-- Improved Mobile Menu -->
     <div 
         id="mobile-menu" 
-        class="fixed inset-0 top-[73px] bg-slate-950/95 backdrop-blur-2xl z-[-1] flex flex-col p-8 gap-6 opacity-0 pointer-events-none translate-y-[-10px] transition-all duration-500"
+        class="fixed inset-0 top-[73px] bg-white/15 backdrop-blur-2xl border-t border-white/20 z-[-1] flex flex-col p-8 gap-6 opacity-0 pointer-events-none -translate-y-4 scale-95 transition-all duration-500"
     >
         <div class="flex flex-col gap-8 mt-10">
-            <a href="index.html" class="mobile-link text-4xl font-black tracking-tighter text-white opacity-0 translate-x-[-20px] transition-all">HOME</a>
-            <a href="about.html" class="mobile-link text-4xl font-black tracking-tighter text-white opacity-0 translate-x-[-20px] transition-all">ABOUT</a>
-            <a href="contact.html" class="mobile-link text-4xl font-black tracking-tighter text-white opacity-0 translate-x-[-20px] transition-all">CONTACT</a>
-            <a href="faq.html" class="mobile-link text-4xl font-black tracking-tighter text-white opacity-0 translate-x-[-20px] transition-all">FAQ</a>
+
+            <a href="index.html" 
+               class="mobile-link text-4xl font-black tracking-tighter text-white opacity-0 -translate-x-5 transition-all">
+                HOME
+            </a>
+
+            <a href="about.html" 
+               class="mobile-link text-4xl font-black tracking-tighter text-white opacity-0 -translate-x-5 transition-all">
+                ABOUT
+            </a>
+
+            <a href="contact.html" 
+               class="mobile-link text-4xl font-black tracking-tighter text-white opacity-0 -translate-x-5 transition-all">
+                CONTACT
+            </a>
+
+            <a href="faq.html" 
+               class="mobile-link text-4xl font-black tracking-tighter text-white opacity-0 -translate-x-5 transition-all">
+                FAQ
+            </a>
         </div>
-        
-        <div class="mt-auto pb-10 border-t border-white/10 pt-10">
-            <p class="text-xs font-black text-slate-500 uppercase tracking-widest mb-4">Support</p>
-            <p class="text-indigo-400 font-bold">hello@kidventor.com.ng</p>
+
+        <div class="mt-auto pb-10 border-t border-white/20 pt-10">
+            <p class="text-xs font-black text-white/60 uppercase tracking-widest mb-4">
+                Support
+            </p>
+
+            <p class="text-indigo-300 font-bold">
+                hello@kidventor.com.ng
+            </p>
         </div>
     </div>
 </nav>
-
-
-
-
-
-    <!-- HERO -->
+<!-- HERO -->
     <header class="max-w-5xl mx-auto pt-16 md:pt-20 px-4 sm:px-6">
         <div class="flex flex-wrap items-center gap-3 mb-4">
             <span class="bg-indigo-100 text-indigo-700 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-[0.2em] border border-indigo-200">
@@ -249,31 +286,57 @@ btn.addEventListener("click", () => {
     isOpen = !isOpen;
 
     if (isOpen) {
-        // Show Menu
-        menu.classList.remove("opacity-0", "pointer-events-none", "translate-y-[-10px]");
-        menu.classList.add("opacity-100", "pointer-events-auto", "translate-y-0");
-        
-        // Animate Icon to "X"
+        /* Show Menu */
+        menu.classList.remove(
+            "opacity-0",
+            "pointer-events-none",
+            "-translate-y-4",
+            "scale-95"
+        );
+
+        menu.classList.add(
+            "opacity-100",
+            "pointer-events-auto",
+            "translate-y-0",
+            "scale-100"
+        );
+
+        /* Animate Hamburger → X */
         line1.style.transform = "translateY(4px) rotate(45deg)";
         line2.style.transform = "translateY(-4px) rotate(-45deg)";
 
-        // Staggered Link Animation
+        /* Staggered Links */
         links.forEach((link, i) => {
+            link.style.opacity = "0";
+            link.style.transform = "translateX(-20px)";
+
             setTimeout(() => {
                 link.style.opacity = "1";
                 link.style.transform = "translateX(0)";
-            }, 100 * i);
+            }, 120 * i);
         });
+
     } else {
-        // Hide Menu
-        menu.classList.add("opacity-0", "pointer-events-none", "translate-y-[-10px]");
-        menu.classList.remove("opacity-100", "pointer-events-auto", "translate-y-0");
-        
-        // Reset Icon
+        /* Hide Menu */
+        menu.classList.add(
+            "opacity-0",
+            "pointer-events-none",
+            "-translate-y-4",
+            "scale-95"
+        );
+
+        menu.classList.remove(
+            "opacity-100",
+            "pointer-events-auto",
+            "translate-y-0",
+            "scale-100"
+        );
+
+        /* Reset Icon */
         line1.style.transform = "none";
         line2.style.transform = "none";
 
-        // Reset Links
+        /* Reset Links */
         links.forEach(link => {
             link.style.opacity = "0";
             link.style.transform = "translateX(-20px)";
