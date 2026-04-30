@@ -16,8 +16,57 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<!-- Add this to your <head> to load the new weights -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
 
-    <style>
+<style>
+    /* Integrated Bold & Modern Inter Stack */
+    body { 
+        font-family: 'Inter', sans-serif; 
+        font-weight: 700; 
+        letter-spacing: -0.02em; 
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Target Headings to be "Black" and "Tighter" like the Kidventor site */
+    h1, h2, h3, .font-black { 
+        font-weight: 900; 
+        letter-spacing: -0.05em; 
+        line-height: 1.1;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    /* Playful Animations */
+    @keyframes logo-turn {
+        from { transform: rotateY(0deg); }
+        to { transform: rotateY(360deg); }
+    }
+    .logo-container:hover .logo-icon { animation: logo-turn 0.8s ease-in-out; }
+
+    .shine {
+        background: linear-gradient(90deg, #4f46e5, #818cf8, #4f46e5);
+        background-size: 200% auto;
+        animation: shine 3s linear infinite;
+    }
+    @keyframes shine { to { background-position: 200% center; } }
+
+    .glass-header {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+    }
+
+    .card-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    .card-hover:hover { transform: translateY(-10px) scale(1.02); }
+    
+    #mobile-menu { transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1); }
+    #mobile-menu.hidden { display: none; }
+</style>
+   <!-- <style>
         body { font-family: 'Montserrat', sans-serif; font-weight: 700; letter-spacing: -0.5px; }
         html { scroll-behavior: smooth; }
 
@@ -46,7 +95,7 @@
         
         #mobile-menu { transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1); }
         #mobile-menu.hidden { display: none; }
-    </style>
+    </style>-->
 </head>
 
 <body class="bg-slate-50 text-slate-900 overflow-x-hidden">
