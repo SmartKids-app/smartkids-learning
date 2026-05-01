@@ -494,6 +494,28 @@ html{
     // Flip every 5 seconds
     setInterval(updateTestimonial, 5000);
 </script>
+    <script>
+    document.querySelectorAll('.faq-toggle').forEach(button => {
+        button.addEventListener('click', () => {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('.icon');
+            
+            // Toggle visibility
+            content.classList.toggle('hidden');
+            
+            // Rotate icon and change color
+            if (content.classList.contains('hidden')) {
+                icon.style.transform = 'rotate(0deg)';
+                icon.textContent = '+';
+                button.parentElement.classList.remove('border-indigo-500', 'shadow-lg', 'shadow-indigo-50');
+            } else {
+                icon.style.transform = 'rotate(45deg)';
+                icon.textContent = '+'; // The rotate handles the "X" look
+                button.parentElement.classList.add('border-indigo-500', 'shadow-lg', 'shadow-indigo-50');
+            }
+        });
+    });
+</script>
 <script>
 const authCard = document.getElementById("auth-form-card");
 const signupBtn = document.getElementById("signup-trigger");
