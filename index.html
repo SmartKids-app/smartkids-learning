@@ -1,6 +1,965 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome | Kidventor Academy</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --primary:#4f46e5;
+  --primary-dark:#3730a3;
+  --accent:#10b981;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  font-family:'Inter',sans-serif;
+  background:#f8fafc;
+  color:#0f172a;
+}
+
+h1,h2,h3,label{
+  font-family:'Quicksand',sans-serif;
+}
+
+.form-input{
+  width:100%;
+  padding:18px 20px;
+  border-radius:22px;
+  border:2px solid #e0e7ff;
+  background:#f8fafc;
+  font-weight:700;
+  outline:none;
+  transition:.3s;
+}
+
+.form-input:focus{
+  border-color:var(--primary);
+  background:#fff;
+  box-shadow:0 10px 30px rgba(79,70,229,.08);
+}
+
+.step-card{
+  display:none;
+  animation:fadeIn .4s ease;
+}
+
+.step-card.active{
+  display:block;
+}
+
+.progress-dot{
+  transition:.3s;
+}
+
+@keyframes fadeIn{
+  from{
+    opacity:0;
+    transform:translateY(15px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+</style>
+</head>
+<body>
+
+<section class="min-h-screen grid lg:grid-cols-2">
+
+  <!-- LEFT SIDE -->
+  <div class="bg-indigo-900 text-white p-10 md:p-20 flex flex-col justify-center relative overflow-hidden">
+    
+    <div class="absolute inset-0 opacity-10">
+      <div class="absolute top-0 left-0 w-72 h-72 rounded-full bg-white blur-3xl"></div>
+      <div class="absolute bottom-0 right-0 w-72 h-72 rounded-full bg-white blur-3xl"></div>
+    </div>
+
+    <div class="relative z-10">
+      <p class="uppercase tracking-[0.3em] text-xs font-bold text-indigo-300 mb-5">
+        Welcome to Kidventor
+      </p>
+
+      <h1 class="text-5xl md:text-7xl font-black leading-tight mb-8">
+        Empowering Young Inventors 🚀
+      </h1>
+
+      <p class="text-lg md:text-xl text-indigo-100 leading-relaxed max-w-xl">
+  Learn coding, ICT skills, computer confidence, creativity, moral values,
+  internet safety, and leadership through fun digital adventures built for students.
+</p>
+
+      <div class="mt-10 flex flex-wrap gap-4">
+  <div class="bg-white/10 px-5 py-3 rounded-2xl">
+    📚 Coding
+  </div>
+  <div class="bg-white/10 px-5 py-3 rounded-2xl">
+    ⚖️ Morals
+  </div>
+  <div class="bg-white/10 px-5 py-3 rounded-2xl">
+    🛡️ Internet Safety
+  </div>
+  <div class="bg-white/10 px-5 py-3 rounded-2xl">
+    👑 Leadership
+  </div>
+</div>
+    </div>
+  </div>
+
+  <!-- RIGHT SIDE -->
+  <div class="p-6 md:p-12 flex items-center justify-center">
+
+    <div class="w-full max-w-xl bg-white rounded-[36px] shadow-2xl border border-indigo-50 p-8 md:p-12">
+
+      <!-- TOGGLE -->
+      <div class="flex bg-slate-100 rounded-2xl p-2 mb-8">
+        <button id="signupTab"
+          onclick="showSignup()"
+          class="flex-1 py-3 rounded-xl font-black bg-indigo-600 text-white">
+          Sign Up
+        </button>
+
+        <button id="loginTab"
+          onclick="showLogin()"
+          class="flex-1 py-3 rounded-xl font-black text-slate-500">
+          Login
+        </button>
+      </div>
+
+      <!-- SIGNUP FORM -->
+<div id="signupSection">
+
+  <div class="text-center mb-8">
+    <h2 class="text-3xl font-black text-slate-900">
+      Join the Adventure 🚀
+    </h2>
+    <p class="text-slate-400 font-medium mt-2">
+      Create your student profile
+    </p>
+  </div>
+
+  <!-- progress -->
+  <div class="flex gap-2 justify-center mb-8" id="progressDots">
+    <div class="progress-dot h-2 w-10 rounded-full bg-indigo-600"></div>
+    <div class="progress-dot h-2 w-10 rounded-full bg-indigo-100"></div>
+    <div class="progress-dot h-2 w-10 rounded-full bg-indigo-100"></div>
+    <div class="progress-dot h-2 w-10 rounded-full bg-indigo-100"></div>
+    <div class="progress-dot h-2 w-10 rounded-full bg-indigo-100"></div>
+    <div class="progress-dot h-2 w-10 rounded-full bg-indigo-100"></div>
+    <div class="progress-dot h-2 w-10 rounded-full bg-indigo-100"></div>
+  </div>
+
+  <form id="signupForm">
+
+    <!-- STEP 1 -->
+    <div class="step-card active" data-step="1">
+      <label class="block mb-3 font-bold text-sm uppercase tracking-widest text-slate-500">
+        Full Student Name
+      </label>
+
+      <div class="relative">
+        <input id="reg-name" class="form-input" type="text" placeholder="Enter full name" required>
+
+        <button type="button"
+          onclick="nextStep()"
+          class="absolute right-2 top-2 w-12 h-12 rounded-full bg-indigo-600 text-white font-black">
+          →
+        </button>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step-card" data-step="2">
+      <label class="block mb-4 font-bold text-sm uppercase tracking-widest text-slate-500">
+        Select Gender
+      </label>
+
+      <div class="grid grid-cols-2 gap-4">
+        <button type="button"
+          onclick="selectGender('Boy')"
+          class="p-5 rounded-2xl border-2 border-indigo-100 font-bold hover:border-indigo-600">
+          👦 Boy
+        </button>
+
+        <button type="button"
+          onclick="selectGender('Girl')"
+          class="p-5 rounded-2xl border-2 border-indigo-100 font-bold hover:border-indigo-600">
+          👧 Girl
+        </button>
+      </div>
+
+      <input type="hidden" id="reg-gender">
+    </div>
+
+    <!-- STEP 3 : PROFILE IMAGE -->
+    <div class="step-card" data-step="3">
+      <label class="block mb-4 font-bold text-sm uppercase tracking-widest text-slate-500">
+        Upload Profile Image
+      </label>
+
+      <div class="flex flex-col items-center gap-4">
+
+        <div id="image-preview"
+          class="w-28 h-28 rounded-full border-2 border-dashed border-indigo-200 bg-slate-50 flex items-center justify-center overflow-hidden">
+
+          <img id="preview-img"
+            src="https://api.dicebear.com/7.x/avataaars/svg?seed=Kidventor"
+            class="w-full h-full object-cover rounded-full">
+        </div>
+
+        <input
+          type="file"
+          id="reg-photo"
+          accept="image/*"
+          class="hidden"
+          onchange="previewImage(this)">
+
+        <button
+          type="button"
+          onclick="document.getElementById('reg-photo').click()"
+          class="px-6 py-3 rounded-2xl bg-slate-100 font-bold hover:bg-slate-200">
+          Choose Profile Image
+        </button>
+
+        <button
+  type="button"
+  onclick="sendPhoneVerification()"
+  class="w-full mt-4 py-4 rounded-2xl bg-indigo-600 text-white font-black"
+>
+  Send Confirmation Code 📲
+</button>
+      </div>
+    </div>
+
+    <!-- STEP 4 : SCHOOL -->
+    <div class="step-card" data-step="4">
+      <label class="block mb-3 font-bold text-sm uppercase tracking-widest text-slate-500">
+        School Name
+      </label>
+
+      <div class="relative">
+        <input
+          id="reg-school"
+          class="form-input"
+          type="text"
+          placeholder="Enter school name"
+          required>
+
+        <button
+          type="button"
+          onclick="nextStep()"
+          class="absolute right-2 top-2 w-12 h-12 rounded-full bg-indigo-600 text-white font-black">
+          →
+        </button>
+      </div>
+    </div>
+
+    <!-- STEP 5 : CLASS -->
+    <div class="step-card" data-step="5">
+      <label class="block mb-3 font-bold text-sm uppercase tracking-widest text-slate-500">
+        Select Your Class
+      </label>
+
+      <div class="relative">
+        <select
+          id="reg-class"
+          class="form-input appearance-none"
+          required>
+
+          <option value="">Choose Class</option>
+          <option>JSS 1</option>
+          <option>JSS 2</option>
+          <option>JSS 3</option>
+          <option>SSS 1</option>
+          <option>SSS 2</option>
+          <option>SSS 3</option>
+        </select>
+
+        <button
+          type="button"
+          onclick="nextStep()"
+          class="absolute right-2 top-2 w-12 h-12 rounded-full bg-indigo-600 text-white font-black">
+          →
+        </button>
+      </div>
+    </div>
+
+    <!-- STEP 6 -->
+    <div class="step-card" data-step="6">
+      <label class="block mb-3 font-bold text-sm uppercase tracking-widest text-slate-500">
+        Parent Mobile Number
+      </label>
+
+      <div class="relative">
+        <input id="reg-phone"
+          class="form-input"
+          type="tel"
+          placeholder="080xxxxxxxx"
+          required>
+
+        <button type="button"
+          onclick="nextStep()"
+          class="absolute right-2 top-2 w-12 h-12 rounded-full bg-indigo-600 text-white font-black">
+          →
+        </button>
+      </div>
+    </div>
+
+    <!-- STEP 7 -->
+    <div class="step-card" data-step="7">
+      <label class="block mb-3 font-bold text-sm uppercase tracking-widest text-slate-500">
+        Create Password
+      </label>
+
+      <div class="relative">
+        <input id="reg-pass"
+          class="form-input"
+          type="password"
+          placeholder="Minimum 6 characters"
+          required>
+
+        <button type="button"
+          onclick="nextStep()"
+          class="absolute right-2 top-2 w-12 h-12 rounded-full bg-indigo-600 text-white font-black">
+          →
+        </button>
+      </div>
+    </div>
+
+    <!-- STEP 8 -->
+    <div class="step-card" data-step="8">
+      <label class="block mb-3 font-bold text-sm uppercase tracking-widest text-slate-500">
+        Confirm Password
+      </label>
+
+      <input id="reg-confirm"
+        class="form-input mb-6"
+        type="password"
+        placeholder="Repeat password"
+        required>
+
+      <button type="submit"
+        class="w-full py-5 rounded-2xl bg-green-500 text-white font-black text-lg hover:bg-green-600">
+        Finish & Launch Dashboard ➜
+      </button>
+    </div>
+
+  </form>
+
+  <p class="text-center mt-6 font-medium text-slate-500">
+    Already registered?
+    <button onclick="showLogin()" class="text-indigo-600 font-black">
+      Login here
+    </button>
+  </p>
+
+</div>
+
+        
+
+      <!-- LOGIN FORM -->
+      <div id="loginSection" class="hidden">
+
+        <div class="text-center mb-8">
+          <h2 class="text-3xl font-black text-slate-900">
+            Welcome Back 👋
+          </h2>
+          <p class="text-slate-400 font-medium mt-2">
+            Continue your learning journey
+          </p>
+        </div>
+
+        <form id="loginForm" class="space-y-5">
+
+          <input
+            id="login-name"
+            type="text"
+            class="form-input"
+            placeholder="Full Student Name"
+            required
+          >
+
+          <input
+            id="login-password"
+            type="password"
+            class="form-input"
+            placeholder="Password"
+            required
+          >
+
+          <button
+            type="submit"
+            class="w-full py-5 rounded-2xl bg-indigo-600 text-white font-black text-lg hover:bg-indigo-700">
+            Login 🚀
+          </button>
+
+          <div class="text-center">
+            <button
+              type="button"
+              onclick="forgotPassword()"
+              class="text-sm font-bold text-indigo-600">
+              Forgot Password?
+            </button>
+          </div>
+        </form>
+
+        <p class="text-center mt-6 font-medium text-slate-500">
+          New student?
+          <button onclick="showSignup()" class="text-indigo-600 font-black">
+            Create account
+          </button>
+        </p>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+<!-- FIREBASE DEMO SDK -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+
+<script>
+/* =========================================
+   FIREBASE DEMO CONFIG
+   Replace with your real config before deploy
+========================================= */
+
+const firebaseConfig = {
+  apiKey: "demo-api-key",
+  authDomain: "kidventor-demo.firebaseapp.com",
+  projectId: "kidventor-demo",
+  storageBucket: "kidventor-demo.appspot.com",
+  messagingSenderId: "1234567890",
+  appId: "1:1234567890:web:demo123456"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const auth = firebase.auth();
+const db = firebase.firestore();
+const storage = firebase.storage();
+
+/* =========================================
+   APP LOGIC
+========================================= */
+
+let currentStep = 1;
+let selectedGender = "";
+
+/* TAB SWITCHING */
+
+function showSignup() {
+  document.getElementById("signupSection").classList.remove("hidden");
+  document.getElementById("loginSection").classList.add("hidden");
+
+  document.getElementById("signupTab")
+    .classList.add("bg-indigo-600", "text-white");
+
+  document.getElementById("loginTab")
+    .classList.remove("bg-indigo-600", "text-white");
+
+  document.getElementById("loginTab")
+    .classList.add("text-slate-500");
+}
+
+function showLogin() {
+  document.getElementById("loginSection").classList.remove("hidden");
+  document.getElementById("signupSection").classList.add("hidden");
+
+  document.getElementById("loginTab")
+    .classList.add("bg-indigo-600", "text-white");
+
+  document.getElementById("signupTab")
+    .classList.remove("bg-indigo-600", "text-white");
+
+  document.getElementById("signupTab")
+    .classList.add("text-slate-500");
+}
+
+/* MULTI STEP */
+
+function nextStep() {
+  const current = document.querySelector(`[data-step="${currentStep}"]`);
+  const input = current.querySelector("input, select");
+
+  if (input && !input.value) {
+    alert("Please complete this step first.");
+    return;
+  }
+
+  current.classList.remove("active");
+  currentStep++;
+
+  const next = document.querySelector(`[data-step="${currentStep}"]`);
+  if (next) next.classList.add("active");
+
+  const dots = document.querySelectorAll(".progress-dot");
+
+  if (dots[currentStep - 1]) {
+    dots[currentStep - 1].classList.replace(
+      "bg-indigo-100",
+      "bg-indigo-600"
+    );
+  }
+}
+
+/* GENDER */
+
+function selectGender(gender) {
+  selectedGender = gender;
+  document.getElementById("reg-gender").value = gender;
+  nextStep();
+}
+
+
+/*let generatedOTP = null;
+let phoneVerified = false;
+
+/* SEND CONFIRMATION CODE *
+function sendPhoneVerification() {
+  const phone = document.getElementById("reg-phone").value.trim();
+
+  if (!phone || phone.length < 11) {
+    alert("Please enter a valid parent mobile number.");
+    return;
+  }
+
+  /* Demo OTP generation *
+  generatedOTP = Math.floor(100000 + Math.random() * 900000);
+
+  alert(
+    "Verification code sent to: " +
+    phone +
+    "\n\nDemo Code: " + generatedOTP
+  );
+
+  const enteredCode = prompt("Enter the 6-digit confirmation code:");
+
+  if (enteredCode == generatedOTP) {
+    phoneVerified = true;
+    alert("Mobile number verified successfully ✅");
+    nextStep();
+  } else {
+    phoneVerified = false;
+    alert("Invalid verification code ❌");
+  }
+}
+
+/* STEP VALIDATION *
+function nextStep() {
+  const current = document.querySelector(`[data-step="${currentStep}"]`);
+  const input = current.querySelector("input, select");
+
+  if (input && !input.value) {
+    alert("Please complete this step first.");
+    return;
+  }
+
+  /* Special check for phone verification step *
+  if (currentStep === 3 && !phoneVerified) {
+    alert("Please verify parent mobile number first.");
+    return;
+  }
+
+  current.classList.remove("active");
+  currentStep++;
+
+  const next = document.querySelector(`[data-step="${currentStep}"]`);
+  if (next) next.classList.add("active");
+
+  const dots = document.querySelectorAll(".progress-dot");
+
+  if (dots[currentStep - 1]) {
+    dots[currentStep - 1].classList.replace(
+      "bg-indigo-100",
+      "bg-indigo-600"
+    );
+  }
+}
+
+/* FINAL SIGNUP *
+document.getElementById("signupForm")
+.addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  if (!phoneVerified) {
+    alert("Please verify parent mobile number first.");
+    return;
+  }
+
+  const name = document.getElementById("reg-name").value.trim();
+  const phone = document.getElementById("reg-phone").value.trim();
+  const password = document.getElementById("reg-pass").value.trim();
+  const confirm = document.getElementById("reg-confirm").value.trim();
+
+  if (password !== confirm) {
+    alert("Passwords do not match");
+    return;
+  }
+
+  const email =
+    name.replace(/\s+/g, "").toLowerCase() +
+    "@kidventor.com";
+
+  try {
+    const userCredential =
+      await auth.createUserWithEmailAndPassword(
+        email,
+        password
+      );
+
+    const user = userCredential.user;
+
+    const studentData = {
+      uid: user.uid,
+      name,
+      firstName: name.split(" ")[0],
+      phone,
+      phoneVerified: true,
+      gender: selectedGender,
+      level: 1,
+      points: 0,
+      createdAt: new Date().toISOString()
+    };
+
+    await db
+      .collection("students")
+      .doc(user.uid)
+      .set(studentData);
+
+    localStorage.setItem(
+      "studentSession",
+      JSON.stringify(studentData)
+    );
+
+    alert("Welcome to Kidventor 🚀");
+    window.location.href = "dashboard.html";
+
+  } catch (error) {
+    alert("Signup Error: " + error.message);
+  }
+});
+
+/* =========================================
+   SIGNUP WITH FIREBASE AUTH + FIRESTORE
+========================================= */
+
+document.getElementById("signupForm")
+.addEventListener("submit", async function (e) {
+  e.preventDefault();
+
+  const name = document.getElementById("reg-name").value.trim();
+  const phone = document.getElementById("reg-phone").value.trim();
+  const password = document.getElementById("reg-pass").value.trim();
+  const confirm = document.getElementById("reg-confirm").value.trim();
+
+  if (password !== confirm) {
+    alert("Passwords do not match");
+    return;
+  }
+
+  /* dummy email from student name */
+  const email =
+    name.replace(/\s+/g, "").toLowerCase() +
+    "@kidventor.com";
+
+  try {
+    /* Create Firebase Auth account */
+    const userCredential =
+      await auth.createUserWithEmailAndPassword(
+        email,
+        password
+      );
+
+    const user = userCredential.user;
+
+    /* Save to Firestore */
+    const studentData = {
+      uid: user.uid,
+      name: name,
+      firstName: name.split(" ")[0],
+      phone: phone,
+      gender: selectedGender,
+      email: email,
+      level: 1,
+      points: 0,
+      verified: true,
+      createdAt: new Date().toISOString()
+    };
+
+    await db
+      .collection("students")
+      .doc(user.uid)
+      .set(studentData);
+
+    /* Save local session */
+    localStorage.setItem(
+      "studentSession",
+      JSON.stringify(studentData)
+    );
+
+    localStorage.setItem(
+      "kidventor_auth",
+      JSON.stringify({
+        uid: user.uid,
+        verified: true
+      })
+    );
+
+    alert("Welcome to Kidventor 🚀");
+    window.location.href = "dashboard.html";
+
+  } catch (error) {
+    alert("Signup Error: " + error.message);
+  }
+});
+
+/* =========================================
+   LOGIN WITH FIREBASE AUTH
+========================================= */
+
+document.getElementById("loginForm")
+.addEventListener("submit", async function (e) {
+  e.preventDefault();
+
+  const loginName =
+    document.getElementById("login-name").value.trim();
+
+  const loginPassword =
+    document.getElementById("login-password").value.trim();
+
+  const email =
+    loginName.replace(/\s+/g, "").toLowerCase() +
+    "@kidventor.com";
+
+  try {
+    const userCredential =
+      await auth.signInWithEmailAndPassword(
+        email,
+        loginPassword
+      );
+
+    const user = userCredential.user;
+
+    /* Load profile from Firestore */
+    const doc = await db
+      .collection("students")
+      .doc(user.uid)
+      .get();
+
+    if (doc.exists) {
+      localStorage.setItem(
+        "studentSession",
+        JSON.stringify(doc.data())
+      );
+    }
+
+    localStorage.setItem(
+      "kidventor_auth",
+      JSON.stringify({
+        uid: user.uid,
+        verified: true
+      })
+    );
+
+    alert("Welcome Back 🚀");
+    window.location.href = "dashboard.html";
+
+  } catch (error) {
+    alert("Login failed: " + error.message);
+  }
+});
+
+/* =========================================
+   FORGOT PASSWORD (DEMO VERSION)
+========================================= */
+
+function forgotPassword() {
+  const loginName =
+    document.getElementById("login-name").value.trim();
+
+  if (!loginName) {
+    alert("Enter your student name first.");
+    return;
+  }
+
+  const email =
+    loginName.replace(/\s+/g, "").toLowerCase() +
+    "@kidventor.com";
+
+  auth.sendPasswordResetEmail(email)
+    .then(() => {
+      alert(
+        "Password reset email sent successfully ✅\n\n(Demo Firebase setup)"
+      );
+    })
+    .catch((error) => {
+      alert("Reset Error: " + error.message);
+    });
+}
+</script>-->
+
+<!--<script>
+let currentStep = 1;
+let selectedGender = "";
+
+function showSignup() {
+  document.getElementById("signupSection").classList.remove("hidden");
+  document.getElementById("loginSection").classList.add("hidden");
+
+  document.getElementById("signupTab").classList.add("bg-indigo-600","text-white");
+  document.getElementById("loginTab").classList.remove("bg-indigo-600","text-white");
+  document.getElementById("loginTab").classList.add("text-slate-500");
+}
+
+function showLogin() {
+  document.getElementById("loginSection").classList.remove("hidden");
+  document.getElementById("signupSection").classList.add("hidden");
+
+  document.getElementById("loginTab").classList.add("bg-indigo-600","text-white");
+  document.getElementById("signupTab").classList.remove("bg-indigo-600","text-white");
+  document.getElementById("signupTab").classList.add("text-slate-500");
+}
+
+function nextStep() {
+  const current = document.querySelector(`[data-step="${currentStep}"]`);
+  const input = current.querySelector("input");
+
+  if (input && !input.value) {
+    alert("Please complete this step first.");
+    return;
+  }
+
+  current.classList.remove("active");
+  currentStep++;
+
+  const next = document.querySelector(`[data-step="${currentStep}"]`);
+  if (next) next.classList.add("active");
+
+  const dots = document.querySelectorAll(".progress-dot");
+  if (dots[currentStep - 1]) {
+    dots[currentStep - 1].classList.replace("bg-indigo-100","bg-indigo-600");
+  }
+}
+
+function selectGender(gender) {
+  selectedGender = gender;
+  document.getElementById("reg-gender").value = gender;
+  nextStep();
+}
+
+/* SIGNUP */
+document.getElementById("signupForm").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  const name = document.getElementById("reg-name").value.trim();
+  const phone = document.getElementById("reg-phone").value.trim();
+  const password = document.getElementById("reg-pass").value.trim();
+  const confirm = document.getElementById("reg-confirm").value.trim();
+
+  if (password !== confirm) {
+    alert("Passwords do not match");
+    return;
+  }
+
+  const studentData = {
+    name,
+    firstName: name.split(" ")[0],
+    phone,
+    password,
+    gender: selectedGender,
+    verified: true
+  };
+
+  localStorage.setItem("studentSession", JSON.stringify(studentData));
+  localStorage.setItem("kidventor_auth", JSON.stringify(studentData));
+
+  alert("Welcome to Kidventor 🚀");
+  window.location.href = "dashboard.html";
+});
+
+/* LOGIN */
+document.getElementById("loginForm").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  const loginName = document.getElementById("login-name").value.trim();
+  const loginPassword = document.getElementById("login-password").value.trim();
+
+  const saved = JSON.parse(localStorage.getItem("kidventor_auth")) || {};
+
+  if (
+    saved.name &&
+    saved.password &&
+    loginName.toLowerCase() === saved.name.toLowerCase() &&
+    loginPassword === saved.password
+  ) {
+    window.location.href = "dashboard.html";
+  } else {
+    alert("Invalid login details");
+  }
+});
+
+/* FORGOT PASSWORD */
+function forgotPassword() {
+  const saved = JSON.parse(localStorage.getItem("kidventor_auth")) || {};
+
+  if (!saved.phone) {
+    alert("No registered mobile number found.");
+    return;
+  }
+
+  const code = Math.floor(100000 + Math.random() * 900000);
+
+  alert(
+    "Verification code sent to: " +
+    saved.phone +
+    "\n\nDemo Code: " + code
+  );
+
+  const entered = prompt("Enter verification code:");
+
+  if (entered == code) {
+    const newPassword = prompt("Enter your new password:");
+
+    if (newPassword && newPassword.length >= 6) {
+      saved.password = newPassword;
+      localStorage.setItem("kidventor_auth", JSON.stringify(saved));
+      alert("Password reset successful ✅");
+    } else {
+      alert("Password must be at least 6 characters");
+    }
+  } else {
+    alert("Invalid verification code");
+  }
+}
+</script>-->
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kidventor Academy | Coding Classes for Kids</title>
