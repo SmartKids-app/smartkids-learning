@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Dashboard | Kidventor</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        font-family: 'Inter', sans-serif;
+        background: #f8fafc;
+    }
+
+    h1, h2, h3, .nav-item {
+        font-family: 'Quicksand', sans-serif;
+    }
+
+    .nav-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .nav-item {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-10px);
+        transition: all 0.4s ease;
+        pointer-events: none;
+    }
+
+    .nav-container.expanded .nav-item {
+        max-height: 80px;
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+    }
+
+    #logout-overlay {
+        position: fixed;
+        inset: 0;
+        background: #4f46e5;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        color: white;
+        z-index: 999;
+    }
+</style>
+</head>
+
+<!-- Replace your current SIDEBAR + CARDS section with this upgraded version -->
+
+<body class="bg-indigo-50/40 flex min-h-screen overflow-hidden">
+
+    <!-- GOODBYE OVERLAY -->
+    <div id="logout-overlay" class="fixed inset-0 bg-indigo-600 hidden flex-col items-center justify-center z-[999] text-white">
+        <div class="text-6xl mb-6">👋</div>
+        <h1 class="text-4xl font-black mb-2">Bye-bye!</h1>
+        <p class="text-xl text-indigo-100">See you next class, Explorer!</p>
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside class="w-72 bg-white border-r border-indigo-100 flex flex-col p-6 shadow-sm z-50">
+
+        <!-- PROFILE -->
+        <div class="mb-10">
+            <div class="flex items-center gap-4">
+                <img id="user-profile"
+                    src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix"
+                    class="w-14 h-14 rounded-full border-2 border-indigo-600 shadow-sm">
+
+                <div>
+                    <p class="text-[10px] font-black uppercase text-slate-400">Welcome</p>
+                    <p id="display-name"
+                        class="text-lg font-black text-slate-900 leading-tight">
+                        Explorer
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- DASHBOARD ACCORDION -->
+        <div class="flex-1">
+
+            <button onclick="toggleNav()"
+                id="dash-btn"
+                class="w-full p-4 rounded-2xl bg-indigo-600 text-white font-black text-left mb-4 shadow-lg shadow-indigo-100 flex justify-between items-center">
+
+                <span>🏠 Dashboard</span>
+                <span id="nav-plus-icon"
+                    class="transition-transform duration-300 text-2xl leading-none">
+                    +
+                </span>
+            </button>
+
+            <nav id="nav-folder" class="nav-container">
+
+                <a href="about.html"
+                    class="nav-item block p-4 rounded-xl bg-indigo-50 text-indigo-700 font-bold">
+                    📘 About Kidventor
+                </a>
+
+                <a href="morals.html"
+                    class="nav-item block p-4 rounded-xl hover:bg-slate-50 text-slate-600 font-bold">
+                    🌱 Morals & Discipline
+                </a>
+
+                <a href="faqs.html"
+                    class="nav-item block p-4 rounded-xl hover:bg-slate-50 text-slate-600 font-bold">
+                    ❓ FAQs
+                </a>
+
+                <a href="adventure.html"
+                    class="nav-item block p-4 rounded-xl hover:bg-slate-50 text-slate-600 font-bold">
+                    🗺️ Adventure Map
+                </a>
+
+                <a href="keyboard.html"
+                    class="nav-item block p-4 rounded-xl hover:bg-slate-50 text-slate-600 font-bold">
+                    ⌨️ Keyboard Ninja
+                </a>
+
+            </nav>
+        </div>
+
+        <!-- LOGOUT (OUTSIDE ACCORDION) -->
+        <button onclick="handleLogout()"
+            class="mt-6 p-4 rounded-2xl text-red-500 font-black hover:bg-red-50 transition flex items-center gap-2 border border-red-100">
+            🚪 Logout
+        </button>
+
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 overflow-y-auto p-10">
+
+        <!-- HEADER -->
+        <header class="mb-10">
+            <h1 class="text-4xl font-black text-slate-900">
+                Mission Control 🚀
+            </h1>
+
+            <p class="text-slate-500 font-bold mt-2">
+                Ready for your next invention,
+                <span id="first-name">Explorer</span>?
+            </p>
+        </header>
+
+        <!-- FEATURE CARDS -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <!-- ABOUT -->
+            <a href="about.html"
+                class="bg-white p-8 rounded-[2rem] border border-indigo-100 shadow-sm hover:shadow-xl transition block">
+
+                <div class="text-4xl mb-4">📘</div>
+                <h3 class="font-black text-xl mb-2">About Kidventor</h3>
+                <p class="text-slate-500 font-medium">
+                    Learn the mission, vision and purpose of Kidventor Academy.
+                </p>
+            </a>
+
+            <!-- MORALS -->
+            <a href="morals.html"
+                class="bg-white p-8 rounded-[2rem] border border-indigo-100 shadow-sm hover:shadow-xl transition block">
+
+                <div class="text-4xl mb-4">🌱</div>
+                <h3 class="font-black text-xl mb-2">Morals & Safety</h3>
+                <p class="text-slate-500 font-medium">
+                    Learn discipline, internet safety and good digital behaviour.
+                </p>
+            </a>
+
+            <!-- FAQ -->
+            <a href="faqs.html"
+                class="bg-white p-8 rounded-[2rem] border border-indigo-100 shadow-sm hover:shadow-xl transition block">
+
+                <div class="text-4xl mb-4">❓</div>
+                <h3 class="font-black text-xl mb-2">FAQs</h3>
+                <p class="text-slate-500 font-medium">
+                    Common student questions and answers for quick help.
+                </p>
+            </a>
+
+            <!-- ADVENTURE -->
+            <a href="adventure.html"
+                class="bg-white p-8 rounded-[2rem] border border-indigo-100 shadow-sm hover:shadow-xl transition block">
+
+                <div class="text-4xl mb-4">🗺️</div>
+                <h3 class="font-black text-xl mb-2">Adventure Map</h3>
+                <p class="text-slate-500 font-medium">
+                    Explore your learning journey through exciting missions.
+                </p>
+            </a>
+
+            <!-- KEYBOARD -->
+            <a href="keyboard.html"
+                class="bg-white p-8 rounded-[2rem] border border-indigo-100 shadow-sm hover:shadow-xl transition block">
+
+                <div class="text-4xl mb-4">⌨️</div>
+                <h3 class="font-black text-xl mb-2">Keyboard Ninja</h3>
+                <p class="text-slate-500 font-medium">
+                    Improve speed, typing confidence and computer mastery.
+                </p>
+            </a>
+
+            <!-- QUIZ -->
+            <a href="quiz.html"
+                class="bg-white p-8 rounded-[2rem] border border-indigo-100 shadow-sm hover:shadow-xl transition block">
+
+                <div class="text-4xl mb-4">🎯</div>
+                <h3 class="font-black text-xl mb-2">Interactive Quiz</h3>
+                <p class="text-slate-500 font-medium">
+                    Test your knowledge and earn points as a smart inventor.
+                </p>
+            </a>
+
+        </div>
+
+    </main>
+
+
+
+<script>
+
+window.onload = () => {
+    const savedSession =
+        JSON.parse(localStorage.getItem("studentSession")) || {};
+
+    const name = savedSession.name || "Explorer";
+    const firstName = name.split(" ")[0];
+
+    document.getElementById("display-name").textContent = firstName;
+    document.getElementById("first-name").textContent = firstName;
+
+    const savedAvatar = localStorage.getItem("user_avatar");
+    if (savedAvatar) {
+        document.getElementById("user-profile").src = savedAvatar;
+    }
+};
+
+function toggleNav() {
+    const folder = document.getElementById("nav-folder");
+    const icon = document.getElementById("nav-plus-icon");
+
+    folder.classList.toggle("expanded");
+
+    if (folder.classList.contains("expanded")) {
+        icon.textContent = "−";
+    } else {
+        icon.textContent = "+";
+    }
+}
+
+function handleLogout() {
+    const overlay = document.getElementById("logout-overlay");
+
+    overlay.style.display = "flex";
+
+    localStorage.removeItem("kidventor_auth");
+
+    setTimeout(() => {
+        window.location.href = "index.html";
+    }, 2500);
+}
+
+</script>
+
+</body>
+</html>
