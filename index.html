@@ -1,615 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Kidventor Academy | Coding Classes for Kids</title>
-
-<meta name="description" content="Coding classes for kids, digital literacy, moral education and leadership development by Kidventor Academy.">
-
-<link rel="icon" type="image/png" href="image/favicon.png">
-
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
-
-<style>
-body{
-    font-family:'Inter',sans-serif;
-    font-weight:700;
-    letter-spacing:-0.02em;
-    background:#f8fafc;
-}
-
-h1,h2,h3,.font-black{
-    font-weight:900;
-    letter-spacing:-0.05em;
-    line-height:1.1;
-}
-
-html{
-    scroll-behavior:smooth;
-}
-
-.glass-header{
-    background:rgba(255,255,255,.85);
-    backdrop-filter:blur(12px);
-    -webkit-backdrop-filter:blur(12px);
-}
-
-.shine{
-    background:linear-gradient(90deg,#4f46e5,#818cf8,#4f46e5);
-    background-size:200% auto;
-    animation:shine 3s linear infinite;
-}
-
-@keyframes shine{
-    to{
-        background-position:200% center;
-    }
-}
-
-.card-hover{
-    transition:.35s;
-}
-
-.card-hover:hover{
-    transform:translateY(-10px) scale(1.02);
-}
-
-/* AUTH SYSTEM */
-
-#sticky-auth-wrapper {
-    position: fixed;
-    top: 95px;
-    right: 20px;
-    z-index: 45;
-    max-height: calc(100vh - 120px);
-}
-
-#auth-form-card {
-    width: 390px;
-    max-width: 95vw;
-    max-height: calc(100vh - 140px);
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: #6366f1 #f1f5f9;
-}
-
-#auth-form-card::-webkit-scrollbar {
-    width: 8px;
-}
-
-#auth-form-card::-webkit-scrollbar-thumb {
-    background: #6366f1;
-    border-radius: 999px;
-}
-
-#auth-form-card::-webkit-scrollbar-track {
-    background: #f1f5f9;
-}
-
-/* Real Male + Female Avatar */
-
-.avatar-btn {
-    transition: 0.3s;
-}
-
-.avatar-btn:hover {
-    transform: scale(1.08);
-}
-
-.avatar-btn.active {
-    border-color: #4f46e5;
-    background: #eef2ff;
-}
-
-/* Mobile */
-
-@media(max-width:1024px) {
-    #sticky-auth-wrapper {
-        position: relative;
-        top: 0;
-        right: 0;
-        max-height: unset;
-        width: 100%;
-        padding: 20px;
-    }
-
-    #auth-form-card {
-        width: 100%;
-        max-height: unset;
-        overflow: visible;
-    }
-}
-</style>
-</head>
-
-<body class="text-slate-900 overflow-x-hidden">
-
-<!-- HEADER -->
-
-<header class="fixed top-0 inset-x-0 z-50 glass-header border-b border-indigo-50 px-4 md:px-6">
-    <div class="max-w-7xl mx-auto h-20 flex items-center justify-between">
-
-        <a href="index.html" class="flex items-center gap-3">
-            <img
-                src="https://raw.githubusercontent.com/SmartKids-app/kidventor/main/image/Logo_kiventor.png"
-                class="w-12 h-12 object-contain rounded-xl shadow-lg"
-                alt="Kidventor"
-            >
-            <span class="font-black text-2xl">Kidventor</span>
-        </a>
-
-        <nav class="hidden lg:flex items-center gap-2 text-sm font-bold">
-            <a href="#" class="px-3 py-2 hover:bg-indigo-50 rounded-lg">Home</a>
-            <a href="#" class="px-3 py-2 hover:bg-indigo-50 rounded-lg">Lessons</a>
-            <a href="#" class="px-3 py-2 hover:bg-indigo-50 rounded-lg">Worksheets</a>
-            <a href="#" class="px-3 py-2 hover:bg-indigo-50 rounded-lg">Morals</a>
-            <a href="#" class="px-3 py-2 hover:bg-indigo-50 rounded-lg">Adventure</a>
-
-            <a href="#" class="ml-4 px-6 py-3 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700 transition">
-                Get Started
-            </a>
-        </nav>
-
-        <button class="lg:hidden text-indigo-600 text-3xl">
-            ☰
-        </button>
-
-    </div>
-</header>
-
-<div id="sticky-auth-wrapper">
-
-    <!-- Signup Trigger -->
-
-    <button
-        id="signup-trigger"
-        onclick="toggleAuth()"
-        class="flex items-center gap-3 px-6 py-3 bg-white border-2 border-indigo-100 rounded-2xl shadow-xl hover:shadow-indigo-200 transition-all"
-    >
-
-        <div class="text-right">
-            <span class="block text-[10px] font-black uppercase tracking-widest text-slate-400">
-                Join Us
-            </span>
-
-            <span class="block text-sm font-black text-indigo-600">
-                Sign Up
-            </span>
-        </div>
-
-        <!-- Default Male Avatar -->
-        <img
-            id="sticky-avatar-preview"
-            src="https://randomuser.me/api/portraits/men/32.jpg"
-            class="w-11 h-11 rounded-full object-cover border-2 border-white shadow"
-            alt="Profile Avatar"
-        >
-    </button>
-
-
-    <!-- Signup Form -->
-
-    <div
-        id="auth-form-card"
-        class="hidden bg-white rounded-3xl shadow-2xl border border-indigo-100 mt-4 overflow-hidden opacity-0 -translate-y-10 transition-all duration-500"
-    >
-
-        <div class="p-8 relative">
-
-            <button
-                onclick="toggleAuth()"
-                class="absolute top-4 right-4 text-2xl text-slate-300 hover:text-indigo-600 transition"
-            >
-                ×
-            </button>
-
-
-            <!-- Main Avatar -->
-
-            <div class="text-center">
-
-                <div class="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-lg mx-auto">
-                    <img
-                        id="form-avatar-main"
-                        src="https://randomuser.me/api/portraits/men/32.jpg"
-                        class="w-full h-full object-cover"
-                        alt="Main Avatar"
-                    >
-                </div>
-
-                <h3 class="text-2xl font-black mt-4">
-                    Student Registration
-                </h3>
-
-                <p class="text-slate-500 text-sm mt-2">
-                    Choose your avatar and begin your journey
-                </p>
-
-            </div>
-
-
-            <!-- Male + Female Avatar -->
-
-            <div class="flex justify-center gap-5 mt-6 mb-8">
-
-                <!-- Male -->
-                <button
-                    id="male-avatar-btn"
-                    onclick="updateAvatar('male')"
-                    type="button"
-                    class="avatar-btn active p-2 rounded-full border-2 border-transparent"
-                >
-                    <img
-                        src="https://randomuser.me/api/portraits/men/32.jpg"
-                        class="w-14 h-14 rounded-full object-cover"
-                        alt="Male Avatar"
-                    >
-                </button>
-
-                <!-- Female -->
-                <button
-                    id="female-avatar-btn"
-                    onclick="updateAvatar('female')"
-                    type="button"
-                    class="avatar-btn p-2 rounded-full border-2 border-transparent"
-                >
-                    <img
-                        src="https://randomuser.me/api/portraits/women/44.jpg"
-                        class="w-14 h-14 rounded-full object-cover"
-                        alt="Female Avatar"
-                    >
-                </button>
-
-            </div>
-
-
-            <!-- Form -->
-
-            <form class="space-y-4">
-
-                <input
-                    type="text"
-                    placeholder="Fullname"
-                    class="w-full p-4 rounded-2xl bg-slate-50 border-2 border-transparent focus:border-indigo-600 outline-none"
-                >
-
-                <input
-                    type="email"
-                    placeholder="School Email"
-                    class="w-full p-4 rounded-2xl bg-slate-50 border-2 border-transparent focus:border-indigo-600 outline-none"
-                >
-
-                <select
-                    class="w-full p-4 rounded-2xl bg-slate-50 border-2 border-transparent focus:border-indigo-600 outline-none"
-                >
-                    <option>Select Class</option>
-                    <option>Year 3</option>
-                    <option>Year 4</option>
-                    <option>Year 5</option>
-                    <option>Year 6</option>
-                    <option>Year 7</option>
-                    <option>Year 8</option>
-                    <option>Year 9</option>
-                    <option>Year 10</option>
-                    <option>Year 11</option>
-                    <option>Year 12</option>
-                </select>
-
-                <input
-                    type="password"
-                    placeholder="Create Password"
-                    class="w-full p-4 rounded-2xl bg-slate-50 border-2 border-transparent focus:border-indigo-600 outline-none"
-                >
-
-                <input
-                    type="password"
-                    placeholder="Confirm Password"
-                    class="w-full p-4 rounded-2xl bg-slate-50 border-2 border-transparent focus:border-indigo-600 outline-none"
-                >
-
-                <button
-                    type="submit"
-                    class="w-full py-4 rounded-2xl bg-indigo-600 text-white font-black hover:bg-indigo-700 transition"
-                >
-                    Start My Adventure 🚀
-                </button>
-
-            </form>
-
-        </div>
-    </div>
-</div>
-
-<!-- HERO -->
-
-<section class="pt-36 pb-24 px-4 bg-gradient-to-b from-indigo-50 to-slate-50">
-    <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
-
-        <div data-aos="fade-right">
-
-            <span class="inline-block px-4 py-2 rounded-full bg-indigo-100 text-indigo-700 text-xs font-black uppercase tracking-widest mb-6">
-                🚀 Future Ready Kids
-            </span>
-
-            <h1 class="text-4xl md:text-6xl font-black">
-                Kids shouldn't just use tech...
-                <span class="text-indigo-600">
-                    they should create it.
-                </span>
-            </h1>
-
-            <p class="mt-6 text-lg text-slate-600 max-w-xl">
-                Kidventor Academy blends coding, digital literacy and moral character to raise confident future leaders.
-            </p>
-
-            <div class="mt-10 flex flex-col sm:flex-row gap-4">
-
-                <a href="#" class="shine text-white px-10 py-5 rounded-2xl font-black text-center">
-                    🚀 Start Learning
-                </a>
-
-                <a href="#" class="px-10 py-5 rounded-2xl bg-white border-2 border-slate-200 font-black text-center">
-                    Our Story
-                </a>
-
-            </div>
-
-        </div>
-
-        <div data-aos="zoom-in" class="relative">
-
-            <div class="absolute -inset-4 bg-indigo-200 rounded-[3rem] rotate-3 opacity-30"></div>
-
-            <img
-                src="https://raw.githubusercontent.com/SmartKids-app/smartkids-learning/main/image/side-view-two-siblings-home-together-playing-laptop.jpg"
-                class="relative rounded-[2.5rem] shadow-2xl border-8 border-white w-full h-[450px] object-cover"
-                alt="Kids Learning"
-            >
-
-        </div>
-
-    </div>
-</section>
-
-<!-- WHY SECTION -->
-
-<section class="py-24 px-4 bg-white">
-    <div class="max-w-7xl mx-auto text-center">
-
-        <h2 class="text-4xl md:text-5xl font-black mb-4">
-            Why Parents Love Us ❤️
-        </h2>
-
-        <p class="text-slate-500 text-lg">
-            Character meets Computer Science
-        </p>
-
-    </div>
-</section>
-    <script>
-        // Initialize AOS
-        AOS.init({ duration: 800, once: true });
-
-        // Navigation Toggle
-        const menuBtn = document.getElementById('menu-toggle');
-        const closeBtn = document.getElementById('menu-close');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.remove('hidden');
-            setTimeout(() => mobileMenu.classList.remove('translate-x-full'), 10);
-        });
-
-        const hideMenu = () => {
-            mobileMenu.classList.add('translate-x-full');
-            setTimeout(() => mobileMenu.classList.add('hidden'), 400);
-        };
-
-        closeBtn.addEventListener('click', hideMenu);
-        mobileMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', hideMenu));
-    </script>
-    <script>
-    const testimonials = [
-        {
-            text: "My son used to spend all his time playing games. Now, he's curious about how they are made! Kidventor changed his perspective.",
-            author: "Mrs. Adewale",
-            role: "Parent",
-            initial: "A"
-        },
-        {
-            text: "Integrating Kidventor's curriculum into our school was the best decision. The students are now more digitally literal than ever before.",
-            author: "Dr. Olatunji",
-            role: "School Owner (Bright Path Intl)",
-            initial: "O"
-        },
-        {
-            text: "I was worried about internet safety, but the moral lessons taught alongside coding gave me total peace of mind as a mother.",
-            author: "Sarah J.",
-            role: "Parent",
-            initial: "S"
-        },
-        {
-            text: "The CBT preparation modules are exceptional. Our students showed a 40% improvement in computer-based testing confidence.",
-            author: "Engr. Benson",
-            role: "School Proprietor",
-            initial: "B"
-        },
-        {
-            text: "Kidventor Academy doesn't just teach syntax; they teach problem-solving. My daughter has become so much more organized in her schoolwork.",
-            author: "Mr. Chukwuma",
-            role: "Parent",
-            initial: "C"
-        }
-    ];
-
-    let currentIndex = 0;
-    const container = document.getElementById('testimonial-container');
-    const textElem = document.getElementById('testimonial-text');
-    const authorElem = document.getElementById('testimonial-author');
-    const roleElem = document.getElementById('testimonial-role');
-    const avatarElem = document.getElementById('testimonial-avatar');
-    const dots = document.querySelectorAll('.dot');
-
-    function updateTestimonial() {
-        // Fade Out & Slide Down
-        container.style.opacity = '0';
-        container.style.transform = 'translateY(20px)';
-
-        setTimeout(() => {
-            currentIndex = (currentIndex + 1) % testimonials.length;
-            const t = testimonials[currentIndex];
-
-            // Update Content
-            textElem.textContent = `"${t.text}"`;
-            authorElem.textContent = t.author;
-            roleElem.textContent = t.role;
-            avatarElem.textContent = t.initial;
-
-            // Update Dots
-            dots.forEach((dot, index) => {
-                if(index === currentIndex) {
-                    dot.classList.add('bg-indigo-600', 'w-8');
-                    dot.classList.remove('bg-slate-200', 'w-2');
-                } else {
-                    dot.classList.remove('bg-indigo-600', 'w-8');
-                    dot.classList.add('bg-slate-200', 'w-2');
-                }
-            });
-
-            // Fade In & Slide Up
-            container.style.opacity = '1';
-            container.style.transform = 'translateY(0)';
-        }, 700);
-    }
-
-    // Flip every 5 seconds
-    setInterval(updateTestimonial, 5000);
-</script>
-    <script>
-    document.querySelectorAll('.faq-toggle').forEach(button => {
-        button.addEventListener('click', () => {
-            const content = button.nextElementSibling;
-            const icon = button.querySelector('.icon');
-            
-            // Toggle visibility
-            content.classList.toggle('hidden');
-            
-            // Rotate icon and change color
-            if (content.classList.contains('hidden')) {
-                icon.style.transform = 'rotate(0deg)';
-                icon.textContent = '+';
-                button.parentElement.classList.remove('border-indigo-500', 'shadow-lg', 'shadow-indigo-50');
-            } else {
-                icon.style.transform = 'rotate(45deg)';
-                icon.textContent = '+'; // The rotate handles the "X" look
-                button.parentElement.classList.add('border-indigo-500', 'shadow-lg', 'shadow-indigo-50');
-            }
-        });
-    });
-</script>
-<script>
-const authCard = document.getElementById("auth-form-card");
-const signupBtn = document.getElementById("signup-trigger");
-
-function toggleAuth() {
-    if (authCard.classList.contains("hidden")) {
-        authCard.classList.remove("hidden");
-        signupBtn.style.display = "none";
-
-        setTimeout(() => {
-            authCard.classList.remove("opacity-0", "-translate-y-10");
-        }, 10);
-
-    } else {
-        authCard.classList.add("opacity-0", "-translate-y-10");
-
-        setTimeout(() => {
-            authCard.classList.add("hidden");
-            signupBtn.style.display = "flex";
-        }, 500);
-    }
-}
-
-function updateAvatar(type) {
-    const maleAvatar = "https://randomuser.me/api/portraits/men/32.jpg";
-    const femaleAvatar = "https://randomuser.me/api/portraits/women/44.jpg";
-
-    const selectedAvatar = type === "male" ? maleAvatar : femaleAvatar;
-
-    document.getElementById("form-avatar-main").src = selectedAvatar;
-    document.getElementById("sticky-avatar-preview").src = selectedAvatar;
-
-    document.getElementById("male-avatar-btn").classList.remove("active");
-    document.getElementById("female-avatar-btn").classList.remove("active");
-
-    if (type === "male") {
-        document.getElementById("male-avatar-btn").classList.add("active");
-    } else {
-        document.getElementById("female-avatar-btn").classList.add("active");
-    }
-}
-</script>
-
-
-</body>
-</html>
-
-
-
-
-
-
-
-
-<!--<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title>Coding Classes for Kids | Digital Literacy & Moral Education | Kidventor Academy</title>
-    <meta name="description" content="Kidventor Academy offers coding classes for kids, digital literacy training, CBT preparation, computer education, moral lessons, and leadership development for children and teenagers." />
-    <meta name="keywords" content="coding classes for kids, digital literacy for children, CBT preparation, computer classes for students, coding academy, kids programming, moral education for children" />
-    <meta name="author" content="Kidventor Academy" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kidventor Academy | Coding Classes for Kids</title>
+    <meta name="description" content="Coding classes for kids, digital literacy, moral education and leadership development by Kidventor Academy.">
+    <link rel="icon" type="image/png" href="image/favicon.png">
 
     <script src="https://cdn.tailwindcss.com"></script>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1364156929469545"
-     crossorigin="anonymous"></script>
-<link rel="icon" type="image/png" href="image/favicon.png">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+
     <style>
+        body { font-family: 'Inter', sans-serif; font-weight: 700; letter-spacing: -0.02em; background: #f8fafc; }
+        h1, h2, h3, .font-black { font-weight: 900; letter-spacing: -0.05em; line-height: 1.1; }
         html { scroll-behavior: smooth; }
-
-        @keyframes logo-turn {
-            from { transform: rotateY(0deg); }
-            to { transform: rotateY(360deg); }
-        }
-
-        .logo-container:hover .logo-icon {
-            animation: logo-turn 0.8s ease-in-out;
-        }
-
-        .nav-link {
-            position: relative;
-            padding: 0.75rem 1.25rem;
-            border-radius: 0.75rem;
-            transition: all 0.3s ease;
-            border: 1px solid transparent;
-        }
-
-        .nav-link:hover {
-            color: #4f46e5;
-            background: white;
-            border: 1px solid #818cf8;
-            box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
+        
+        .glass-header { 
+            background: rgba(255, 255, 255, 0.85); 
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px); 
         }
 
         .shine {
@@ -617,191 +28,164 @@ function updateAvatar(type) {
             background-size: 200% auto;
             animation: shine 3s linear infinite;
         }
+        @keyframes shine { to { background-position: 200% center; } }
 
-        @keyframes shine {
-            to { background-position: 200% center; }
+        /* AUTH SYSTEM STYLING */
+        #sticky-auth-wrapper {
+            position: fixed;
+            top: 95px; /* Below 80px navbar */
+            right: 20px;
+            z-index: 100;
         }
 
-        .card:hover {
-            transform: translateY(-8px);
+        #auth-form-card {
+            width: 380px;
+            max-width: 95vw;
+            max-height: 80vh;
+            overflow-y: auto;
+            transform-origin: top;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        #mobile-menu {
-            transition: transform 0.3s ease-in-out;
-            transform: translateX(100%);
+        .avatar-btn.active {
+            border-color: #4f46e5;
+            background: #eef2ff;
         }
-        #mobile-menu.active {
-            transform: translateX(0);
+
+        @media (max-width: 1024px) {
+            #sticky-auth-wrapper {
+                position: fixed;
+                top: auto;
+                bottom: 20px;
+                right: 20px;
+            }
+            #auth-form-card { width: 340px; }
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900 overflow-x-hidden">
-<header class="fixed top-0 inset-x-0 z-50 bg-white/90 backdrop-blur border-b border-slate-100 px-4 md:px-6">
+<body class="text-slate-900 overflow-x-hidden">
+
+<header class="fixed top-0 inset-x-0 z-[60] glass-header border-b border-indigo-50 px-4 md:px-6">
     <div class="max-w-7xl mx-auto h-20 flex items-center justify-between">
-        <!-- SEO Tip: Ensure your logo alt text or title is descriptive --
-        <a href="index.html" class="logo-container flex items-center gap-3 group" title="Kidventor Home">
-            <div class="logo-icon w-10 h-10 rounded-xl bg-indigo-600 text-white font-black flex items-center justify-center shadow-lg">K</div>
-            <span class="font-black text-xl tracking-tight group-hover:text-indigo-600 transition-colors">Kidventor</span>
+        <a href="index.html" class="flex items-center gap-3">
+            <img src="https://raw.githubusercontent.com/SmartKids-app/kidventor/main/image/Logo_kiventor.png" class="w-12 h-12 object-contain rounded-xl shadow-lg" alt="Kidventor">
+            <span class="font-black text-2xl">Kidventor</span>
         </a>
 
-        <!-- Desktop Navigation --
-        <nav class="hidden lg:flex items-center gap-2 text-sm font-bold">
-            <a href="lessons.html" class="nav-link px-3 py-2 hover:text-indigo-600">Lessons</a>
-            <a href="adventure.html" class="nav-link px-3 py-2 hover:text-indigo-600">Adventure</a>
-            <a href="morals.html" class="nav-link px-3 py-2 hover:text-indigo-600">Morals</a>
-            <a href="faq.html" class="nav-link px-3 py-2 hover:text-indigo-600">FAQ</a>
-            <a href="worksheet.html" class="nav-link px-3 py-2 hover:text-indigo-600">Worksheets</a>
-            <a href="contact.html" class="ml-4 px-6 py-3 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700 transition shadow-lg shadow-indigo-100">Contact</a>
+        <nav class="hidden lg:flex items-center gap-6 text-sm font-bold">
+            <a href="#" class="hover:text-indigo-600 transition">Home</a>
+            <a href="#" class="hover:text-indigo-600 transition">Lessons</a>
+            <a href="#" class="hover:text-indigo-600 transition">Worksheets</a>
+            <a href="#" class="hover:text-indigo-600 transition">Morals</a>
+            <a href="#" class="hover:text-indigo-600 transition">Adventure</a>
         </nav>
 
-        <!-- Mobile Toggle with Aria-Label for Accessibility/SEO --
-        <button id="menu-toggle" class="lg:hidden p-2 text-slate-600" aria-label="Open primary menu">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-            </svg>
-        </button>
+        <button id="menu-toggle" class="lg:hidden text-indigo-600 text-3xl">☰</button>
     </div>
 </header>
 
-<!-- Mobile Menu Overlay --
-<div id="mobile-menu" class="fixed inset-0 bg-white z-[60] lg:hidden hidden flex-col p-8 transition-transform">
-    <div class="flex justify-between items-center mb-12">
-        <span class="font-black text-xl text-indigo-600">Navigation</span>
-        <button id="menu-close" class="text-4xl text-slate-400" aria-label="Close menu">&times;</button>
+<div id="sticky-auth-wrapper">
+    <button id="signup-trigger" onclick="toggleAuth()" class="flex items-center gap-3 px-5 py-3 bg-white border-2 border-indigo-100 rounded-2xl shadow-2xl hover:shadow-indigo-200 transition-all">
+        <div class="text-right">
+            <span class="block text-[9px] font-black uppercase tracking-tighter text-slate-400">Ready?</span>
+            <span class="block text-sm font-black text-indigo-600">Sign Up</span>
+        </div>
+        <img id="sticky-avatar-preview" src="https://randomuser.me/api/portraits/men/32.jpg" class="w-10 h-10 rounded-full border-2 border-white shadow-sm" alt="Avatar">
+    </button>
+
+    <div id="auth-form-card" class="hidden opacity-0 -translate-y-10 bg-white rounded-3xl shadow-2xl border border-indigo-50 mt-4 overflow-hidden">
+        <div class="p-8 relative">
+            <button onclick="toggleAuth()" class="absolute top-4 right-4 text-2xl text-slate-300 hover:text-indigo-600 transition">×</button>
+
+            <div class="text-center mb-6">
+                <div class="w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-lg mx-auto mb-4">
+                    <img id="form-avatar-main" src="https://randomuser.me/api/portraits/men/32.jpg" class="w-full h-full object-cover">
+                </div>
+                
+                <div class="flex justify-center gap-3 mb-6">
+                    <button id="male-btn" onclick="updateAvatar('male')" class="avatar-btn active p-1 rounded-full border-2 border-transparent transition">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-10 h-10 rounded-full">
+                    </button>
+                    <button id="female-btn" onclick="updateAvatar('female')" class="avatar-btn p-1 rounded-full border-2 border-transparent transition">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" class="w-10 h-10 rounded-full">
+                    </button>
+                </div>
+                <h3 class="text-xl font-black">Join Academy</h3>
+            </div>
+
+            <form class="flex flex-col gap-3">
+                <input type="text" placeholder="Full Name" class="w-full p-4 rounded-xl bg-slate-50 border-2 border-transparent focus:border-indigo-600 outline-none text-sm">
+                <input type="email" placeholder="School Email" class="w-full p-4 rounded-xl bg-slate-50 border-2 border-transparent focus:border-indigo-600 outline-none text-sm">
+                
+                <select class="w-full p-4 rounded-xl bg-slate-50 border-2 border-transparent focus:border-indigo-600 outline-none text-sm">
+                    <option disabled selected>Select Year</option>
+                    <script>
+                        for(let i=3; i<=12; i++) document.write(`<option>Year ${i}</option>`);
+                    </script>
+                </select>
+
+                <input type="password" placeholder="Create Password" class="w-full p-4 rounded-xl bg-slate-50 border-2 border-transparent focus:border-indigo-600 outline-none text-sm">
+                <input type="password" placeholder="Confirm Password" class="w-full p-4 rounded-xl bg-slate-50 border-2 border-transparent focus:border-indigo-600 outline-none text-sm">
+
+                <button type="submit" class="w-full py-4 mt-2 rounded-xl bg-indigo-600 text-white font-black hover:bg-indigo-700 transition shadow-lg shadow-indigo-100">
+                    Create Account 🚀
+                </button>
+            </form>
+        </div>
     </div>
-    <!-- Note: Links now match Desktop for consistency --
-    <nav class="flex flex-col gap-6 text-2xl font-black text-slate-800">
-        <a href="lessons.html" class="mobile-nav-link">Lessons</a>
-        <a href="adventure.html" class="mobile-nav-link">Adventure</a>
-        <a href="morals.html" class="mobile-nav-link">Morals</a>
-        <a href="faq.html" class="mobile-nav-link">FAQ</a>
-        <a href="worksheet.html" class="mobile-nav-link">Worksheets</a>
-        <a href="contact.html" class="mt-4 text-center py-4 rounded-2xl bg-indigo-600 text-white text-lg">Contact Us</a>
-    </nav>
 </div>
-    <section class="pt-32 pb-16 md:pt-44 md:pb-24 px-4 md:px-6">
-        <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-            <div class="text-center lg:text-left">
-                <p class="inline-block px-4 py-2 rounded-full bg-indigo-100 text-indigo-700 text-xs font-black uppercase tracking-widest">
-                    Launch Bright Futures
-                </p>
 
-                <h1 class="mt-6 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black leading-tight tracking-tight">
-                    Kids should not only use tech... <span class="text-indigo-600 block sm:inline">they should create it.</span>
-                </h1>
-
-                <p class="mt-6 text-base md:text-lg text-slate-600 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-                    Kidventor Academy teaches coding, digital literacy, creativity, CBT preparation, and moral values for tomorrow's leaders.
-                </p>
-
-                <div class="mt-10 flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
-                    <a href="#courses" class="shine text-white px-8 py-4 rounded-2xl font-black shadow-xl text-center">Start Learning</a>
-                    <a href="about.html" class="px-8 py-4 rounded-2xl bg-white border border-slate-200 font-black hover:bg-slate-100 text-center transition">Our Mission</a>
-                </div>
-            </div>
-
-            <div class="hidden lg:block relative">
-                <div class="absolute -inset-4 bg-indigo-100 rounded-[2.5rem] -rotate-2"></div>
-                <img
-                    src="https://raw.githubusercontent.com/SmartKids-app/smartkids-learning/main/image/side-view-two-siblings-home-together-playing-laptop.jpg"
-                    alt="Students learning coding and digital skills"
-                    class="relative rounded-[2rem] shadow-2xl border-8 border-white object-cover w-full h-[450px]"
-                />
+<section class="pt-40 pb-24 px-4 bg-gradient-to-b from-indigo-50 to-white">
+    <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+        <div data-aos="fade-right">
+            <span class="inline-block px-4 py-2 rounded-full bg-indigo-100 text-indigo-700 text-xs font-black uppercase tracking-widest mb-6">🚀 Future Ready Kids</span>
+            <h1 class="text-5xl md:text-6xl font-black mb-6">Kids shouldn't just use tech... <span class="text-indigo-600">they should create it.</span></h1>
+            <p class="text-lg text-slate-600 mb-10 max-w-lg">Kidventor Academy blends coding, digital literacy and moral character to raise confident future leaders.</p>
+            <div class="flex flex-wrap gap-4">
+                <a href="#" class="shine text-white px-10 py-5 rounded-2xl font-black shadow-xl">🚀 Start Learning</a>
+                <a href="#" class="px-10 py-5 rounded-2xl bg-white border-2 border-slate-100 font-black hover:bg-slate-50 transition">Our Story</a>
             </div>
         </div>
-    </section>
-
-    <section id="why" class="py-16 md:py-24 px-4 md:px-6 bg-white">
-        <div class="max-w-7xl mx-auto">
-            <div class="max-w-2xl mb-12 md:mb-16 text-center md:text-left">
-                <h2 class="text-3xl md:text-4xl font-black">Why Kidventor Academy?</h2>
-                <p class="mt-4 text-slate-500 text-lg">
-                    We combine computer skills, confidence, and character development.
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
-                <div class="card transition duration-500 bg-slate-50 p-6 md:p-8 rounded-3xl border group">
-                    <div class="text-4xl mb-6 group-hover:scale-110 transition-transform inline-block">💻</div>
-                    <h3 class="text-2xl font-black mb-3">Coding Basics</h3>
-                    <p class="text-slate-500">Learn HTML, logic, and problem-solving through beginner-friendly lessons.</p>
-                </div>
-
-                <div class="card transition duration-500 bg-slate-50 p-6 md:p-8 rounded-3xl border group">
-                    <div class="text-4xl mb-6 group-hover:scale-110 transition-transform inline-block">🧠</div>
-                    <h3 class="text-2xl font-black mb-3">Digital Literacy</h3>
-                    <p class="text-slate-500">Typing, CBT preparation, and internet safety habits for modern learners.</p>
-                </div>
-
-                <div class="card transition duration-500 bg-slate-50 p-6 md:p-8 rounded-3xl border group sm:col-span-2 md:col-span-1">
-                    <div class="text-4xl mb-6 group-hover:scale-110 transition-transform inline-block">⚖️</div>
-                    <h3 class="text-2xl font-black mb-3">Morals & Values</h3>
-                    <p class="text-slate-500">We teach responsibility and leadership alongside technical skills.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="bg-slate-950 text-slate-400 py-12 md:py-20 px-4 md:px-6">
-    <div class="max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-12 border-b border-slate-800 pb-12">
-        
-        <div class="text-center md:text-left">
-            <h3 class="text-white text-2xl font-black mb-4 tracking-tighter uppercase">Kidventor Academy</h3>
-            <p class="max-w-md mx-auto md:mx-0 leading-relaxed text-sm">
-                Empowering children with coding, digital literacy, leadership, and strong moral values for the future.
-            </p>
-        </div>
-
-        <div class="lg:col-span-2">
-            <div class="grid grid-cols-2 sm:grid-cols-3 gap-y-4 gap-x-8 text-center md:text-left">
-                <div class="flex flex-col gap-3">
-                    <h4 class="text-white text-xs font-black uppercase tracking-[0.2em] mb-2 opacity-50">Explore</h4>
-                    <a href="about.html" class="text-sm font-bold hover:text-indigo-400 transition">About Us</a>
-                    <a href="lessons.html" class="text-sm font-bold hover:text-indigo-400 transition">Lessons</a>
-                    <a href="morals.html" class="text-sm font-bold hover:text-indigo-400 transition">Morals</a>
-                    <a href="blog.html" class="text-sm font-bold hover:text-indigo-400 transition">Blog </a>
-                </div>
-                <div class="flex flex-col gap-3">
-                    <h4 class="text-white text-xs font-black uppercase tracking-[0.2em] mb-2 opacity-50">Support</h4>
-                    <a href="contact.html" class="text-sm font-bold hover:text-indigo-400 transition">Contact</a>
-                    <a href="faq.html" class="text-sm font-bold hover:text-indigo-400 transition">FAQ Help</a>
-                    <a href="worksheet.html" class="text-sm font-bold hover:text-indigo-400 transition">Resources</a>
-                    <a href="quiz.html" class="text-sm font-bold hover:text-indigo-400 transition">Our Quiz</a>
-                </div>
-                <div class="flex flex-col gap-3 col-span-2 sm:col-span-1">
-                    <h4 class="text-white text-xs font-black uppercase tracking-[0.2em] mb-2 opacity-50">Legal</h4>
-                    <a href="privacy.html" class="text-sm font-bold hover:text-indigo-400 transition">Privacy Policy</a>
-                    <a href="disclaimer.html" class="text-sm font-bold hover:text-indigo-400 transition">Disclaimer</a>
-                    <a href="terms.html" class="text-sm font-bold hover:text-indigo-400 transition">Terms of Use</a>
-                   <a href="adventure.html" class="text-sm font-bold hover:text-indigo-400 transition">Adventure</a>
-                </div>
-            </div>
+        <div data-aos="zoom-in" class="relative">
+            <div class="absolute -inset-4 bg-indigo-100 rounded-[3rem] rotate-3 opacity-50"></div>
+            <img src="https://raw.githubusercontent.com/SmartKids-app/smartkids-learning/main/image/side-view-two-siblings-home-together-playing-laptop.jpg" class="relative rounded-[2.5rem] shadow-2xl border-8 border-white w-full h-[500px] object-cover">
         </div>
     </div>
+</section>
 
-    <div class="max-w-7xl mx-auto mt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-[0.2em] font-bold">
-        <p class="text-center md:text-left">© 2026 Kidventor Academy • All Rights Reserved</p>
-        <p class="text-slate-600">Built for the next generation of creators</p>
-    </div>
-</footer>
+<script>
+    AOS.init({ duration: 1000, once: true });
 
-    <script>
-        const menuToggle = document.getElementById('menu-toggle');
-        const menuClose = document.getElementById('menu-close');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+    const authCard = document.getElementById('auth-form-card');
+    const signupBtn = document.getElementById('signup-trigger');
 
-        function toggle() {
-            mobileMenu.classList.toggle('active');
+    function toggleAuth() {
+        if (authCard.classList.contains('hidden')) {
+            authCard.classList.remove('hidden');
+            signupBtn.classList.add('opacity-0', 'pointer-events-none');
+            setTimeout(() => {
+                authCard.classList.remove('opacity-0', '-translate-y-10');
+            }, 50);
+        } else {
+            authCard.classList.add('opacity-0', '-translate-y-10');
+            setTimeout(() => {
+                authCard.classList.add('hidden');
+                signupBtn.classList.remove('opacity-0', 'pointer-events-none');
+            }, 500);
         }
+    }
 
-        menuToggle.addEventListener('click', toggle);
-        menuClose.addEventListener('click', toggle);
+    function updateAvatar(gender) {
+        const male = "https://randomuser.me/api/portraits/men/32.jpg";
+        const female = "https://randomuser.me/api/portraits/women/44.jpg";
+        const selected = gender === 'male' ? male : female;
         
-        mobileLinks.forEach(link => {
-            link.addEventListener('click', toggle);
-        });
-    </script>
-
+        document.getElementById('form-avatar-main').src = selected;
+        document.getElementById('sticky-avatar-preview').src = selected;
+        
+        document.getElementById('male-btn').classList.toggle('active', gender === 'male');
+        document.getElementById('female-btn').classList.toggle('active', gender === 'female');
+    }
+</script>
 </body>
 </html>
