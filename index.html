@@ -65,62 +65,67 @@ html{
 
 /* AUTH SYSTEM */
 
-#sticky-auth-wrapper{
-    position:fixed;
-    top:92px;
-    right:20px;
-    z-index:45;
+#sticky-auth-wrapper {
+    position: fixed;
+    top: 95px;
+    right: 20px;
+    z-index: 45;
+    max-height: calc(100vh - 120px);
 }
 
-#signup-trigger{
-    transition:.35s;
+#auth-form-card {
+    width: 390px;
+    max-width: 95vw;
+    max-height: calc(100vh - 140px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #6366f1 #f1f5f9;
 }
 
-#signup-trigger:hover{
-    transform:translateY(-4px);
+#auth-form-card::-webkit-scrollbar {
+    width: 8px;
 }
 
-#auth-form-card{
-    width:380px;
-    max-width:95vw;
-    transition:.45s ease;
+#auth-form-card::-webkit-scrollbar-thumb {
+    background: #6366f1;
+    border-radius: 999px;
 }
 
-.avatar-btn{
-    transition:.3s;
+#auth-form-card::-webkit-scrollbar-track {
+    background: #f1f5f9;
 }
 
-.avatar-btn:hover{
-    transform:scale(1.08);
+/* Real Male + Female Avatar */
+
+.avatar-btn {
+    transition: 0.3s;
 }
 
-.avatar-btn.active{
-    border-color:#4f46e5;
-    background:#eef2ff;
+.avatar-btn:hover {
+    transform: scale(1.08);
 }
 
-.floating-effect{
-    animation:floatCard 4s ease-in-out infinite;
+.avatar-btn.active {
+    border-color: #4f46e5;
+    background: #eef2ff;
 }
 
-@keyframes floatCard{
-    0%{transform:translateY(0);}
-    50%{transform:translateY(8px);}
-    100%{transform:translateY(0);}
-}
+/* Mobile */
 
-@media(max-width:1024px){
-
-    #sticky-auth-wrapper{
-        position:relative;
-        top:0;
-        right:0;
-        padding:20px;
-        width:100%;
+@media(max-width:1024px) {
+    #sticky-auth-wrapper {
+        position: relative;
+        top: 0;
+        right: 0;
+        max-height: unset;
+        width: 100%;
+        padding: 20px;
     }
 
-    #auth-form-card{
-        width:100%;
+    #auth-form-card {
+        width: 100%;
+        max-height: unset;
+        overflow: visible;
     }
 }
 </style>
@@ -161,20 +166,18 @@ html{
     </div>
 </header>
 
-<!-- STICKY SIGNUP SYSTEM -->
-
 <div id="sticky-auth-wrapper">
 
-    <!-- Trigger Button -->
+    <!-- Signup Trigger -->
 
     <button
         id="signup-trigger"
         onclick="toggleAuth()"
-        class="floating-effect flex items-center gap-3 px-6 py-3 bg-white border-2 border-indigo-100 rounded-2xl shadow-xl"
+        class="flex items-center gap-3 px-6 py-3 bg-white border-2 border-indigo-100 rounded-2xl shadow-xl hover:shadow-indigo-200 transition-all"
     >
 
         <div class="text-right">
-            <span class="block text-[10px] uppercase font-black text-slate-400">
+            <span class="block text-[10px] font-black uppercase tracking-widest text-slate-400">
                 Join Us
             </span>
 
@@ -183,79 +186,93 @@ html{
             </span>
         </div>
 
+        <!-- Default Male Avatar -->
         <img
             id="sticky-avatar-preview"
-            src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix"
-            class="w-10 h-10 rounded-full border-2 border-white shadow"
-            alt="Avatar"
+            src="https://randomuser.me/api/portraits/men/32.jpg"
+            class="w-11 h-11 rounded-full object-cover border-2 border-white shadow"
+            alt="Profile Avatar"
         >
     </button>
 
-    <!-- Form -->
+
+    <!-- Signup Form -->
 
     <div
         id="auth-form-card"
-        class="hidden bg-white rounded-3xl shadow-2xl border border-indigo-100 mt-4 overflow-hidden opacity-0 -translate-y-10"
+        class="hidden bg-white rounded-3xl shadow-2xl border border-indigo-100 mt-4 overflow-hidden opacity-0 -translate-y-10 transition-all duration-500"
     >
 
         <div class="p-8 relative">
 
             <button
                 onclick="toggleAuth()"
-                class="absolute top-5 right-5 text-2xl text-slate-300 hover:text-indigo-600"
+                class="absolute top-4 right-4 text-2xl text-slate-300 hover:text-indigo-600 transition"
             >
                 ×
             </button>
 
+
+            <!-- Main Avatar -->
+
             <div class="text-center">
 
-                <div class="w-24 h-24 rounded-full bg-indigo-50 border-4 border-white shadow-lg mx-auto overflow-hidden">
+                <div class="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-lg mx-auto">
                     <img
                         id="form-avatar-main"
-                        src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix"
+                        src="https://randomuser.me/api/portraits/men/32.jpg"
                         class="w-full h-full object-cover"
+                        alt="Main Avatar"
                     >
                 </div>
 
                 <h3 class="text-2xl font-black mt-4">
-                    Student Sign Up
+                    Student Registration
                 </h3>
 
                 <p class="text-slate-500 text-sm mt-2">
-                    Start your learning adventure
+                    Choose your avatar and begin your journey
                 </p>
 
             </div>
 
-            <!-- Male Female Avatars -->
 
-            <div class="flex justify-center gap-4 mt-6 mb-6">
+            <!-- Male + Female Avatar -->
 
+            <div class="flex justify-center gap-5 mt-6 mb-8">
+
+                <!-- Male -->
                 <button
-                    class="avatar-btn active p-2 rounded-full border-2 border-transparent"
+                    id="male-avatar-btn"
                     onclick="updateAvatar('male')"
                     type="button"
-                    id="male-avatar-btn"
+                    class="avatar-btn active p-2 rounded-full border-2 border-transparent"
                 >
                     <img
-                        src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix"
-                        class="w-12 h-12 rounded-full"
+                        src="https://randomuser.me/api/portraits/men/32.jpg"
+                        class="w-14 h-14 rounded-full object-cover"
+                        alt="Male Avatar"
                     >
                 </button>
 
+                <!-- Female -->
                 <button
-                    class="avatar-btn p-2 rounded-full border-2 border-transparent"
+                    id="female-avatar-btn"
                     onclick="updateAvatar('female')"
                     type="button"
-                    id="female-avatar-btn"
+                    class="avatar-btn p-2 rounded-full border-2 border-transparent"
                 >
                     <img
-                        src="https://api.dicebear.com/7.x/avataaars/svg?seed=Anita"
-                        class="w-12 h-12 rounded-full"
+                        src="https://randomuser.me/api/portraits/women/44.jpg"
+                        class="w-14 h-14 rounded-full object-cover"
+                        alt="Female Avatar"
                     >
                 </button>
 
             </div>
+
+
+            <!-- Form -->
 
             <form class="space-y-4">
 
@@ -290,6 +307,12 @@ html{
                 <input
                     type="password"
                     placeholder="Create Password"
+                    class="w-full p-4 rounded-2xl bg-slate-50 border-2 border-transparent focus:border-indigo-600 outline-none"
+                >
+
+                <input
+                    type="password"
+                    placeholder="Confirm Password"
                     class="w-full p-4 rounded-2xl bg-slate-50 border-2 border-transparent focus:border-indigo-600 outline-none"
                 >
 
@@ -372,57 +395,54 @@ html{
 
     </div>
 </section>
-
 <script>
-AOS.init({
-    duration:800,
-    once:true
-});
-
 const authCard = document.getElementById("auth-form-card");
 const signupBtn = document.getElementById("signup-trigger");
 
-function toggleAuth(){
-    if(authCard.classList.contains("hidden")){
+function toggleAuth() {
+    if (authCard.classList.contains("hidden")) {
         authCard.classList.remove("hidden");
-
-        setTimeout(()=>{
-            authCard.classList.remove("opacity-0","-translate-y-10");
-        },10);
-
         signupBtn.style.display = "none";
-    }else{
-        authCard.classList.add("opacity-0","-translate-y-10");
 
-        setTimeout(()=>{
+        setTimeout(() => {
+            authCard.classList.remove("opacity-0", "-translate-y-10");
+        }, 10);
+
+    } else {
+        authCard.classList.add("opacity-0", "-translate-y-10");
+
+        setTimeout(() => {
             authCard.classList.add("hidden");
             signupBtn.style.display = "flex";
-        },400);
+        }, 500);
     }
 }
 
-function updateAvatar(type){
-    const male = "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix";
-    const female = "https://api.dicebear.com/7.x/avataaars/svg?seed=Anita";
+function updateAvatar(type) {
+    const maleAvatar = "https://randomuser.me/api/portraits/men/32.jpg";
+    const femaleAvatar = "https://randomuser.me/api/portraits/women/44.jpg";
 
-    const selected = type === "male" ? male : female;
+    const selectedAvatar = type === "male" ? maleAvatar : femaleAvatar;
 
-    document.getElementById("form-avatar-main").src = selected;
-    document.getElementById("sticky-avatar-preview").src = selected;
+    document.getElementById("form-avatar-main").src = selectedAvatar;
+    document.getElementById("sticky-avatar-preview").src = selectedAvatar;
 
     document.getElementById("male-avatar-btn").classList.remove("active");
     document.getElementById("female-avatar-btn").classList.remove("active");
 
-    if(type === "male"){
+    if (type === "male") {
         document.getElementById("male-avatar-btn").classList.add("active");
-    }else{
+    } else {
         document.getElementById("female-avatar-btn").classList.add("active");
     }
 }
 </script>
 
+
 </body>
 </html>
+
+
 
 
 
